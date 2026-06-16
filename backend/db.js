@@ -1,29 +1,35 @@
 require('dotenv').config();
 
-const { createClient } = require('@supabase/supabase-js');
+const { Client } = require('pg');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const client = new Client({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 async function initDatabase() {
-  try {
-    // Test connessione
-    const { error } = await supabase.auth.getSession();
+  await client.connect();
 
-    if (error) {
-      throw error;
-    }
+  const res = await client.query(
+    'SELECT current_database();'
+  );
 
-    console.log('Connessione a Supabase riuscita');
-  } catch (err) {
-    console.error('Errore di connessione a Supabase:', err.message);
-    throw err;
-  }
+  console.log(
+    'Connesso al database:',
+    res.rows[0].current_database
+  );
+
+
 }
 
 module.exports = {
-  supabase,
-  initDatabase,
+  client,
+  initDatabase
 };
+
