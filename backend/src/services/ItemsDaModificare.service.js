@@ -4,7 +4,7 @@
 // NOTA BENE: per ora la tabella fittizia è chiamata:
 // >>>>> itemsDaModificare <<<<<
 
-const { supabase } = require("../../db")
+const { supabase } = require('../../db');
 
 // ========== GET (ALL) ==========
 
@@ -14,11 +14,11 @@ const { supabase } = require("../../db")
 // NB: cambiare .select('id, nome, prezzo') per evitare di trasferire dati inutili
 
 async function getAllItems() {
-    const { data, error } = await supabase.from(`itemsDaModificare`).select(`*`)
+  const { data, error } = await supabase.from(`itemsDaModificare`).select(`*`);
 
-    if (error) throw error
+  if (error) throw error;
 
-    return data
+  return data;
 }
 
 // ========== GET (ONE ELEMENT BY ID) ==========
@@ -29,15 +29,15 @@ async function getAllItems() {
 // .single() trasforma il risultato da array a oggetto singolo
 
 async function getItemById(id) {
-    const { data, error } = await supabase
-        .from(`itemsDaModificare`)
-        .select(`*`)
-        .eq(`id`, id)
-        .single()
+  const { data, error } = await supabase
+    .from(`itemsDaModificare`)
+    .select(`*`)
+    .eq(`id`, id)
+    .single();
 
-    if (error) throw error
+  if (error) throw error;
 
-    return data
+  return data;
 }
 
 // ========== POST ==========
@@ -49,15 +49,15 @@ async function getItemById(id) {
 // Senza .select(), Supabase non restituisce i dati dell'inserimento
 
 async function createItem(payload) {
-    const { data, error } = await supabase
-        .from(`itemsDaModificare`)
-        .insert(payload)
-        .select()
-        .single()
+  const { data, error } = await supabase
+    .from(`itemsDaModificare`)
+    .insert(payload)
+    .select()
+    .single();
 
-    if (error) throw error
+  if (error) throw error;
 
-    return data
+  return data;
 }
 
 // ========== PUT ==========
@@ -67,16 +67,16 @@ async function createItem(payload) {
 // .update(payload) accetta un oggetto con i campi da aggiornare (anche parziale)
 
 async function updateItemById(id, payload) {
-    const { data, error } = await supabase
-        .from(`itemsDaModificare`)
-        .update(payload)
-        .eq(`id`, id)
-        .select()
-        .single()
+  const { data, error } = await supabase
+    .from(`itemsDaModificare`)
+    .update(payload)
+    .eq(`id`, id)
+    .select()
+    .single();
 
-    if (error) throw error
+  if (error) throw error;
 
-    return data
+  return data;
 }
 
 // ========== DELETE ==========
@@ -87,22 +87,19 @@ async function updateItemById(id, payload) {
 // Restituiamo un oggetto { success: true } per confermare l'operazione al router
 
 async function deleteItemById(id) {
-    const { error } = await supabase
-        .from(`itemsDaModificare`)
-        .delete()
-        .eq(`id`, id)
+  const { error } = await supabase.from(`itemsDaModificare`).delete().eq(`id`, id);
 
-    if (error) throw error
+  if (error) throw error;
 
-    return { success: true }
+  return { success: true };
 }
 
 // Infine, esportiamo tutte le funzioni sopra definite
 
 module.exports = {
-    getAllItems,
-    getItemById,
-    createItem,
-    updateItemById,
-    deleteItemById,
-}
+  getAllItems,
+  getItemById,
+  createItem,
+  updateItemById,
+  deleteItemById,
+};
