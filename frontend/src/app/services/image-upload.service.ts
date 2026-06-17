@@ -3,7 +3,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImageUploadService {
   private supabase: SupabaseClient;
@@ -28,15 +28,13 @@ export class ImageUploadService {
       const filePath = `places/${fileName}`;
 
       // Upload del file nel bucket 'mrdtwice-images'
-      const { error } = await this.supabase.storage
-        .from('mrdtwice-images')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
+      const { error } = await this.supabase.storage.from('mrdtwice-images').upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
 
       if (error) {
-        console.error('Errore durante l\'upload su Supabase:', error.message);
+        console.error("Errore durante l'upload su Supabase:", error.message);
         return null;
       }
 
@@ -46,9 +44,8 @@ export class ImageUploadService {
         .getPublicUrl(filePath);
 
       return publicUrlData.publicUrl;
-
     } catch (err) {
-      console.error('Errore imprevisto durante l\'upload:', err);
+      console.error("Errore imprevisto durante l'upload:", err);
       return null;
     }
   }
