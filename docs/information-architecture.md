@@ -1,134 +1,144 @@
-# Information Architecture and User Flows
+# 02 - Architettura informativa e flussi
 
-## Sitemap
+[<- Concept](concept.md) | [Indice docs](README.md) | [Prossimo: Stack tecnico ->](technical-stack.md)
+
+Questo capitolo traduce il concept in struttura dell'app: pagine previste,
+contenuti, navigazione e flussi principali.
+
+## Stato corrente
+
+Il frontend Angular e' ancora allo scaffold iniziale:
+
+- `frontend/src/app/app.routes.ts` espone un array route vuoto.
+- `frontend/src/app/app.html` contiene ancora il template di benvenuto Angular.
+- I mockup sono salvati in `docs/mockups/` e rappresentano la direzione UI.
+
+La mappa seguente descrive quindi l'architettura target dell'MVP, non lo stato gia'
+implementato al 100%.
+
+## Mappa navigazione target
 
 ```mermaid
 flowchart TD
-  App["MrDTwice"]
+  App["MrDTwice"] --> Header["Navigazione globale"]
+  Header --> Home["Home /"]
+  Header --> Regions["Regioni /regions"]
+  Header --> About["Chi siamo /about"]
+  Header --> AddPlace["Aggiungi luogo"]
 
-  App --> Nav["Global navigation"]
-  Nav --> Home["Home<br/>/"]
-  Nav --> Places["Discover Places<br/>/places"]
-  Nav --> About["About<br/>/about"]
-  Nav --> AddPlace["Add Place drawer"]
+  Home --> Regions
+  Home --> Places["Luoghi /places"]
+  Home --> Detail["Dettaglio luogo /places/:id"]
 
-  Home --> Places
-  Home --> Detail["Place Detail<br/>/places/:id"]
+  Regions --> RegionDetail["Dettaglio regione /regions/:id"]
+  RegionDetail --> Places
   Places --> Detail
-  About --> Places
-  About --> AddPlace
+  Detail --> AddReview["Rating o recensione"]
   AddPlace --> Detail
-  AddPlace --> Places
 ```
 
-## Page Structure
+## Pagine principali
+
+| Pagina | Route target | Scopo | Mockup collegato |
+|---|---|---|---|
+| Home | `/` | Introduce il progetto, mette in evidenza regioni e luoghi. | `docs/mockups/homepage.png` |
+| Regioni | `/regions` | Mostra le regioni esplorabili. | `docs/mockups/regions.png` |
+| Dettaglio regione | `/regions/:id` | Presenta luoghi e categorie di una regione. | `docs/mockups/region_details.png` |
+| Listing luoghi | `/places` | Lista filtrabile per ricerca, regione, tag e sottotag. | `docs/mockups/regions+tag.png` |
+| Dettaglio luogo | `/places/:id` | Scheda completa del luogo selezionato. | `docs/mockups/place_details.png` |
+| Chi siamo | `/about` | Racconta progetto, tono e obiettivo. | `docs/mockups/about.png` |
+| 404 | fallback | Gestisce percorsi non validi. | `docs/mockups/404_not_found.png` |
+| Aggiungi luogo | azione/modal | Raccoglie i dati di un nuovo luogo. | `docs/mockups/add_place_1.png`, `docs/mockups/add_place_2.png` |
+
+## Struttura contenuti
 
 ```mermaid
 flowchart TD
-  Home["Home /"] --> HomeHero["Hero with search"]
-  Home --> HomeCategories["Category shortcuts"]
-  Home --> HomeRegions["Recommended Regions"]
-  Home --> HomeNear["Places Near You"]
-  Home --> HomeTop["Top Rated Places"]
+  Home --> Hero["Hero con ricerca o CTA"]
+  Home --> Highlights["Regioni o luoghi in evidenza"]
+  Home --> Recent["Contributi recenti"]
 
-  Places["Discover Places /places"] --> PlacesSearch["Text search"]
-  Places --> PlacesFilters["Country, region, category filters"]
-  Places --> PlacesCount["Result count"]
-  Places --> PlacesGrid["Place card grid"]
+  Regions --> RegionGrid["Griglia regioni"]
+  RegionDetail --> RegionHero["Hero regione"]
+  RegionDetail --> TagSections["Sezioni per categoria/tag"]
 
-  Detail["Place Detail /places/:id"] --> DetailBreadcrumb["Breadcrumb"]
-  Detail --> DetailImage["Main image"]
-  Detail --> DetailHeader["Title, category, location"]
-  Detail --> DetailRating["Rating summary"]
-  Detail --> DetailAbout["About text"]
-  Detail --> DetailInfo["Details card"]
-  Detail --> DetailReviews["Reviews list"]
-  Detail --> DetailReviewForm["Add Review form"]
+  Places --> Search["Ricerca testuale"]
+  Places --> Filters["Filtri regione, citta', tag, sottotag"]
+  Places --> Cards["Card luogo"]
 
-  About["About /about"] --> AboutHero["Story hero"]
-  About --> AboutIntro["Intro text"]
-  About --> AboutStats["Stats"]
-  About --> AboutPlaces["Inspirational places"]
-  About --> AboutPrinciples["Project principles"]
-  About --> AboutCta["Final CTA"]
+  Detail --> Image["Immagine principale"]
+  Detail --> Metadata["Regione, citta', categoria"]
+  Detail --> Description["Descrizione"]
+  Detail --> Rating["Rating medio e recensioni"]
 
-  AddPlace["Add Place drawer"] --> AddTitle["Title"]
-  AddPlace --> AddDescription["Description"]
-  AddPlace --> AddCategory["Category"]
-  AddPlace --> AddLocation["Country, region, city"]
-  AddPlace --> AddImage["Image upload"]
+  AddPlace --> Required["Campi obbligatori"]
+  AddPlace --> Upload["Upload immagine"]
+  AddPlace --> Submit["Salvataggio"]
 ```
 
-## Main Actions
+## Flussi utente
+
+### Esplorazione da home
 
 ```mermaid
 flowchart LR
-  SearchHome["Search from Home"] --> PlacesSearch["/places?search=..."]
-  CategoryShortcut["Category shortcut"] --> PlacesCategory["/places?category=..."]
-  RegionShortcut["Region shortcut"] --> PlacesRegion["/places?region=..."]
-  PlaceCard["Place card"] --> Detail["/places/:id"]
-  AddPlaceButton["Add Place button"] --> AddPlaceDrawer["Add Place drawer"]
-  ExplorePlaces["Explore places CTA"] --> Places["/places"]
-  ShareDiscovery["Share a discovery CTA"] --> AddPlaceDrawer
+  A["Apre Home"] --> B["Sceglie regione o luogo in evidenza"]
+  B --> C["Apre listing o dettaglio"]
+  C --> D["Consulta descrizione, immagine e valutazioni"]
 ```
 
-## User Flows
-
-### Search and Discover
+### Ricerca e filtri
 
 ```mermaid
 flowchart LR
-  A["Open Home"] --> B["Enter search term"]
-  B --> C["Submit search"]
-  C --> D["Open /places with search applied"]
-  D --> E["Open a place card"]
-  E --> F["View place detail"]
+  A["Apre /places"] --> B["Inserisce ricerca"]
+  B --> C["Aggiunge filtri"]
+  C --> D["Lista aggiornata"]
+  D --> E["Apre dettaglio luogo"]
 ```
 
-### Browse Catalog
+### Aggiunta luogo
 
 ```mermaid
 flowchart LR
-  A["Open /places"] --> B["Use search or filters"]
-  B --> C["Update result count and cards"]
-  C --> D["Open a place card"]
-  D --> E["View place detail"]
+  A["Click Aggiungi luogo"] --> B["Compila dati base"]
+  B --> C["Carica immagine"]
+  C --> D["Invia form"]
+  D --> E["Backend salva dati"]
+  E --> F["L'utente vede conferma o nuovo dettaglio"]
 ```
 
-### Add a Place
+### Rating o recensione
 
 ```mermaid
 flowchart LR
-  A["Click Add Place"] --> B["Open drawer"]
-  B --> C["Fill required fields"]
-  C --> D["Upload image"]
-  D --> E["Submit"]
-  E --> F{"After save"}
-  F --> G["Show new place detail"]
-  F --> H["Return to catalog"]
+  A["Apre dettaglio"] --> B["Seleziona rating"]
+  B --> C["Scrive recensione opzionale"]
+  C --> D["Invia"]
+  D --> E["Media e lista recensioni si aggiornano"]
 ```
 
-### Add a Review
+## Dati minimi per una card luogo
 
-```mermaid
-flowchart LR
-  A["Open place detail"] --> B["Click Add Review"]
-  B --> C["Enter name"]
-  C --> D["Select rating"]
-  D --> E["Write review"]
-  E --> F["Submit"]
-  F --> G["Update reviews and average rating"]
-```
+| Campo | Uso UI |
+|---|---|
+| `id` | Link al dettaglio. |
+| `place` o `title` | Titolo della card. |
+| `city` | Localizzazione leggibile. |
+| `region_id` o regione risolta | Filtro e breadcrumb. |
+| `tag_id` o tag risolto | Categoria principale. |
+| `image_url` | Immagine card e detail. |
+| `average_rating` | Indicatore qualita'. |
 
-## MVP Decisions
+## Decisioni di navigazione
 
-```mermaid
-flowchart TD
-  MVP["MVP decisions"]
-  MVP --> NoAuth["No authentication"]
-  MVP --> ReviewName["Reviewer name collected in review form"]
-  MVP --> Drawer["Add Place is a drawer, not a page"]
-  MVP --> StaticRegions["Recommended Regions can be static"]
-  MVP --> StaticNear["Places Near You can be static"]
-  MVP --> LegalLinks["Footer legal links can be placeholders"]
-```
+- La navigazione deve restare comprensibile anche senza login.
+- Il form di inserimento puo' essere una pagina o una modale; deve essere accessibile
+  dalla navigazione globale.
+- Il dettaglio luogo e' la destinazione principale di card, ricerca e filtri.
+- I link legali possono restare placeholder per l'MVP se non bloccano la demo.
+
+## Prossima lettura
+
+Vai allo [Stack tecnico](technical-stack.md) per collegare questa architettura a
+framework, database, API e strumenti di sviluppo.

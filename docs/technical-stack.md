@@ -1,26 +1,25 @@
-# Technical Stack
+# 03 - Stack tecnico
 
-Questo documento descrive lo stack tecnico del progetto MrDTwice e il ruolo dei
-principali strumenti usati in frontend, backend, database e qualita' del codice.
+[<- Architettura informativa](information-architecture.md) | [Indice docs](README.md) | [Prossimo: Setup locale ->](setup-guide.md)
 
-## Panoramica
+Questo capitolo descrive le tecnologie del progetto e il ruolo di ogni parte
+dello stack.
 
-MrDTwice e' una web app MVP per scoprire, condividere, votare e recensire luoghi
-interessanti da visitare.
-
-Architettura prevista:
+## Vista d'insieme
 
 ```text
 Angular frontend
-  -> HTTP JSON REST API
-Express backend
+  -> REST JSON API Express
   -> PostgreSQL hosted on Supabase
+
+Angular frontend
+  -> Supabase Storage per upload immagini
 ```
 
-Il progetto e' diviso in due applicazioni npm separate:
+La repository contiene due applicazioni npm separate:
 
-- `frontend`: applicazione Angular.
-- `backend`: API Node.js/Express e connessione al database.
+- `frontend/`: applicazione Angular.
+- `backend/`: API Express e connessione database.
 
 ## Frontend
 
@@ -33,8 +32,9 @@ Tecnologie principali:
 - PrimeNG `^21.1.9`
 - PrimeUIX Themes `^2.0.3`
 - Tailwind CSS `^4.1.12`
+- Supabase client `^2.108.2` per upload immagini
 
-Struttura principale:
+Struttura corrente:
 
 ```text
 frontend/
@@ -47,29 +47,28 @@ frontend/
       app.css
       app.config.ts
       app.routes.ts
+      services/
+        image-upload.service.ts
 ```
 
-Caratteristiche configurate:
-
-- Applicazione Angular standalone avviata con `bootstrapApplication`.
-- Routing centralizzato in `app.routes.ts`.
-- Configurazione applicativa in `app.config.ts`.
-- Strict mode TypeScript abilitata.
-- Strict templates Angular abilitati.
-- Tailwind importato in `src/styles.css`.
-- PrimeNG disponibile come libreria UI, anche se i componenti non sono ancora integrati
-  nello scaffold corrente.
-
-Comandi principali:
+Script utili:
 
 ```bash
 cd frontend
 npm run start
 npm run build
-npm run test
 npm run lint
 npm run format
 ```
+
+Note di stato:
+
+- L'app usa componenti standalone e `bootstrapApplication`.
+- Il router e' configurato, ma `routes` e' ancora vuoto.
+- `image-upload.service.ts` carica file nel bucket Supabase `mrdtwice-images` e
+  restituisce una URL pubblica.
+- Le credenziali Supabase nel service devono essere portate in configurazione
+  ambiente prima di una consegna pubblica.
 
 ## Backend
 
@@ -81,10 +80,10 @@ Tecnologie principali:
 - CORS
 - dotenv
 - PostgreSQL driver `pg`
-- Supabase come database PostgreSQL hosted
-- `@supabase/supabase-js` installato come dipendenza disponibile
+- Supabase PostgreSQL come database hosted
+- `@supabase/supabase-js` installato, ma non ancora allineato con il resto del backend
 
-Struttura principale:
+Struttura corrente:
 
 ```text
 backend/
@@ -92,41 +91,52 @@ backend/
   db.js
   src/
     routes/
+      ApiRoutes.js
+      ItemsDaModificare.routes.js
     services/
+      ApiService.js
+      ItemsDaModificare.service.js
 ```
 
-Responsabilita':
-
-- `server.js`: inizializza Express, abilita CORS e JSON body parsing, avvia il server
-  sulla porta `8080`.
-- `db.js`: legge le variabili d'ambiente, crea il client PostgreSQL e testa la
-  connessione al database.
-- `src/routes`: contiene i router Express per le risorse HTTP.
-- `src/services`: contiene la logica di accesso ai dati.
-
-Comandi principali:
+Script utili:
 
 ```bash
 cd backend
 npm run lint
 npm run format
+node server.js
 ```
 
-Nota sullo stato attuale:
+Note di stato:
 
-- Il backend contiene un template di route/service chiamato `ItemsDaModificare`.
-- `db.js` usa il driver `pg` per collegarsi a PostgreSQL.
-- Il service template fa ancora riferimento a un client `supabase`; prima di usare
-  quelle funzioni in produzione bisogna allineare la strategia dati scegliendo tra
-  `pg` diretto o `@supabase/supabase-js`.
+- `server.js` inizializza Express, abilita CORS e JSON body parsing, poi testa la
+  connessione al database.
+- Le route in `src/routes` sono ancora da montare in `server.js`.
+- I file `ItemsDaModificare.*` sono template e vanno sostituiti con risorse reali.
+- `ApiService.js` va allineato a `db.js`: oggi usa nomi come `pool`, `res` e
+  `getSubTags` non definiti.
 
-## Database
+## Database e Storage
 
 Database previsto:
 
-- PostgreSQL hosted on Supabase.
+- Supabase PostgreSQL.
 
-Configurazione letta da variabili d'ambiente:
+Tabelle di dominio previste o gia' citate dal codice:
+
+- `regions`
+- `tags`
+- `sub_tags`
+- `content`
+
+Storage immagini:
+
+- Bucket: `mrdtwice-images`
+- Visibilita' prevista: pubblica per leggere le immagini caricate.
+- Upload: dal frontend tramite Supabase client.
+- Formati accettati a livello UI: JPEG, PNG, WEBP.
+
+Variabili backend:
 
 ```text
 DB_HOST
@@ -136,103 +146,45 @@ DB_PASSWORD
 DB_NAME
 ```
 
-La connessione corrente usa SSL con `rejectUnauthorized: false`, impostazione comune
-per collegarsi a database hosted durante lo sviluppo.
+## API target
 
-Convenzioni consigliate:
-
-- Tabelle in `snake_case` e plurale: `places`, `reviews`, `place_images`.
-- Chiavi primarie `id`.
-- Timestamp standard: `created_at`, `updated_at`.
-- Relazioni esplicite:
-  - `reviews.place_id`
-  - `place_images.place_id`
-
-## API
-
-Formato:
-
-- REST API.
-- Request e response in JSON.
-- Base URL locale backend: `http://localhost:8080`.
-
-Endpoint previsti per il dominio MVP:
+Endpoint da consolidare per l'MVP:
 
 ```text
-GET    /api/places
-GET    /api/places/:id
-POST   /api/places
-PUT    /api/places/:id
-DELETE /api/places/:id
-POST   /api/places/:id/reviews
+GET    /api/regions
+GET    /api/tags
+GET    /api/tags?region=:regionId
+GET    /api/sub-tags?tag=:tagId
+GET    /api/content
+GET    /api/content/:id
+POST   /api/content
+POST   /api/content/:id/reviews
 ```
 
-Il documento `docs/BE-schema-of-complete-flux.md` descrive il flusso atteso tra
-Angular, Express, service e database.
+Il file [Flusso backend e API](BE-schema-of-complete-flux.md) dettaglia il percorso
+tra Angular, Express, service, database e Storage.
 
-## Tooling e qualita'
-
-Frontend:
-
-- ESLint `^10.3.0`
-- angular-eslint `21.4.0`
-- typescript-eslint `8.59.2`
-- Prettier `^3.8.4`
-- Vitest `^4.0.8`
-- jsdom `^27.1.0`
-
-Backend:
-
-- ESLint `^10.5.0`
-- `@eslint/js`
-- `eslint-config-prettier`
-- Prettier `^3.8.4`
-
-Regole importanti:
-
-- Prettier gestisce formattazione e stile meccanico.
-- ESLint gestisce errori e convenzioni di codice.
-- Il frontend applica regole Angular per selector:
-  - componenti: prefisso `app`, stile `kebab-case`.
-  - directive: prefisso `app`, stile `camelCase`.
-- Il backend usa ESLint su `src/**/*.js`, ambiente Node e CommonJS.
-
-## Testing
+## Qualita' e verifica MVP
 
 Frontend:
 
-- Test unitari configurati tramite Angular build unit-test.
-- File spec presenti in `src/**/*.spec.ts`.
-- Ambiente test basato su Vitest globals.
+- ESLint
+- Prettier
 
 Backend:
 
-- Non sono ancora presenti test automatizzati.
-- Lo script `test` e' ancora il placeholder generato da npm.
+- ESLint
+- Prettier
 
-Per l'MVP, la priorita' minima consigliata e':
+Per l'MVP i test automatizzati sono fuori scope. La verifica richiesta e':
 
-- testare componenti o service Angular che contengono logica di filtro/ricerca;
-- testare i service backend che accedono a places e reviews;
-- verificare manualmente il flusso completo: lista luoghi, dettaglio, creazione luogo,
-  creazione recensione.
+- Lint e format check nelle cartelle modificate.
+- Build frontend senza errori.
+- Avvio backend e connessione database.
+- Verifica manuale dei flussi principali: lista luoghi, dettaglio, creazione luogo,
+  upload immagine, rating o recensione.
 
-## Build e deployment
+## Prossima lettura
 
-Frontend:
-
-- `npm run build` genera la build Angular nella cartella `dist/`.
-- La configurazione production usa output hashing e budget di bundle.
-
-Backend:
-
-- Server Node/Express avviato da `server.js`.
-- Porta locale attuale: `8080`.
-- Richiede variabili d'ambiente database prima dell'avvio.
-
-Documenti collegati:
-
-- `docs/setup-guide.md`
-- `docs/deployment-guide.md`
-- `docs/information-architecture.md`
-- `docs/concept.md`
+Continua con la [Guida setup locale](setup-guide.md) per installare dipendenze,
+configurare ambiente e avviare le due applicazioni.

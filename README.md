@@ -1,117 +1,115 @@
+<p align="center">
+  <img alt="MrDTwice" src="docs/logo.svg" width="112" height="114">
+</p>
+
 <h1 align="center">MrDTwice</h1>
 
 <p align="center">
-  <strong>Discover, share, rate, and review interesting places.</strong>
+  <strong>Scopri, condividi, vota e recensisci luoghi interessanti da visitare.</strong>
 </p>
 
 <p align="center">
-  A lightweight community-driven web app for exploring places to visit, built as
-  an academy final project MVP.
+  MVP academy con frontend Angular, backend Express e database Supabase.
 </p>
 
 <p align="center">
-  <a href="#overview">Overview</a>
-  |
-  <a href="#contents">Contents</a>
-  |
-  <a href="#how-to-view-it">How to View It</a>
-  |
-  <a href="#how-to-run-it">How to Run It</a>
-  |
-  <a href="#docs">Docs</a>
+  <a href="#documentazione">Documentazione</a>
+  ·
+  <a href="#percorsi-rapidi">Percorsi rapidi</a>
+  ·
+  <a href="#avvio-rapido">Avvio rapido</a>
+  ·
+  <a href="#licenza">Licenza</a>
 </p>
 
 <p align="center">
-  <img alt="Build" src="https://img.shields.io/badge/build-TODO-lightgrey">
-  <img alt="Deploy" src="https://img.shields.io/badge/deploy-TODO-lightgrey">
   <img alt="Status" src="https://img.shields.io/badge/status-MVP-orange">
+  <img alt="Frontend" src="https://img.shields.io/badge/frontend-Angular-red">
+  <img alt="Backend" src="https://img.shields.io/badge/backend-Express-black">
+  <img alt="Database" src="https://img.shields.io/badge/database-Supabase-3ECF8E">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
-## Overview
+## Indice
 
-MrDTwice is an MVP web application for discovering and sharing interesting
-places. Users should be able to browse places, search and filter them, open a
-detail page, add a new place, upload at least one image, and leave ratings or
-reviews.
+- [Documentazione](#documentazione)
+- [Percorsi rapidi](#percorsi-rapidi)
+- [Stato del progetto](#stato-del-progetto)
+- [Funzionalita' MVP](#funzionalita-mvp)
+- [Avvio rapido](#avvio-rapido)
+- [Struttura](#struttura)
+- [Link esterni](#link-esterni)
+- [Licenza](#licenza)
 
-The project is intentionally small in scope: the goal is to deliver a working,
-presentable product for an academy final exam, not a feature-heavy platform.
+## Documentazione
 
-## Contents
+Questa repository e' organizzata come una piccola documentazione navigabile: il
+README e' la porta d'ingresso, mentre i file in `docs/` sono capitoli collegati
+tra loro.
 
-- [Overview](#overview)
-- [Core Features](#core-features)
-- [Tech Stack](#tech-stack)
-- [How to View It](#how-to-view-it)
-- [How to Run It](#how-to-run-it)
-- [Project Structure](#project-structure)
-- [Docs](#docs)
-- [License](#license)
+- [Indice completo della documentazione](docs/README.md)
+- [Concept del prodotto](docs/concept.md)
+- [Architettura informativa e flussi](docs/information-architecture.md)
+- [Stack tecnico](docs/technical-stack.md)
+- [Guida setup locale](docs/setup-guide.md)
+- [Flusso backend e API](docs/BE-schema-of-complete-flux.md)
+- [Style guide](docs/style-guide.md)
+- [Guida deployment](docs/deployment-guide.md)
+- [README frontend](frontend/README.md)
 
-## Core Features
+## Percorsi rapidi
 
-- Browse places.
-- Search and filter by text, category, country, and city.
-- View place details with images and average rating.
-- Add a new place with basic information and images.
-- Add ratings from 1 to 5 stars.
-- Add written reviews.
+Per capire il progetto:
 
-Out of scope for the first MVP:
+1. Parti dal [Concept](docs/concept.md).
+2. Prosegui con [Architettura informativa e flussi](docs/information-architecture.md).
+3. Consulta i [mockup](docs/mockups/) quando devi confrontare pagine e UI.
 
-- Authentication.
-- User profiles.
-- Favorites and wishlists.
-- Social features.
-- Advanced moderation.
-- Recommendation algorithms.
+Per lavorare al codice:
 
-## Tech Stack
+1. Leggi lo [Stack tecnico](docs/technical-stack.md).
+2. Segui la [Guida setup locale](docs/setup-guide.md).
+3. Usa il [Flusso backend e API](docs/BE-schema-of-complete-flux.md) per allineare
+   frontend, backend e database.
+4. Applica la [Style guide](docs/style-guide.md) prima di consegnare modifiche.
+
+Per preparare la consegna:
+
+1. Verifica scope e criteri in [Concept](docs/concept.md).
+2. Controlla build, variabili ambiente e checklist nella [Guida deployment](docs/deployment-guide.md).
+
+## Stato del progetto
+
+| Area | Stato attuale |
+|---|---|
+| Frontend | Angular 21 scaffold, routing configurato ma senza route applicative. |
+| Backend | Express 5 con connessione PostgreSQL/Supabase tramite `pg`; route e service sono in bozza. |
+| Database | Supabase PostgreSQL previsto come fonte dati, con Storage per immagini. |
+| UI | Mockup salvati in `docs/mockups/`. |
+| Documentazione | Capitoli collegati da indice, percorsi e link precedente/successivo. |
+
+## Funzionalita' MVP
+
+- Esplorare luoghi.
+- Cercare e filtrare per regione, citta', categoria o tag.
+- Aprire la scheda dettaglio di un luogo.
+- Aggiungere un nuovo luogo con informazioni base e immagine.
+- Caricare immagini su Supabase Storage.
+- Lasciare valutazioni o recensioni nel flusso MVP previsto.
+
+Fuori scope per la prima versione:
+
+- Autenticazione.
+- Profili utente.
+- Preferiti e wishlist.
+- Funzionalita' social avanzate.
+- Moderazione complessa.
+- Raccomandazioni automatiche.
+- Test automatizzati.
+
+## Avvio rapido
 
 Frontend:
-
-- Angular
-- TypeScript
-- Angular Router
-- Tailwind CSS
-- PrimeNG
-
-Backend:
-
-- Node.js
-- Express
-- PostgreSQL hosted on Supabase
-- `pg`
-- dotenv
-
-Tooling:
-
-- npm
-- ESLint
-- Prettier
-- Vitest for frontend tests
-
-## How to View It
-
-TODO: add the public deployment URL, screenshots, or demo instructions.
-
-Design reference:
-
-- [Figma mockup](https://www.figma.com/design/cMAgFuT1NFTkabQaFxcSP8/Wireframe-e-Mockup?node-id=30-54384&t=sUAnXCBUrnGCNY4F-1)
-
-## How to Run It
-
-TODO: add final setup instructions when frontend, backend, environment variables,
-and database schema are stable.
-
-Expected local flow:
-
-```bash
-cd backend
-npm install
-npm run lint
-```
 
 ```bash
 cd frontend
@@ -119,27 +117,32 @@ npm install
 npm run start
 ```
 
-## Project Structure
+Backend:
+
+```bash
+cd backend
+npm install
+node server.js
+```
+
+Il backend richiede un file `.env` con le variabili database descritte nella
+[Guida setup locale](docs/setup-guide.md).
+
+## Struttura
 
 ```text
 .
-|-- backend/    # Express API and database access
-|-- docs/       # Project documentation
-|-- frontend/   # Angular application
-|-- mockups/    # UI mockups and reference screens
+|-- backend/       # API Express, connessione database e service
+|-- docs/          # Documentazione navigabile e mockup
+|-- frontend/      # Applicazione Angular
+|-- LICENSE
 `-- README.md
 ```
 
-## Docs
+## Link esterni
 
-- [Concept](docs/concept.md)
-- [Information Architecture](docs/information-architecture.md)
-- [Technical Stack](docs/technical-stack.md)
-- [Style Guide](docs/style-guide.md)
-- [Backend Flow](docs/BE-schema-of-complete-flux.md)
-- [Setup Guide](docs/setup-guide.md)
-- [Deployment Guide](docs/deployment-guide.md)
+- [Figma mockup](https://www.figma.com/design/cMAgFuT1NFTkabQaFxcSP8/Wireframe-e-Mockup?node-id=30-54384&t=sUAnXCBUrnGCNY4F-1)
 
-## License
+## Licenza
 
-Licensed under the [MIT License](LICENSE).
+Distribuito con licenza [MIT](LICENSE).

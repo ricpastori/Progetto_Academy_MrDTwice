@@ -1,3 +1,12 @@
+# 05 - Flusso backend e API
+
+[<- Setup locale](setup-guide.md) | [Indice docs](README.md) | [Prossimo: Style guide ->](style-guide.md)
+
+Questo capitolo descrive il flusso dati target tra Angular, Express, Supabase
+PostgreSQL e Supabase Storage.
+
+## Flusso lettura dati
+
 Angular (frontend)
 │
 │ GET http://localhost:8080/api/items/5
@@ -22,3 +31,9 @@ items.routes.js
 ▼
 Angular (frontend)
 │ riceve il JSON con i dati dell'item
+
+
+## Prossima lettura
+
+Continua con la [Style guide](style-guide.md) per mantenere coerenti codice,
+naming e struttura delle feature.
