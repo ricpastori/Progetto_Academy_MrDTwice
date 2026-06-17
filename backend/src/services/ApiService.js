@@ -1,4 +1,16 @@
-const { supabase } = require('../../db');
+
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: { rejectUnauthorized: false }
+});
+
+
 
 //GET REGIONS
 async function getRegions() {
@@ -9,16 +21,12 @@ async function getRegions() {
       ORDER BY name
     `);
 
-    res.json(rows);
+   return rows;
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'Errore recupero regioni',
-    });
+    return error;
   }
 }
-
 
 //GET TAGS
 async function getTags() {
@@ -28,59 +36,108 @@ async function getTags() {
       FROM tags
     `);
 
-    res.json(rows);
+     return rows;
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'Errore recupero tag',
-    });
+     return error;
   }
 }
 
-//GET TAGS BY REGION_ID
-async function getTagByRegion(regionId) {
+//GET CONTENT
+async function getContent() {
+  try {
+    const { rows } = await pool.query(`
+      SELECT *
+      FROM content
+    `);
+
+     return rows;
+  } catch (error) {
+    console.error(error);
+     return error;
+  }
+}
+
+//GET CONTENT BY REGION_ID
+async function getContentByRegion(regionId) {
   try {
     const { rows } = await pool.query(
       `
       SELECT *
-      FROM tags
+      FROM content
       WHERE region_id = $1
   `,
       [regionId],
     );
 
-    res.json(rows);
+     return rows;
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'Errore recupero tag',
-    });
+     return error;
   }
 }
 
-//GET TAGS BY REGION_ID AND TAG_ID
-async function getTagByRegionAndTag(regionId) {
+//GET CONTENT BY REGION_ID AND TAG_ID
+async function getContentByRegionAndTag(regionId, tagId) {
   try {
     const { rows } = await pool.query(
       `
       SELECT *
-      FROM tags
-      WHERE region_id = $1
+      FROM content
+      WHERE region_id = $1 AND tag_id = $2
   `,
-      [regionId],
+      [regionId, tagId],
     );
 
-    res.json(rows);
+    return rows;
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'Errore recupero tag',
-    });
+     return error;
   }
 }
+
+//GET SUB_TAG
+async function getSubTag(tagId) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT *
+      FROM sub_tags
+      WHERE tag_id = $1
+  `,
+      [tagId],
+    );
+
+    return rows;
+  } catch (error) {
+    console.error(error);
+     return error;
+  }
+}
+
+//IL CONTENT PIU' RECENTE PER REGIONE
+// async function getContentByRegionAndTag(regionId, tagId) {
+//   try {
+//     const { rows } = await pool.query(
+//       `
+//       SELECT *, COUNT(region_id)
+//       FROM content
+//       WHERE tag_id = $1 
+//       GROUP BY region_id = $2
+//   `,
+//       [regionId, tagId],
+//     );
+
+//      return rows;
+//   } catch (error) {
+//     console.error(error);
+//      return error;
+//   }
+// }
+
+
+
+//I CONTENT CON PIU' LIKE
 
 //POST CONTENT
 async function createContent(data) {
@@ -113,7 +170,9 @@ async function createContent(data) {
 module.exports = {
   getRegions,
   getTags,
-  getTagByRegion,
-  getSubTags,
-  createContent,
+  getContent,
+  getSubTag,
+  getContentByRegion,
+  getContentByRegionAndTag,
+  createContent
 };
