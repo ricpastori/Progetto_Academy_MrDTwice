@@ -135,7 +135,7 @@ async function getContentByTagOrderByRegion(tagId) {
   }
 }
 
-//IL CONTENT PIU' RECENTE PER REGIONE
+//IL CONTENT CON PIU' LIKES PER REGIONE
 async function getContentByTagOrderByLikes(tagId) {
   try {
     const { rows } = await pool.query(
