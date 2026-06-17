@@ -1,0 +1,139 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <!-- Brand col -->
+    <div class="footer__brand">
+      <a routerLink="/" class="footer__brand-link" aria-label="Mr D Twice – Home">
+        <!-- Icona >>> DA MODIFICARE -->
+        <svg class="footer__logo-img" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M6 6 L16 4 L26 6 L26 26 L6 26 Z" fill="currentColor" opacity="0.15" />
+          <path
+            d="M6 6 L16 4 L26 6"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path d="M10 12 L16 10 L22 12 L22 24 L10 24 Z" fill="currentColor" opacity="0.8" />
+        </svg>
+        <span class="footer__brand-name">Mr D Twice</span>
+      </a>
+      <p class="footer__tagline">
+        La guida della community per scoprire, valutare e condividere i luoghi più belli d'Italia.
+      </p>
+    </div>
+
+    <!-- Esplora col -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Esplora</h3>
+      <nav aria-label="Footer – Esplora">
+        <ul class="footer__links">
+          <li>
+            <a routerLink="/" class="footer__link">
+              <!-- Icona >>> DA MODIFICARE -->
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              Home
+            </a>
+          </li>
+          <li>
+            <a routerLink="/regioni" class="footer__link">
+              <!-- Icona >>> DA MODIFICARE -->
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="10" r="3" />
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+              </svg>
+              Regioni
+            </a>
+          </li>
+          <li>
+            <a routerLink="/chi-siamo" class="footer__link">
+              <!-- Icona >>> DA MODIFICARE -->
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7" />
+              </svg>
+              Chi siamo
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Contatti col -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Contatti</h3>
+      <ul class="footer__links">
+        <li>
+          <a href="mailto:hello@mrdtwice.it" class="footer__link">
+            <!-- Icona >>> DA MODIFICARE -->
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            hello&#64;mrdtwice.it
+          </a>
+        </li>
+      </ul>
+      <p class="footer__cta-text">
+        Hai trovato un posto bellissimo? Condividilo con la community e aiuta altri viaggiatori a
+        scoprire l'Italia.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer__bottom">
+    <div class="footer__bottom-inner">
+      <span>© {{ currentYear }} Mr D Twice. Tutti i diritti riservati.</span>
+      <nav class="footer__legal" aria-label="Legal">
+        <a routerLink="/privacy" class="footer__legal-link">Privacy</a>
+        <a routerLink="/termini" class="footer__legal-link">Termini</a>
+        <a routerLink="/cookie" class="footer__legal-link">Cookie</a>
+      </nav>
+    </div>
+  </div>
+</footer>
