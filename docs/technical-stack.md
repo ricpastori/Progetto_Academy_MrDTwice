@@ -31,7 +31,8 @@ Tecnologie principali:
 - RxJS `~7.8.0`
 - PrimeNG `^21.1.9`
 - PrimeUIX Themes `^2.0.3`
-- Tailwind CSS `^4.1.12`
+- PostCSS `^8.5.15`
+- Autoprefixer `^10.5.0`
 - Supabase client `^2.108.2` per upload immagini
 - `uuid` per generare nomi file unici
 
@@ -86,6 +87,12 @@ Indicazioni:
 - `p-inputText`, dropdown/select e textarea sono adatti ai form.
 - `p-rating` e' adatto per input o visualizzazione delle valutazioni.
 - I temi arrivano da `@primeuix/themes`.
+
+### CSS post-processing
+
+La pipeline CSS usa `frontend/.postcssrc.json` con il solo plugin
+`autoprefixer`. Angular continua a gestire bundling, minificazione e stili dei
+componenti.
 
 ## Backend
 
