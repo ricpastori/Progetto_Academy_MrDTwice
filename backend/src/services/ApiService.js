@@ -1,4 +1,3 @@
-
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -7,10 +6,8 @@ const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 });
-
-
 
 //GET REGIONS
 async function getRegions() {
@@ -21,7 +18,7 @@ async function getRegions() {
       ORDER BY name
     `);
 
-   return rows;
+    return rows;
   } catch (error) {
     console.error(error);
     return error;
@@ -36,10 +33,10 @@ async function getTags() {
       FROM tags
     `);
 
-     return rows;
+    return rows;
   } catch (error) {
     console.error(error);
-     return error;
+    return error;
   }
 }
 
@@ -51,10 +48,10 @@ async function getContent() {
       FROM content
     `);
 
-     return rows;
+    return rows;
   } catch (error) {
     console.error(error);
-     return error;
+    return error;
   }
 }
 
@@ -70,10 +67,10 @@ async function getContentByRegion(regionId) {
       [regionId],
     );
 
-     return rows;
+    return rows;
   } catch (error) {
     console.error(error);
-     return error;
+    return error;
   }
 }
 
@@ -92,7 +89,7 @@ async function getContentByRegionAndTag(regionId, tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-     return error;
+    return error;
   }
 }
 
@@ -111,31 +108,56 @@ async function getSubTag(tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-     return error;
+    return error;
   }
 }
 
 //IL CONTENT PIU' RECENTE PER REGIONE
-// async function getContentByRegionAndTag(regionId, tagId) {
-//   try {
-//     const { rows } = await pool.query(
-//       `
-//       SELECT *, COUNT(region_id)
-//       FROM content
-//       WHERE tag_id = $1 
-//       GROUP BY region_id = $2
-//   `,
-//       [regionId, tagId],
-//     );
+async function getContentByTagOrderByRegion(tagId) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT DISTINCT ON (region_id)
+       region_id, 
+       place,
+       created_at
+        FROM content
+        WHERE tag_id = $1 
+        ORDER BY region_id, created_at desc;
+  `,
+      [tagId],
+    );
 
-//      return rows;
-//   } catch (error) {
-//     console.error(error);
-//      return error;
-//   }
-// }
+    return rows;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
 
+//IL CONTENT PIU' RECENTE PER REGIONE
+async function getContentByTagOrderByLikes(tagId) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT DISTINCT ON (region_id)
+		likes,
+       region_id, 
+       place,
+       created_at
+FROM content
+WHERE tag_id = $1 
+ORDER BY region_id, likes desc;
+  `,
+      [tagId],
+    );
 
+    return rows;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
 
 //I CONTENT CON PIU' LIKE
 
@@ -174,5 +196,7 @@ module.exports = {
   getSubTag,
   getContentByRegion,
   getContentByRegionAndTag,
-  createContent
+  getContentByTagOrderByRegion,
+  getContentByTagOrderByLikes,
+  createContent,
 };

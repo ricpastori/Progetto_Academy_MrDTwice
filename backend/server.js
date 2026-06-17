@@ -13,8 +13,8 @@ async function startServer() {
   try {
     await db.initDatabase();
 
-    let x = await apiService.getRegions();
-    console.log(x);
+    // let x = await apiService.getContentByTagOrderByRegion();
+    // console.log(x);
 
     console.log(' Connessione a Supabase riuscita');
 
