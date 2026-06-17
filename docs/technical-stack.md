@@ -33,6 +33,7 @@ Tecnologie principali:
 - PrimeUIX Themes `^2.0.3`
 - Tailwind CSS `^4.1.12`
 - Supabase client `^2.108.2` per upload immagini
+- `uuid` per generare nomi file unici
 
 Struttura corrente:
 
@@ -58,7 +59,9 @@ cd frontend
 npm run start
 npm run build
 npm run lint
+npm run lint:fix
 npm run format
+npm run format:check
 ```
 
 Note di stato:
@@ -69,6 +72,20 @@ Note di stato:
   restituisce una URL pubblica.
 - Le credenziali Supabase nel service devono essere portate in configurazione
   ambiente prima di una consegna pubblica.
+
+### PrimeNG
+
+PrimeNG e' la libreria UI prevista per mantenere coerenza visuale nelle schermate
+dell'MVP.
+
+Indicazioni:
+
+- Nei componenti standalone, ogni modulo PrimeNG va importato nel relativo array
+  `imports`.
+- `p-card` e' adatto per card luogo e griglie di contenuti.
+- `p-inputText`, dropdown/select e textarea sono adatti ai form.
+- `p-rating` e' adatto per input o visualizzazione delle valutazioni.
+- I temi arrivano da `@primeuix/themes`.
 
 ## Backend
 
@@ -103,7 +120,9 @@ Script utili:
 ```bash
 cd backend
 npm run lint
+npm run lint:fix
 npm run format
+npm run format:check
 node server.js
 ```
 
@@ -115,6 +134,8 @@ Note di stato:
 - I file `ItemsDaModificare.*` sono template e vanno sostituiti con risorse reali.
 - `ApiService.js` va allineato a `db.js`: oggi usa nomi come `pool`, `res` e
   `getSubTags` non definiti.
+- Il backend deve scegliere una strategia dati stabile tra `pg` diretto e
+  `@supabase/supabase-js`.
 
 ## Database e Storage
 
@@ -134,7 +155,9 @@ Storage immagini:
 - Bucket: `mrdtwice-images`
 - Visibilita' prevista: pubblica per leggere le immagini caricate.
 - Upload: dal frontend tramite Supabase client.
-- Formati accettati a livello UI: JPEG, PNG, WEBP.
+- Formati previsti: JPEG, PNG, WEBP.
+- Workflow: il frontend carica il file su Storage, riceve la URL pubblica e invia
+  quella URL al backend dentro il payload del contenuto.
 
 Variabili backend:
 
@@ -164,6 +187,21 @@ POST   /api/content/:id/reviews
 Il file [Flusso backend e API](BE-schema-of-complete-flux.md) dettaglia il percorso
 tra Angular, Express, service, database e Storage.
 
+## Build e deployment
+
+Frontend:
+
+- `npm run build` genera la build Angular nella cartella `dist/`.
+- Prima del deploy, configurare l'URL pubblico del backend e le variabili Supabase.
+
+Backend:
+
+- Server Node/Express avviato da `server.js`.
+- Porta locale attuale: `8080`.
+- Richiede variabili d'ambiente database prima dell'avvio.
+
+Approfondimento: [Deployment](deployment-guide.md).
+
 ## Qualita' e verifica MVP
 
 Frontend:
@@ -183,6 +221,13 @@ Per l'MVP i test automatizzati sono fuori scope. La verifica richiesta e':
 - Avvio backend e connessione database.
 - Verifica manuale dei flussi principali: lista luoghi, dettaglio, creazione luogo,
   upload immagine, rating o recensione.
+
+## Documenti collegati
+
+- [Setup locale](setup-guide.md)
+- [Deployment](deployment-guide.md)
+- [Architettura informativa](information-architecture.md)
+- [Concept](concept.md)
 
 ## Prossima lettura
 

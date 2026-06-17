@@ -2,7 +2,9 @@
 
 [<- Stack tecnico](technical-stack.md) | [Indice docs](README.md) | [Prossimo: Flusso backend e API ->](BE-schema-of-complete-flux.md)
 
-Questa guida porta il progetto da repository clonata ad ambiente locale avviabile.
+Questa guida porta il progetto da repository clonata ad ambiente locale avviabile
+e spiega il ruolo dei pacchetti principali installati nel frontend, nel backend e
+nella parte Supabase.
 
 ## Prerequisiti
 
@@ -11,42 +13,35 @@ Questa guida porta il progetto da repository clonata ad ambiente locale avviabil
 - Accesso a un progetto Supabase.
 - Credenziali PostgreSQL Supabase per il backend.
 
-Angular CLI globale e' comoda ma non obbligatoria, perche' gli script npm usano la
-toolchain installata nel progetto.
+Angular CLI globale e' comoda ma non obbligatoria: il progetto include gia'
+`@angular/cli` nelle dipendenze di sviluppo del frontend, quindi gli script npm
+usano la toolchain locale.
 
-## Installazione frontend
+## Installazione rapida
+
+Frontend:
 
 ```bash
 cd frontend
 npm install
-```
-
-Avvio sviluppo:
-
-```bash
 npm run start
-```
-
-Comandi utili:
-
-```bash
-npm run build
-npm run lint
-npm run lint:fix
-npm run format
-npm run format:check
 ```
 
 L'app locale viene servita normalmente su `http://localhost:4200/`.
 
-## Installazione backend
+Backend:
 
 ```bash
 cd backend
 npm install
+node server.js
 ```
 
-Crea `backend/.env`:
+Il server usa la porta `8080` e richiede il file `backend/.env`.
+
+## Variabili ambiente backend
+
+Crea `backend/.env` con le credenziali PostgreSQL fornite da Supabase:
 
 ```text
 DB_HOST=...
@@ -56,22 +51,65 @@ DB_PASSWORD=...
 DB_NAME=...
 ```
 
-Avvio sviluppo:
+## Pacchetti frontend principali
+
+Nel progetto reale basta `npm install`, perche' le dipendenze sono gia' dichiarate
+in `frontend/package.json`. I comandi sotto documentano i pacchetti usati e sono
+utili se bisogna ricostruire lo scaffold da zero.
 
 ```bash
-node server.js
+npm install -g @angular/cli
+npm install primeng primeicons @primeuix/themes
+npm install @supabase/supabase-js uuid
+npm install --save-dev @types/uuid
+npm install --save-dev prettier eslint-config-prettier
+ng add angular-eslint
 ```
 
-Il server usa la porta `8080`.
+Ruolo dei pacchetti:
 
-Comandi utili:
+| Pacchetto | Ruolo nel progetto |
+|---|---|
+| `@angular/cli` | Comandi Angular come `ng serve`, `ng build` e generazione componenti. |
+| `@angular/*` | Framework frontend: componenti, template, routing e forms. |
+| `primeng` | Libreria UI usata per componenti pronti come card, form, dropdown e rating. |
+| `primeicons` | Set di icone pensato per i componenti PrimeNG. |
+| `@primeuix/themes` | Temi PrimeNG/PrimeUIX. Nel progetto sostituisce il vecchio approccio `@primeng/themes`. |
+| `tailwindcss` e `@tailwindcss/postcss` | Utility CSS e integrazione PostCSS per gli stili globali. |
+| `@supabase/supabase-js` | Client Supabase lato frontend, usato soprattutto per upload immagini su Storage. |
+| `uuid` | Genera nomi file unici, utile per evitare collisioni negli upload immagini. |
+| `@types/uuid` | Tipi TypeScript per `uuid`, se richiesti dalla versione installata. |
+| `prettier` | Formattazione automatica del codice. |
+| `eslint-config-prettier` | Disattiva regole ESLint che entrano in conflitto con Prettier. |
+| `angular-eslint` | Regole ESLint specifiche per Angular e template. |
+
+Nota: il vecchio comando `npm install primeng @primeng/themes primeicons` non e'
+quello consigliato per questo progetto; qui viene usato `@primeuix/themes`.
+
+## Pacchetti backend principali
+
+Anche nel backend basta `npm install`, perche' le dipendenze sono gia' in
+`backend/package.json`. Questi sono i comandi di riferimento usati per comporre
+lo stack:
 
 ```bash
-npm run lint
-npm run lint:fix
-npm run format
-npm run format:check
+npm install express cors dotenv pg @supabase/supabase-js
+npm install --save-dev eslint @eslint/js prettier eslint-config-prettier globals
 ```
+
+Ruolo dei pacchetti:
+
+| Pacchetto | Ruolo nel progetto |
+|---|---|
+| `express` | Server HTTP e definizione delle API. |
+| `cors` | Abilita le chiamate dal frontend Angular verso il backend locale o deployato. |
+| `dotenv` | Carica le variabili da `backend/.env`. |
+| `pg` | Driver PostgreSQL usato da `db.js` per collegarsi al database Supabase. |
+| `@supabase/supabase-js` | Client Supabase disponibile se si sceglie di usare API Supabase invece di `pg` diretto. |
+| `eslint` e `@eslint/js` | Lint JavaScript del backend. |
+| `globals` | Definisce globali Node per la configurazione ESLint. |
+| `prettier` | Formattazione automatica. |
+| `eslint-config-prettier` | Evita conflitti tra regole ESLint e formattazione Prettier. |
 
 ## Setup Supabase
 
@@ -87,14 +125,40 @@ Storage:
 - Rendi pubblica la lettura delle immagini, se il design prevede URL pubbliche.
 - Consenti upload per i formati supportati dall'MVP.
 
+## Comandi utili
+
+Frontend:
+
+```bash
+cd frontend
+npm run start
+npm run build
+npm run lint
+npm run lint:fix
+npm run format
+npm run format:check
+```
+
+Backend:
+
+```bash
+cd backend
+node server.js
+npm run lint
+npm run lint:fix
+npm run format
+npm run format:check
+```
+
+I test automatizzati sono fuori scope per l'MVP, quindi non sono richiesti come
+controllo di consegna.
+
 ## Controlli rapidi
 
 Frontend:
 
-- `npm run start` apre lo scaffold Angular.
+- `npm run start` avvia il dev server Angular.
 - `npm run build` completa senza errori.
-- I test automatizzati sono fuori scope per l'MVP, quindi non sono richiesti come
-  controllo di consegna.
 
 Backend:
 
@@ -107,6 +171,8 @@ Backend:
 - Alcuni service sono template o bozze e vanno allineati prima di verificare le API.
 - Il service upload immagini contiene credenziali nel codice: spostarle in ambiente
   prima di una distribuzione pubblica.
+- Il backend deve scegliere una strategia dati stabile tra `pg` diretto e
+  `@supabase/supabase-js`.
 
 ## Prossima lettura
 
