@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CardModule } from 'primeng/card';
 
+
 @Component({
   selector: 'app-card-content-component',
   imports: [CardModule],
@@ -8,7 +9,7 @@ import { CardModule } from 'primeng/card';
   styleUrl: './card-content-component.css',
 })
 export class CardContentComponent {
-  
+
 
 
 }
