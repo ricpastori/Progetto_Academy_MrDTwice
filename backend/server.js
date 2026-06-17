@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
+const apiService = require('./src/services/ApiService');
 
 const app = express();
 const port = 8080;
@@ -11,6 +12,9 @@ app.use(express.json());
 async function startServer() {
   try {
     await db.initDatabase();
+
+    let x = await apiService.getRegions();
+    console.log(x);
 
     console.log(' Connessione a Supabase riuscita');
 

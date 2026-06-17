@@ -18,22 +18,39 @@ router.get(`/api/regions`, async (req, res) => {
   }
 });
 
-//GET TAGS 
-router.get("/api/tags", async (req, res) => {
+//GET TAGS
+router.get(`/api/tags`, async (req, res) => {
   try {
-    let tags;
+    const tags = apiService.getTags();
 
-    if (req.query.region) {
-      tags = await apiService.getTagByRegion(req.query.region);
-    } else {
-      tags = await apiService.getTags();
+    res.status(200).json(tags);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//GET CONTENT 
+router.get("/api/content", async (req, res) => {
+  try {
+    let content;
+
+    const { regionId, tagId } = req.query;
+
+    if (regionId && tagId) {
+      content = await apiService.getContentByRegionAndTag(regionId, tagId);
+    } 
+    else if (regionId) {
+      content = await apiService.getContentByRegion(regionId);
+    } 
+    else {
+      content = await apiService.getContent();
     }
 
-    if (!tags || tags.length === 0) {
+    if (!content || content.length === 0) {
       return res.status(404).json({ error: "Not found" });
     }
 
-    res.status(200).json(tags);
+    res.status(200).json(content);
 
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -49,7 +66,7 @@ router.get("/api/tags", async (req, res) => {
 //POST CONTENT
 router.post(`/api/content`, async (req, res) => {
   try {
-    const body = await 
+   await 
     apiService.createContent(req.body);
 
     res.status(201).json(apiService);
