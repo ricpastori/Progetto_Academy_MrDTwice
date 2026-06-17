@@ -32,6 +32,7 @@
 
 ## Indice
 
+- [Indice](#indice)
 - [Documentazione](#documentazione)
 - [Percorsi rapidi](#percorsi-rapidi)
 - [Stack tecnologico](#stack-tecnologico)
@@ -40,6 +41,7 @@
 - [Struttura](#struttura)
 - [Link esterni](#link-esterni)
 - [Licenza](#licenza)
+- [Contributors](#contributors)
 
 ## Documentazione
 
@@ -143,3 +145,32 @@ Il backend richiede un file `.env` con le variabili database descritte nella
 ## Licenza
 
 Distribuito con licenza [MIT](LICENSE).
+
+## Contributors
+
+Le persone che hanno contribuito al progetto:
+
+<p align="center">
+  <a href="https://github.com/ricpastori">
+    <img alt="Riccardo Pastori" src="https://github.com/ricpastori.png?size=80" width="80" height="80">
+  </a>
+  <a href="https://github.com/Davide-Donnarumma">
+    <img alt="Davide Donnarumma" src="https://github.com/Davide-Donnarumma.png?size=80" width="80" height="80">
+  </a>
+  <a href="https://github.com/Dade1991">
+    <img alt="Dade1991" src="https://github.com/Dade1991.png?size=80" width="80" height="80">
+  </a>
+  <a href="https://github.com/Marienne-ma">
+    <img alt="Marienne-ma" src="https://github.com/Marienne-ma.png?size=80" width="80" height="80">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/ricpastori">Riccardo Pastori</a>
+  ·
+  <a href="https://github.com/Davide-Donnarumma">Davide Donnarumma</a>
+  ·
+  <a href="https://github.com/Dade1991">Dade1991</a>
+  ·
+  <a href="https://github.com/Marienne-ma">Marienne-ma</a>
+</p>
