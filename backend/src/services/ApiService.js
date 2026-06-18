@@ -21,7 +21,7 @@ async function getRegions() {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -36,7 +36,7 @@ async function getTags() {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -51,7 +51,7 @@ async function getContent() {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -70,7 +70,7 @@ async function getContentByRegion(regionId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -89,7 +89,7 @@ async function getContentByRegionAndTag(regionId, tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -108,7 +108,7 @@ async function getSubTag(tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -131,7 +131,7 @@ async function getContentByTagOrderByRegion(tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -155,7 +155,7 @@ ORDER BY region_id, likes desc;
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -163,30 +163,37 @@ ORDER BY region_id, likes desc;
 
 //POST CONTENT
 async function createContent(data) {
-  const { region_id, tag_id, sub_tag_id, city, place, description, image_url } = data;
+  try {
+    const { region_id, tag_id, sub_tag_id, city, place, description, image_url } = data;
 
-  const result = await pool.query(
-    `
- INSERT INTO content
- (
- region_id,
- tag_id,
- sub_tag_id,
- city,
- place,
- description,
- image_url
- )
- VALUES
- ($1,$2,$3,$4,$5,$6,$7)
+    const result = await pool.query(
+      `
+      INSERT INTO content
+      (
+        region_id,
+        tag_id,
+        sub_tag_id,
+        city,
+        place,
+        description,
+        image_url
+      )
 
- RETURNING *
- `,
+      VALUES
+      ($1,$2,$3,$4,$5,$6,$7)
 
-    [region_id, tag_id, sub_tag_id, city, place, description, image_url],
-  );
+      RETURNING *
+      `,
 
-  return result.rows[0];
+      [region_id, tag_id, sub_tag_id, city, place, description, image_url],
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Errore creazione content:', error);
+
+    throw error;
+  }
 }
 
 module.exports = {
