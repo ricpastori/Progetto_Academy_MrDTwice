@@ -20,11 +20,11 @@ export const routes: Routes = [
     component: RegionsPage,
   },
   {
-    path: 'regioni/:id',
+    path: 'regioni/regione-dettaglio',
     component: RegionDetailPage,
   },
   {
-    path: 'luoghi/:id',
+    path: 'luoghi',
     component: PlaceDetailPage,
   },
   {
