@@ -41,7 +41,7 @@ async function getTags() {
 }
 
 //GET CONTENT
-async function getContent() {
+async function getContents() {
   try {
     const { rows } = await pool.query(`
       SELECT *
@@ -56,7 +56,7 @@ async function getContent() {
 }
 
 //GET CONTENT BY REGION_ID
-async function getContentByRegion(regionId) {
+async function getContentsByRegion(regionId) {
   try {
     const { rows } = await pool.query(
       `
@@ -75,7 +75,7 @@ async function getContentByRegion(regionId) {
 }
 
 //GET CONTENT BY REGION_ID AND TAG_ID
-async function getContentByRegionAndTag(regionId, tagId) {
+async function getContentsByRegionAndTag(regionId, tagId) {
   try {
     const { rows } = await pool.query(
       `
@@ -94,15 +94,13 @@ async function getContentByRegionAndTag(regionId, tagId) {
 }
 
 //GET SUB_TAG
-async function getSubTag(tagId) {
+async function getSubTags() {
   try {
     const { rows } = await pool.query(
       `
       SELECT *
       FROM sub_tags
-      WHERE tag_id = $1
-  `,
-      [tagId],
+  `
     );
 
     return rows;
@@ -113,7 +111,7 @@ async function getSubTag(tagId) {
 }
 
 //IL CONTENT PIU' RECENTE PER REGIONE
-async function getContentByTagOrderByRegion(tagId) {
+async function getLatestContentByRegionByTag(tagId) {
   try {
     const { rows } = await pool.query(
       `
@@ -136,7 +134,7 @@ async function getContentByTagOrderByRegion(tagId) {
 }
 
 //IL CONTENT CON PIU' LIKES PER REGIONE
-async function getContentByTagOrderByLikes(tagId) {
+async function getMostLikedContentByRegionByTag(tagId) {
   try {
     const { rows } = await pool.query(
       `
@@ -158,8 +156,6 @@ ORDER BY region_id, likes desc;
     throw error;
   }
 }
-
-//I CONTENT CON PIU' LIKE
 
 //POST CONTENT
 async function createContent(data) {
@@ -196,14 +192,59 @@ async function createContent(data) {
   }
 }
 
+//POST LIKE DISLIKE CONTENT
+async function addLike(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      UPDATE content
+      SET likes = likes + 1
+      WHERE id = $1
+      RETURNING *
+      `,
+
+      [id],
+    );
+
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+}
+
+async function addDislike(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      UPDATE content
+      SET dislikes = dislikes + 1
+      WHERE id = $1
+      RETURNING *
+      `,
+
+      [id],
+    );
+
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+}
+
 module.exports = {
   getRegions,
   getTags,
-  getContent,
-  getSubTag,
-  getContentByRegion,
-  getContentByRegionAndTag,
-  getContentByTagOrderByRegion,
-  getContentByTagOrderByLikes,
+  getContents,
+  getSubTags,
+  getContentsByRegion,
+  getContentsByRegionAndTag,
+  getLatestContentByRegionByTag,
+  getMostLikedContentByRegionByTag,
   createContent,
+  addLike,
+  addDislike
 };

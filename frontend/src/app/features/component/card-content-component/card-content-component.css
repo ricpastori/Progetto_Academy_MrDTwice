@@ -1,0 +1,73 @@
+@import "@phosphor-icons/web/regular/style.css";
+.reaction-btn {
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: transparent;
+  border: none;
+
+  color: #9ca3af;
+
+  font-size: 1.1rem;
+
+  cursor: pointer;
+
+}
+
+
+.reaction-btn i {
+
+  font-size: 1.5rem;
+
+}
+
+
+.reaction-btn:hover {
+
+  color: #555;
+
+}
+
+.card-title-container {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+}
+
+
+
+.subtag-badge {
+
+  display: inline-flex;
+
+  width: fit-content;
+
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  background-color: #7e22ce;
+
+  color: white;
+
+  font-size: 0.85rem;
+
+  font-weight: 500;
+
+}
+
+
+
+.place-title {
+
+  font-size: 1.2rem;
+
+  font-weight: 600;
+
+}
