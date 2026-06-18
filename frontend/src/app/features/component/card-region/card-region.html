@@ -1,0 +1,20 @@
+<p-card styleClass="region-card" [attr.aria-label]="card().name">
+  <ng-template #header>
+    <img
+      class="region-image"
+      [class.region-image-placeholder]="isPlaceholderImage()"
+      [src]="imageSrc()"
+      [alt]="card().name"
+      (error)="usePlaceholderImage()"
+    />
+  </ng-template>
+
+  <div class="region-content">
+    <div>
+      <h2>{{ card().name }}</h2>
+      <p>{{ subtitle() }}</p>
+    </div>
+
+    <p-tag class="places-badge" [value]="placesLabel()" />
+  </div>
+</p-card>
