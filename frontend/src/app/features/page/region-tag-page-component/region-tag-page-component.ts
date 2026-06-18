@@ -10,8 +10,7 @@ import { SubTag } from '../../../services/sub-tag-service';
   styleUrl: './region-tag-page-component.css',
 })
 export class RegionTagPageComponent {
-
-  
+  /*
   content = signal<Content>();
 
   subTags = signal<SubTag[]>();
@@ -25,4 +24,5 @@ export class RegionTagPageComponent {
     )[0];
 
 }
+    */
 }
