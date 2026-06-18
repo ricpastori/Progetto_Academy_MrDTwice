@@ -1,11 +1,7 @@
 <div class="page">
   <!-- BREADCRUMB -->
 
-  <div class="breadcrumb">
-    Italia /
-    {{ selectedRegionName }} /
-    {{ selectedTagName }}
-  </div>
+  <div class="breadcrumb">Italia / Regione / Tag</div>
 
   <!-- RICERCA -->
 
@@ -24,7 +20,7 @@
   </div>
 
   <div class="content-layout">
-    <!-- SIDEBAR FILTRI -->
+    <!-- FILTRI -->
 
     <aside class="filters">
       <h4>ORDINA PER</h4>
@@ -51,7 +47,11 @@
 
       @for (tag of subTags(); track tag.id) {
         <label>
-          <input type="checkbox" [value]="tag.id" (change)="toggleSubTag(tag.id)" />
+          <input
+            type="checkbox"
+            [checked]="selectedSubTags().includes(tag.id)"
+            (change)="toggleSubTag(tag.id)"
+          />
 
           {{ tag.name }}
         </label>
@@ -62,7 +62,10 @@
 
     <section class="cards">
       @for (item of filteredContent(); track item.id) {
-        <app-card-content-component [content]="item" [subTag]="getSubTag(item.tag_id)" />
+         <app-card-content-component
+      [content]="item"
+      [subTag]="getSubTag(item.tag_id)!"
+    />
       }
 
       @if (filteredContent().length === 0) {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegionTagPage } from './region-tag-page';
 
-describe('RegionTagPageComponent', () => {
+describe('RegionTagPage', () => {
   let component: RegionTagPage;
   let fixture: ComponentFixture<RegionTagPage>;
 
