@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegionTagPageComponent } from './region-tag-page-component';
+import { RegionTagPage } from './region-tag-page';
 
 describe('RegionTagPageComponent', () => {
-  let component: RegionTagPageComponent;
-  let fixture: ComponentFixture<RegionTagPageComponent>;
+  let component: RegionTagPage;
+  let fixture: ComponentFixture<RegionTagPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegionTagPageComponent],
+      imports: [RegionTagPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RegionTagPageComponent);
+    fixture = TestBed.createComponent(RegionTagPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

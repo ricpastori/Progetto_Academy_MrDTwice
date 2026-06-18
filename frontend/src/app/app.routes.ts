@@ -5,6 +5,7 @@ import { PlaceDetailPage } from './features/page/place-detail-page/place-detail-
 import { RegionDetailPage } from './features/page/region-detail-page/region-detail-page';
 import { RegionsPage } from './features/page/regions-page/regions-page';
 import { AboutPage } from './features/page/about-page/about-page';
+import { RegionTagPageComponent } from './features/page/region-tag-page/region-tag-page';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,10 @@ export const routes: Routes = [
   {
     path: 'regioni/regione-dettaglio',
     component: RegionDetailPage,
+  },
+  {
+    path: 'regioni/regione-dettaglio/regione-tags',
+    component: RegionTagPageComponent,
   },
   {
     path: 'luoghi',
