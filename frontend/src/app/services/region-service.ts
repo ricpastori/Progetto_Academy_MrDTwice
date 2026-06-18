@@ -11,59 +11,41 @@ export interface Region {
 @Injectable({
   providedIn: 'root',
 })
-
 export class RegionService {
   private http = inject(HttpClient);
-
   private apiUrl = 'http://localhost:8080/api/regions';
 
-  regions = signal<Region[]>([]);
+  private readonly _regions = signal<Region[]>([]);
+  readonly regions = this._regions.asReadonly();
 
-  getRegions(){
+  private loading = false;
+  private loaded = false;
 
+  getRegions() {
+    if (this.loaded || this.loading) return;
+
+    this.loading = true;
 
     this.http
       .get<Region[]>(this.apiUrl)
       .pipe(
-
         catchError((err) => {
+          console.error('Errore recupero regioni', err);
 
-          console.error(
-            'Errore recupero regioni',
-            err
-          );
-
-
-          return throwError(
-            () => new Error(
-              'Errore nel recupero delle regioni'
-            )
-          );
-
-        })
-
+          return throwError(() => new Error('Errore nel recupero delle regioni'));
+        }),
       )
       .subscribe({
-
-        next:(data)=>{
-
-          this.regions.set(data);
-
+        next: (data) => {
+          this._regions.set(data);
+          this.loaded = true;
+          this.loading = false;
         },
 
-
-        error:(err)=>{
-
+        error: (err) => {
           console.error(err);
-
-        }
-
+          this.loading = false;
+        },
       });
-
-
   }
-
-
-
-
 }
