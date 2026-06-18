@@ -1,0 +1,75 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <!-- Brand col -->
+    <div class="footer__brand">
+      <a routerLink="/" class="footer__brand-link" aria-label="Mr D Twice – Home">
+        <img
+          class="footer__logo-img"
+          src="/images/logo.svg"
+          aria-hidden="true"
+          alt="Logo Mr D Twice"
+        />
+        <span class="footer__brand-name">Mr D Twice</span>
+      </a>
+      <p class="footer__tagline">
+        La guida della community per scoprire, valutare e condividere i luoghi più belli d'Italia.
+      </p>
+    </div>
+
+    <!-- Esplora col -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Esplora</h3>
+      <nav aria-label="Footer – Esplora">
+        <ul class="footer__links">
+          <li>
+            <a routerLink="/" class="footer__link">
+              <i class="ph ph-house" aria-hidden="true"></i>
+              Home
+            </a>
+          </li>
+          <li>
+            <a routerLink="/regioni" class="footer__link">
+              <i class="ph ph-map-pin" aria-hidden="true"></i>
+              Regioni
+            </a>
+          </li>
+          <li>
+            <a routerLink="/chi-siamo" class="footer__link">
+              <i class="ph ph-info" aria-hidden="true"></i>
+              Chi siamo
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Contatti col -->
+    <div class="footer__col">
+      <h3 class="footer__col-title">Contatti</h3>
+      <ul class="footer__links">
+        <li>
+          <a href="mailto:hello@mrdtwice.it" class="footer__link">
+            <i class="ph ph-envelope" aria-hidden="true"></i>
+            hello&#64;mrdtwice.it
+          </a>
+        </li>
+      </ul>
+      <p class="footer__cta-text">
+        Hai trovato un posto bellissimo? Condividilo con la community e aiuta altri viaggiatori a
+        scoprire l'Italia.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer__bottom">
+    <div class="footer__bottom-inner">
+      <span>© {{ currentYear }} Mr D Twice. Tutti i diritti riservati.</span>
+      <nav class="footer__legal" aria-label="Legal">
+        <a routerLink="/privacy" class="footer__legal-link">Privacy</a>
+        <a routerLink="/termini" class="footer__legal-link">Termini</a>
+        <a routerLink="/cookie" class="footer__legal-link">Cookie</a>
+      </nav>
+    </div>
+  </div>
+</footer>

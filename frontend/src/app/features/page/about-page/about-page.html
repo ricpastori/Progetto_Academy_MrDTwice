@@ -1,0 +1,119 @@
+<main class="about-page">
+  <!-- Hero autonomo: header e footer restano fuori dal componente come richiesto. -->
+  <section class="about-hero" aria-labelledby="about-title">
+    <div class="hero-copy">
+      <i class="ph ph-airplane-tilt hero-plane" aria-hidden="true"></i>
+      <h1 id="about-title">"Ogni luogo ha una storia.<br />Io volo per raccontarla."</h1>
+      <p>
+        La storia di Mr D Twice &mdash; un esploratore, un aeroplano di carta e un mondo pieno di
+        meraviglie da scoprire.
+      </p>
+    </div>
+  </section>
+
+  <div class="about-container">
+    <section class="story-section" aria-labelledby="story-title">
+      <article class="story-copy">
+        <p class="section-eyebrow">La storia</p>
+        <h2 id="story-title">Un aeroplano magico e una missione diversa.</h2>
+
+        <p>
+          Mr D Twice non combatteva mostri o alieni. La sua missione era diversa:
+          <strong>scoprire i luoghi piu belli del pianeta</strong> e raccontarli agli altri.
+        </p>
+        <p>
+          Grazie al suo <strong>aeroplano magico</strong>, poteva volare sopra montagne innevate,
+          foreste immense, deserti dorati e spiagge tropicali. Ogni volta che trovava un posto
+          speciale, atterrava, osservava la natura, scattava fotografie e scriveva recensioni
+          dettagliate.
+        </p>
+        <p>
+          Visito la Grande Barriera Corallina, le foreste dell'Amazzonia, il Monte Everest e le
+          cascate dell'Iguazu. Tutte le sue avventure venivano pubblicate sul suo sito
+          <strong>MrDTwice</strong>, dove le persone potevano leggere recensioni, vedere fotografie
+          e imparare a rispettare la natura.
+        </p>
+        <p>
+          Giorno dopo giorno, Mr D Twice continuo a girare il mondo con il suo aeroplano di carta,
+          aiutando milioni di persone a scoprire le meraviglie della Terra e a proteggerle per il
+          futuro.
+        </p>
+
+        <blockquote>"Ogni luogo ha una storia. Io volo per raccontarla."</blockquote>
+      </article>
+
+      <aside class="stats-grid" aria-label="Statistiche di Mr D Twice">
+        @for (stat of stats; track stat.label) {
+          <p-card class="about-card stat-card">
+            <div class="stat-content">
+              <span class="about-icon" aria-hidden="true">
+                <i [class]="stat.iconClass"></i>
+              </span>
+              <strong>{{ stat.value }}</strong>
+              <small>{{ stat.label }}</small>
+            </div>
+          </p-card>
+        }
+      </aside>
+    </section>
+
+    <section class="values-section" aria-labelledby="values-title">
+      <p class="section-eyebrow">I nostri valori</p>
+      <h2 id="values-title">Quattro regole per ogni volo.</h2>
+
+      <div class="values-grid">
+        @for (value of values; track value.title) {
+          <p-card class="about-card value-card">
+            <div class="value-content">
+              <span class="about-icon value-icon" aria-hidden="true">
+                <i [class]="value.iconClass"></i>
+              </span>
+              <div>
+                <h3>{{ value.title }}</h3>
+                <p>{{ value.description }}</p>
+              </div>
+            </div>
+          </p-card>
+        }
+      </div>
+    </section>
+
+    <section class="team-section" aria-labelledby="team-title">
+      <p class="section-eyebrow">Le persone</p>
+      <h2 id="team-title">Il team dietro a Mr D Twice.</h2>
+      <p class="team-intro">Un gruppo appassionato di viaggi, tecnologia e storytelling.</p>
+
+      <div class="team-grid">
+        @for (member of team; track member.name) {
+          <p-card class="about-card member-card">
+            <div class="member-content">
+              <img class="member-avatar" [src]="member.avatarUrl" alt="" aria-hidden="true" />
+              <h3>{{ member.name }}</h3>
+              <p>{{ member.role }}</p>
+              <div class="social-actions" aria-label="Profili social">
+                <a
+                  class="social-button"
+                  [href]="member.githubUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [attr.aria-label]="'Profilo GitHub di ' + member.name"
+                >
+                  <i class="ph ph-github-logo" aria-hidden="true"></i>
+                </a>
+                <a
+                  class="social-button"
+                  [href]="member.linkedinUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [attr.aria-label]="'Profilo LinkedIn di ' + member.name"
+                >
+                  <i class="ph ph-linkedin-logo" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </p-card>
+        }
+      </div>
+    </section>
+  </div>
+</main>

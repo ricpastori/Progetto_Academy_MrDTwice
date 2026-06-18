@@ -1,0 +1,83 @@
+<header class="mrd-navbar p-component">
+  <div class="mrd-navbar__inner">
+    <!-- Brand -->
+    <a routerLink="/" class="mrd-navbar__brand" aria-label="Mr D Twice – Home">
+      <img
+        class="mrd-navbar__logo-img"
+        src="/images/logo.svg"
+        aria-hidden="true"
+        alt="Logo Mr D Twice"
+      />
+      <span class="mrd-navbar__brand-name">Mr D Twice</span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <nav class="mrd-navbar__nav" aria-label="Navigazione principale">
+      <a
+        routerLink="/"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="mrd-navbar__link"
+      >
+        <i class="ph ph-house" aria-hidden="true"></i>
+        Home
+      </a>
+      <a
+        routerLink="/regioni"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="mrd-navbar__link"
+      >
+        <i class="ph ph-map-pin" aria-hidden="true"></i>
+        Regioni
+      </a>
+      <a
+        routerLink="/chi-siamo"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="mrd-navbar__link"
+      >
+        <i class="ph ph-info" aria-hidden="true"></i>
+        Chi siamo
+      </a>
+    </nav>
+
+    <!-- ── Mobile Settings ──────────────────────────────────────────────────────────── -->
+
+    <!-- CTA Button — usa p-button direttamente, il tema Aura applica i token primary -->
+    <div class="mrd-navbar__actions">
+      <p-button label="+ Aggiungi" routerLink="/aggiungi" size="small" />
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      class="mrd-navbar__hamburger"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen"
+      aria-controls="mrd-mobile-menu"
+      aria-label="Apri menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mrd-mobile-menu"
+    class="mrd-navbar__mobile-menu"
+    [class.is-open]="menuOpen"
+    role="navigation"
+    aria-label="Menu mobile"
+  >
+    <a routerLink="/" (click)="menuOpen = false" class="mrd-navbar__mobile-link">Home</a>
+    <a routerLink="/regioni" (click)="menuOpen = false" class="mrd-navbar__mobile-link">Regioni</a>
+    <a routerLink="/chi-siamo" (click)="menuOpen = false" class="mrd-navbar__mobile-link"
+      >Chi siamo</a
+    >
+    <a routerLink="/aggiungi" (click)="menuOpen = false" class="mrd-navbar__mobile-cta"
+      >+ Aggiungi</a
+    >
+  </div>
+</header>

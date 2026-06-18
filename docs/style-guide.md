@@ -124,7 +124,9 @@ async function deletePlaceById(placeId) {}
   - `.place-card--featured`
 - Custom properties in `kebab-case`: `--color-primary`, `--spacing-sm`,
   `--radius-card`.
-- Token globali, reset e import Tailwind vivono in `frontend/src/styles.css`.
+- Token globali, reset e import condivisi vivono in `frontend/src/styles.css`.
+- Il post-processing CSS e' gestito da `frontend/.postcssrc.json` con
+  `autoprefixer`.
 - Stili specifici restano nel file `.css` del componente.
 - PrimeNG va importato nei componenti standalone che lo usano.
 
