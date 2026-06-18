@@ -62,6 +62,7 @@ npm install -g @angular/cli
 npm install primeng primeicons @primeuix/themes
 npm install @supabase/supabase-js uuid
 npm install --save-dev @types/uuid
+npm install --save-dev postcss autoprefixer
 npm install --save-dev prettier eslint-config-prettier
 ng add angular-eslint
 ```
@@ -75,10 +76,11 @@ Ruolo dei pacchetti:
 | `primeng` | Libreria UI usata per componenti pronti come card, form, dropdown e rating. |
 | `primeicons` | Set di icone pensato per i componenti PrimeNG. |
 | `@primeuix/themes` | Temi PrimeNG/PrimeUIX. Nel progetto sostituisce il vecchio approccio `@primeng/themes`. |
-| `tailwindcss` e `@tailwindcss/postcss` | Utility CSS e integrazione PostCSS per gli stili globali. |
 | `@supabase/supabase-js` | Client Supabase lato frontend, usato soprattutto per upload immagini su Storage. |
 | `uuid` | Genera nomi file unici, utile per evitare collisioni negli upload immagini. |
 | `@types/uuid` | Tipi TypeScript per `uuid`, se richiesti dalla versione installata. |
+| `postcss` | Motore usato dalla configurazione `frontend/.postcssrc.json` per processare gli stili. |
+| `autoprefixer` | Plugin PostCSS che aggiunge i prefissi CSS necessari in base ai browser target. |
 | `prettier` | Formattazione automatica del codice. |
 | `eslint-config-prettier` | Disattiva regole ESLint che entrano in conflitto con Prettier. |
 | `angular-eslint` | Regole ESLint specifiche per Angular e template. |

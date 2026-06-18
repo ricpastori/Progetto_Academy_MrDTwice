@@ -1,0 +1,308 @@
+:host {
+  display: block;
+  color: var(--p-text-color, #1f2937);
+  background: var(--p-surface-0, #ffffff);
+}
+
+.about-page {
+  min-height: 100%;
+  background: var(--p-surface-0, #ffffff);
+}
+
+.about-hero {
+  /* Cambia solo questo nome file per provare hero-2, hero-3 o hero-4. */
+  --about-hero-image: url('/images/about/hero-1.jpg');
+
+  display: grid;
+  min-height: clamp(24rem, 43vw, 32rem);
+  place-items: center;
+  padding: clamp(4rem, 7vw, 6.5rem) 1.5rem;
+  text-align: center;
+  background:
+    linear-gradient(180deg, rgb(8 15 28 / 0.58), rgb(8 15 28 / 0.66)),
+    var(--about-hero-image) center 42% / cover;
+}
+
+.hero-copy {
+  max-width: 48rem;
+  color: #ffffff;
+}
+
+.hero-plane {
+  display: inline-block;
+  margin-bottom: 1.3rem;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1;
+}
+
+.hero-copy h1,
+.story-copy h2,
+.values-section h2,
+.team-section h2 {
+  margin: 0;
+  color: var(--p-text-color, #1f2937);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.hero-copy h1 {
+  color: #ffffff;
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  line-height: 1.08;
+}
+
+.hero-copy p {
+  max-width: 43rem;
+  margin: 1.25rem auto 0;
+  color: rgb(255 255 255 / 0.72);
+  font-size: clamp(1rem, 1.4vw, 1.16rem);
+  line-height: 1.7;
+}
+
+.about-container {
+  width: min(calc(100% - 2rem), 58rem);
+  margin: 0 auto;
+  padding: clamp(3.5rem, 7vw, 5.5rem) 0 4rem;
+}
+
+.story-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.75fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.section-eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--p-primary-color, #7c3aed);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.story-copy h2,
+.values-section h2,
+.team-section h2 {
+  font-size: clamp(1.65rem, 2.8vw, 2rem);
+  line-height: 1.18;
+}
+
+.story-copy p,
+.value-content p,
+.team-intro,
+.member-content p {
+  color: var(--p-text-muted-color, #6b7280);
+  line-height: 1.65;
+}
+
+.story-copy p:not(.section-eyebrow) {
+  margin: 1.35rem 0 0;
+  font-size: 1rem;
+}
+
+.story-copy strong {
+  color: var(--p-text-color, #1f2937);
+}
+
+.story-copy blockquote {
+  margin: 1.45rem 0 0;
+  padding-left: 1rem;
+  border-left: 0.25rem solid var(--p-primary-color, #7c3aed);
+  color: var(--p-text-color, #1f2937);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.stat-content,
+.member-content {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.about-icon {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  color: var(--p-primary-color, #7c3aed);
+  background: color-mix(in srgb, var(--p-primary-color, #7c3aed) 10%, transparent);
+}
+
+.about-icon .ph,
+.social-button .ph {
+  font-size: 1.15rem;
+}
+
+.stat-content {
+  gap: 0.45rem;
+}
+
+.stat-content strong {
+  color: var(--p-primary-color, #7c3aed);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.stat-content small {
+  max-width: 7rem;
+  color: var(--p-text-muted-color, #6b7280);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.values-section,
+.team-section {
+  margin-top: clamp(4rem, 8vw, 5.25rem);
+}
+
+.values-grid,
+.team-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.values-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.value-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.value-content h3,
+.member-content h3 {
+  margin: 0;
+  color: var(--p-text-color, #1f2937);
+  font-weight: 800;
+}
+
+.value-content h3 {
+  font-size: 1rem;
+}
+
+.value-content p {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+}
+
+.team-intro {
+  margin: 0.75rem 0 0;
+}
+
+.team-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.member-content {
+  gap: 0.65rem;
+  padding: 0.4rem 0;
+}
+
+.member-content h3 {
+  margin-top: 0.35rem;
+  font-size: 1rem;
+}
+
+.member-content p {
+  margin: -0.2rem 0 0.25rem;
+  font-size: 0.83rem;
+}
+
+.social-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.member-avatar {
+  width: 4.1rem;
+  height: 4.1rem;
+  border-radius: 999px;
+  object-fit: cover;
+  background: color-mix(in srgb, var(--p-primary-color, #7c3aed) 11%, transparent);
+}
+
+.social-button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--p-content-border-color, #e5e7eb);
+  border-radius: 0.5rem;
+  color: var(--p-text-color, #1f2937);
+  background: var(--p-surface-0, #ffffff);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* PrimeNG genera markup interno ai suoi componenti: ::ng-deep serve solo per rifinire questi contenitori. */
+:host ::ng-deep .about-card {
+  height: 100%;
+  border: 1px solid var(--p-content-border-color, #e5e7eb);
+  border-radius: 0.75rem;
+  box-shadow: none;
+}
+
+:host ::ng-deep .about-card .p-card-body {
+  height: 100%;
+  padding: 1.35rem;
+}
+
+:host ::ng-deep .about-card .p-card-content {
+  padding: 0;
+}
+
+:host ::ng-deep .stat-card .p-card-body {
+  min-height: 8.6rem;
+  display: grid;
+  place-items: center;
+}
+
+:host ::ng-deep .member-card .p-card-body {
+  padding: 1.6rem 1rem;
+}
+
+@media (max-width: 760px) {
+  .story-section,
+  .values-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .about-container {
+    width: min(calc(100% - 1.25rem), 58rem);
+  }
+
+  .about-hero {
+    min-height: 29rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .value-content {
+    grid-template-columns: 1fr;
+  }
+}

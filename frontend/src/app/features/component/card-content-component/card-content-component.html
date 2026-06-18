@@ -1,16 +1,54 @@
-<div class="mb-4 p-8 flex items-center justify-center">
-            <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-                <ng-template #header>
-                    <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
-                </ng-template>
-                <ng-template #title> Advanced Card </ng-template>
-                <ng-template #subtitle> Card subtitle </ng-template>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                    quas!
-                </p>
-                <ng-template #footer>
-                    
-                </ng-template>
-            </p-card>
-        </div>
+<div class="flex items-center justify-center">
+<p-card [style]="{overflow: 'hidden' }">
+  <ng-template #header>
+    <img class="w-full" [src]="content().image_url" [alt]="content().place" />
+  </ng-template>
+
+  <ng-template #title>
+    <div class="content-title">
+      <div class="flex justify-between gap-4">
+        <span class="subtag-badge">
+          {{ subTag().name }}
+        </span>
+        <span>
+          {{ content().created_at }}
+        </span>
+
+      </div>
+      <h3>
+          {{ content().place }}
+        </h3>
+    </div>
+  </ng-template>
+
+  <ng-template #subtitle>
+    <div class="info-top">
+      <span>
+        <i class="ph ph-map-pin"></i>
+
+        {{ content().city }}
+      </span>
+    </div>
+  </ng-template>
+
+  <p class="description">
+    {{ content().description }}
+  </p>
+
+  <ng-template #footer>
+    <div class="actions flex justify-end gap-4">
+      <button class="action-btn" (click)="addLike()">
+        <i class="ph ph-heart"></i>
+
+        {{ content().likes }}
+      </button>
+
+      <button class="action-btn" (click)="addDislike()">
+        <i class="ph ph-thumbs-down"></i>
+
+        {{ content().dislikes }}
+      </button>
+    </div>
+  </ng-template>
+</p-card>
+</div>

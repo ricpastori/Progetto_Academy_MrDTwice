@@ -21,7 +21,7 @@ async function getRegions() {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
@@ -36,12 +36,12 @@ async function getTags() {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
 //GET CONTENT
-async function getContent() {
+async function getContents() {
   try {
     const { rows } = await pool.query(`
       SELECT *
@@ -51,12 +51,12 @@ async function getContent() {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
 //GET CONTENT BY REGION_ID
-async function getContentByRegion(regionId) {
+async function getContentsByRegion(regionId) {
   try {
     const { rows } = await pool.query(
       `
@@ -70,12 +70,12 @@ async function getContentByRegion(regionId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
 //GET CONTENT BY REGION_ID AND TAG_ID
-async function getContentByRegionAndTag(regionId, tagId) {
+async function getContentsByRegionAndTag(regionId, tagId) {
   try {
     const { rows } = await pool.query(
       `
@@ -89,31 +89,29 @@ async function getContentByRegionAndTag(regionId, tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
 //GET SUB_TAG
-async function getSubTag(tagId) {
+async function getSubTags() {
   try {
     const { rows } = await pool.query(
       `
       SELECT *
       FROM sub_tags
-      WHERE tag_id = $1
-  `,
-      [tagId],
+  `
     );
 
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
 //IL CONTENT PIU' RECENTE PER REGIONE
-async function getContentByTagOrderByRegion(tagId) {
+async function getLatestContentByRegionByTag(tagId) {
   try {
     const { rows } = await pool.query(
       `
@@ -131,12 +129,12 @@ async function getContentByTagOrderByRegion(tagId) {
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
 //IL CONTENT CON PIU' LIKES PER REGIONE
-async function getContentByTagOrderByLikes(tagId) {
+async function getMostLikedContentByRegionByTag(tagId) {
   try {
     const { rows } = await pool.query(
       `
@@ -155,48 +153,98 @@ ORDER BY region_id, likes desc;
     return rows;
   } catch (error) {
     console.error(error);
-    return error;
+    throw error;
   }
 }
 
-//I CONTENT CON PIU' LIKE
-
 //POST CONTENT
 async function createContent(data) {
-  const { region_id, tag_id, sub_tag_id, city, place, description, image_url } = data;
+  try {
+    const { region_id, tag_id, sub_tag_id, city, place, description, image_url } = data;
 
-  const result = await pool.query(
-    `
- INSERT INTO content
- (
- region_id,
- tag_id,
- sub_tag_id,
- city,
- place,
- description,
- image_url
- )
- VALUES
- ($1,$2,$3,$4,$5,$6,$7)
+    const result = await pool.query(
+      `
+      INSERT INTO content
+      (
+        region_id,
+        tag_id,
+        sub_tag_id,
+        city,
+        place,
+        description,
+        image_url
+      )
 
- RETURNING *
- `,
+      VALUES
+      ($1,$2,$3,$4,$5,$6,$7)
 
-    [region_id, tag_id, sub_tag_id, city, place, description, image_url],
-  );
+      RETURNING *
+      `,
 
-  return result.rows[0];
+      [region_id, tag_id, sub_tag_id, city, place, description, image_url],
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Errore creazione content:', error);
+
+    throw error;
+  }
+}
+
+//POST LIKE DISLIKE CONTENT
+async function addLike(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      UPDATE content
+      SET likes = likes + 1
+      WHERE id = $1
+      RETURNING *
+      `,
+
+      [id],
+    );
+
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+}
+
+async function addDislike(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      UPDATE content
+      SET dislikes = dislikes + 1
+      WHERE id = $1
+      RETURNING *
+      `,
+
+      [id],
+    );
+
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
 }
 
 module.exports = {
   getRegions,
   getTags,
-  getContent,
-  getSubTag,
-  getContentByRegion,
-  getContentByRegionAndTag,
-  getContentByTagOrderByRegion,
-  getContentByTagOrderByLikes,
+  getContents,
+  getSubTags,
+  getContentsByRegion,
+  getContentsByRegionAndTag,
+  getLatestContentByRegionByTag,
+  getMostLikedContentByRegionByTag,
   createContent,
+  addLike,
+  addDislike
 };
