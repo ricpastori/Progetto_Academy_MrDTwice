@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddPlaceForm } from './add-place-form';
+import { AddPlaceFormComponent } from './add-place-form';
 
 describe('AddPlaceForm', () => {
-  let component: AddPlaceForm;
-  let fixture: ComponentFixture<AddPlaceForm>;
+  let component: AddPlaceFormComponent;
+  let fixture: ComponentFixture<AddPlaceFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddPlaceForm],
+      imports: [AddPlaceFormComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddPlaceForm);
+    fixture = TestBed.createComponent(AddPlaceFormComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
