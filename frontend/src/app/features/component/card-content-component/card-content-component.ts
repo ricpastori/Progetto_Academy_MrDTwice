@@ -2,11 +2,12 @@ import { Component, inject, input } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { Content, ContentService } from '../../../services/content-service';
 import { SubTag, SubTagService } from '../../../services/sub-tag-service';
+import { NgClass } from '@angular/common';
 
 
 @Component({
   selector: 'app-card-content-component',
-  imports: [CardModule],
+  imports: [CardModule, NgClass],
   templateUrl: './card-content-component.html',
   styleUrl: './card-content-component.css',
 })

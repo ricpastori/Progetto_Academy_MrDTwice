@@ -1,17 +1,18 @@
-@import "@phosphor-icons/web/regular/style.css";
-.reaction-btn {
+@import "../../../../styles.css";
 
+
+.reaction {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  justify-content: end;
+  gap: 1rem;
+}
+.reaction-btn {
   gap: 6px;
-
   background: transparent;
   border: none;
-
   color: #9ca3af;
-
   font-size: 1.1rem;
-
   cursor: pointer;
 
 }
@@ -24,19 +25,36 @@
 }
 
 
-.reaction-btn:hover {
+.reaction-btn i:hover {
 
   color: #555;
 
 }
 
+.card-container{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+
+}
+
+.content-title{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+ justify-content: space-between;
+
+}
+
+.info-top, .description, .reaction,.card-title-container{
+  padding: 0.7rem;
+}
+
 .card-title-container {
 
   display: flex;
-
+  gap: 1rem;
   flex-direction: column;
-
-  gap: 12px;
 
 }
 
@@ -52,22 +70,29 @@
 
   border-radius: 999px;
 
-  background-color: #7e22ce;
-
-  color: white;
-
   font-size: 0.85rem;
 
   font-weight: 500;
 
 }
 
-
-
-.place-title {
-
-  font-size: 1.2rem;
-
-  font-weight: 600;
-
+.subtag-badge-1 {
+  background-color: #F0D7F6;
+  color: #C86DDF;
 }
+
+.subtag-badge-2 {
+  background-color: #D9F4E8;
+  color: #32B87A;
+}
+
+.subtag-badge-3 {
+  background-color: #DCEEFF;
+  color: #4A90E2;
+}
+
+.subtag-badge-4 {
+  background-color: #FFE8D6;
+  color: #F28C38;
+}
+

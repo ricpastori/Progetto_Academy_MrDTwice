@@ -1,13 +1,13 @@
-<div class="flex items-center justify-center">
+<div class="card-container">
 <p-card [style]="{overflow: 'hidden' }">
   <ng-template #header>
     <img class="w-full" [src]="content().image_url" [alt]="content().place" />
   </ng-template>
 
   <ng-template #title>
-    <div class="content-title">
-      <div class="flex justify-between gap-4">
-        <span class="subtag-badge">
+    <div class="card-title-container">
+      <div class="content-title">
+        <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
           {{ subTag().name }}
         </span>
         <span>
@@ -36,14 +36,14 @@
   </p>
 
   <ng-template #footer>
-    <div class="actions flex justify-end gap-4">
-      <button class="action-btn" (click)="addLike()">
+    <div class="reaction">
+      <button class="reaction-btn" (click)="addLike()">
         <i class="ph ph-heart"></i>
 
         {{ content().likes }}
       </button>
 
-      <button class="action-btn" (click)="addDislike()">
+      <button class="reaction-btn" (click)="addDislike()">
         <i class="ph ph-thumbs-down"></i>
 
         {{ content().dislikes }}

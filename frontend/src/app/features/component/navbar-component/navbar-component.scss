@@ -77,9 +77,19 @@
   }
 }
 
+// ── Icons Settings ────────────────────────────────────────────────────────────
+.ph {
+  color: #7e22ce;
+  font-size: 1.3rem;
+}
+
 // ── CTA — p-button usa già i token, qui solo il margin ────────────────────────
 .mrd-navbar__actions {
   margin-left: auto;
+  background-color: #7e22ce;
+  color: #ffffff;
+  padding: 5px 15px 5px 15px;
+  border-radius: var(--p-border-radius-md, 6px);
 }
 
 // ── Hamburger (mobile) ────────────────────────────────────────────────────────
