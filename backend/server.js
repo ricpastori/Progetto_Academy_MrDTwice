@@ -2,12 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./db');
 const apiService = require('./src/services/ApiService');
+const apiRoutes = require('./src/routes/ApiRoutes');
 
 const app = express();
 const port = 8080;
 
 app.use(cors());
 app.use(express.json());
+app.use(apiRoutes);
 
 async function startServer() {
   try {
@@ -21,7 +23,6 @@ async function startServer() {
     app.listen(port, () => {
       console.log(`Server avviato su http://localhost:${port}`);
     });
-
   } catch (error) {
     console.error('Errore connessione Supabase:', error.message);
     process.exit(1);
