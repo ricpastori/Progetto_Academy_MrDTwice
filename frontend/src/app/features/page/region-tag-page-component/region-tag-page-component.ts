@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { Content } from '../../../services/content-service';
+import { Component, effect, inject} from '@angular/core';
+import { Content, ContentService } from '../../../services/content-service';
 import { CardContentComponent } from '../../component/card-content-component/card-content-component';
-import { SubTag } from '../../../services/sub-tag-service';
+from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-region-tag-page-component',
@@ -11,18 +11,5 @@ import { SubTag } from '../../../services/sub-tag-service';
 })
 export class RegionTagPageComponent {
 
-  
-  content = signal<Content>();
 
-  subTags = signal<SubTag[]>();
-
-  getSubTag(content: Content): SubTag {
-
-  return this.subTags()
-    .filter(
-      subTag =>
-        subTag.id === content.sub_tag_id
-    )[0];
-
-}
 }
