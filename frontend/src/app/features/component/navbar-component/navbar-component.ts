@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-navbar-component',
   imports: [RouterLink, RouterLinkActive, ButtonModule],
   templateUrl: './navbar-component.html',
-  styleUrl: './navbar-component.scss',
+  styleUrl: './navbar-component.css',
 })
 export class NavbarComponent {
   menuOpen = false;

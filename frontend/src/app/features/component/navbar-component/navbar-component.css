@@ -21,7 +21,7 @@
   height: 60px;
 }
 
-// ── Brand ─────────────────────────────────────────────────────────────────────
+/* ── Brand ───────────────────────────────────────────────────────────────────── */
 .mrd-navbar__brand {
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@
   color: var(--p-surface-900);
 }
 
-// ── Desktop nav ───────────────────────────────────────────────────────────────
+/* ── Desktop nav ─────────────────────────────────────────────────────────────── */
 .mrd-navbar__nav {
   display: flex;
   align-items: center;
@@ -77,13 +77,13 @@
   }
 }
 
-// ── Icons Settings ────────────────────────────────────────────────────────────
+/* ── Icons Settings ──────────────────────────────────────────────────────────── */
 .ph {
   color: #7e22ce;
   font-size: 1.3rem;
 }
 
-// ── CTA — p-button usa già i token, qui solo il margin ────────────────────────
+/* ── CTA — p-button usa già i token, qui solo il margin ──────────────────────── */
 .mrd-navbar__actions {
   margin-left: auto;
   background-color: #7e22ce;
@@ -92,7 +92,7 @@
   border-radius: var(--p-border-radius-md, 6px);
 }
 
-// ── Hamburger (mobile) ────────────────────────────────────────────────────────
+/* ── Hamburger (mobile) ──────────────────────────────────────────────────────── */
 .mrd-navbar__hamburger {
   display: none;
   flex-direction: column;
@@ -118,7 +118,7 @@
   }
 }
 
-// ── Mobile menu ───────────────────────────────────────────────────────────────
+/* ── Menu (mobile) ───────────────────────────────────────────────────────────── */
 .mrd-navbar__mobile-menu {
   display: none;
   flex-direction: column;
@@ -165,7 +165,7 @@
   }
 }
 
-// ── Responsive ────────────────────────────────────────────────────────────────
+/* ── MediaQuery (mobile) ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .mrd-navbar__nav,
   .mrd-navbar__actions {

@@ -19,7 +19,7 @@
   }
 }
 
-// ── Brand col ─────────────────────────────────────────────────────────────────
+/* ── Brand col ───────────────────────────────────────────────────────────────── */
 .footer__brand-link {
   display: flex;
   align-items: center;
@@ -32,7 +32,6 @@
 .footer__logo-img {
   width: 26px;
   height: 26px;
-  // color: var(--p-primary-color);
 }
 
 .footer__brand-name {
@@ -48,7 +47,7 @@
   max-width: 28ch;
 }
 
-// ── Nav columns ───────────────────────────────────────────────────────────────
+/* ── Nav columns ─────────────────────────────────────────────────────────────── */
 
 .footer__col-title {
   font-size: 0.8125rem;
@@ -97,13 +96,13 @@ hr {
   color: var(--p-surface-300);
 }
 
-// ── Icons Settings ────────────────────────────────────────────────────────────
+/* ── Icons Settings ──────────────────────────────────────────────────────────── */
 .ph {
   color: #7e22ce;
   font-size: 1.3rem;
 }
 
-// ── Bottom bar ────────────────────────────────────────────────────────────────
+/* ── Bottom bar ──────────────────────────────────────────────────────────────── */
 .footer__bottom {
   border-top: 1px solid var(--p-surface-200);
   padding: 1rem 1.5rem;
