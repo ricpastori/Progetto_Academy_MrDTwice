@@ -24,6 +24,7 @@
     "@phosphor-icons/web": "^2.1.2",
     "@primeuix/themes": "^2.0.3",
     "@supabase/supabase-js": "^2.108.2",
+    "primeicons": "^7.0.0",
     "primeng": "^21.1.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
