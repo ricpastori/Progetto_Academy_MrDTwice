@@ -161,4 +161,13 @@ export class ContentService {
         },
       });
   }
+
+  createContent(payload: Event) {
+    return this.http.post<Content>(this.apiUrl, payload).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore nella creazione del content'));
+      }),
+    );
+  }
 }
