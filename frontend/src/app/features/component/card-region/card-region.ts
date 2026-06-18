@@ -11,6 +11,9 @@ const REGION_PLACEHOLDER = {
   image: '/images/placeholders/region_placeholder.svg',
 } satisfies Pick<Region, 'name' | 'description' | 'image'>;
 
+const REGION_IMAGE_DIR = '/images/regions';
+const REGION_IMAGE_EXTENSION = 'jpg';
+
 @Component({
   selector: 'app-card-region',
   imports: [CardModule, TagModule],
@@ -24,11 +27,14 @@ export class CardRegion {
 
   protected readonly card = computed(() => {
     const region = this.region();
+    const regionName = region?.name?.trim();
+    const localImage = this.getLocalImageSrc(regionName);
 
     return {
-      name: region?.name?.trim() || REGION_PLACEHOLDER.name,
+      name: regionName || REGION_PLACEHOLDER.name,
       description: region?.description?.trim() || REGION_PLACEHOLDER.description,
-      image: region?.image?.trim() || REGION_PLACEHOLDER.image,
+      image: region?.image?.trim() || localImage || REGION_PLACEHOLDER.image,
+      localImage,
     };
   });
 
@@ -46,12 +52,31 @@ export class CardRegion {
     return `${safeCount} ${safeCount === 1 ? 'luogo' : 'luoghi'}`;
   });
 
-  // Evita loop di errore se anche il placeholder dovesse non caricarsi.
-  protected usePlaceholderImage(): void {
+  protected useFallbackImage(): void {
+    const localImage = this.card().localImage;
+
+    if (localImage && this.imageSrc() !== localImage) {
+      this.imageSrc.set(localImage);
+      return;
+    }
+
+    // Evita loop di errore se anche il placeholder dovesse non caricarsi.
     if (this.isPlaceholderImage()) {
       return;
     }
 
     this.imageSrc.set(REGION_PLACEHOLDER.image);
+  }
+
+  private getLocalImageSrc(regionName: string | undefined): string | null {
+    const slug = regionName
+      ?.normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    return slug ? `${REGION_IMAGE_DIR}/${slug}.${REGION_IMAGE_EXTENSION}` : null;
   }
 }

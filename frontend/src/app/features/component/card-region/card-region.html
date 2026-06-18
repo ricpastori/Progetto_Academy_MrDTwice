@@ -5,7 +5,7 @@
       [class.region-image-placeholder]="isPlaceholderImage()"
       [src]="imageSrc()"
       [alt]="card().name"
-      (error)="usePlaceholderImage()"
+      (error)="useFallbackImage()"
     />
   </ng-template>
 
