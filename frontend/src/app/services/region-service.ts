@@ -10,5 +10,5 @@ export interface Region {
 })
 export class RegionService {
 
-  
+
 }

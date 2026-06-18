@@ -1,1 +1,107 @@
-<p>add-place-form works!</p>
+<!-- <div class="modal-container">
+
+  <header class="modal-header">
+    <div class="header-text">
+      <h2>Aggiungi un Luogo</h2>
+      <p>Condividi un posto con la community</p>
+    </div>
+    <button type="button" aria-label="Chiudi" class="btn-close">
+      <i class="pi pi-times" aria-hidden="true"></i>
+      <span class="sr-only" style="display: none;">Chiudi</span>
+    </button>
+  </header>
+
+  <form [formGroup]="placeForm" (ngSubmit)="onSubmit()" class="modal-form">
+
+    <div class="category-selection">
+      @for (cat of tagService.tags(); track cat.id) {
+      <button type="button"
+        (click)="selectCategory(cat.id)"
+        [class.active-category]="placeForm.get('tag_id')?.value === cat.id"
+        class="btn-category">
+        {{ cat.name }}
+      </button>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="subCategoryId">Sotto-categoria <span
+          class="required-asterisk">*</span></label>
+      <p-dropdown inputId="subCategoryId" [options]="subTagService.subTags()"
+        formControlName="sub_tag_id" placeholder="Scegli prima una categoria"
+        optionLabel="name" optionValue="id"></p-dropdown>
+    </div>
+
+    <div class="form-row-grid">
+      <div class="form-group">
+        <label for="regionId">Regione <span
+            class="required-asterisk">*</span></label>
+        <p-dropdown inputId="regionId" [options]="regionService.regions()"
+          formControlName="region_id" placeholder="Seleziona regione"
+          optionLabel="name" optionValue="id"></p-dropdown>
+      </div>
+
+      <div class="form-group">
+        <label for="cityId">Città <span
+            class="required-asterisk">*</span></label>
+        <input pInputText id="cityId" formControlName="city"
+          placeholder="es. Roma" />
+      </div>
+
+      <div class="form-group">
+        <label for="placeId">Nome del Luogo <span
+            class="required-asterisk">*</span></label>
+        <input pInputText id="placeId" formControlName="place"
+          placeholder="es. Colosseo" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="descriptionId">Descrizione <span
+          class="required-asterisk">*</span></label>
+      <textarea pInputTextarea id="descriptionId" formControlName="description"
+        rows="6" placeholder="Descrivi questo luogo in dettaglio..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="hiddenFileInput">Immagine (Obbligatoria) <span
+          class="required-asterisk">*</span></label>
+
+      <div role="button"
+        tabindex="0"
+        (click)="triggerFileInput()"
+        (keydown)="onFileDropKeydown($event)"
+        class="upload-dropzone">
+        <div class="upload-icon">
+          <i class="pi pi-upload" aria-hidden="true"></i>
+        </div>
+
+        @if (!imagePreview()) {
+        <p class="upload-cta">Clicca o trascina qui</p>
+        } @else {
+        <p class="upload-filename">{{ imagePreview() }}</p>
+        }
+
+        <p class="upload-hint">JPG, PNG, WEBP — max 10 MB</p>
+      </div>
+      <input type="file" id="hiddenFileInput" (change)="onFileSelected($event)"
+        accept=".jpg,.jpeg,.png,.webp" style="display: none;" />
+    </div>
+
+    <footer class="form-footer">
+      <button pButton type="button" label="Annulla"
+        class="btn-cancel p-button-outlined p-button-secondary"></button>
+      <button pButton type="submit"
+        [disabled]="placeForm.invalid || !selectedFile() || isSubmitting()"
+        class="btn-submit">
+        @if (!isSubmitting()) {
+        <i class="pi pi-plus" aria-hidden="true"></i>
+        } @else {
+        <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+        }
+        <span>{{ isSubmitting() ? 'Salvataggio...' : 'Aggiungi' }}</span>
+      </button>
+    </footer>
+
+  </form>
+</div> -->
