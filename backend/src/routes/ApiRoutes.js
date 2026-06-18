@@ -34,11 +34,11 @@ router.get('/api/content', async (req, res) => {
     const { regionId, tagId } = req.query;
 
     if (regionId && tagId) {
-      content = await apiService.getContentByRegionAndTag(regionId, tagId);
+      content = await apiService.getContentsByRegionAndTag(regionId, tagId);
     } else if (regionId) {
-      content = await apiService.getContentByRegion(regionId);
+      content = await apiService.getContentsByRegion(regionId);
     } else {
-      content = await apiService.getContent();
+      content = await apiService.getContents();
     }
 
     if (!content || content.length === 0) {
@@ -51,10 +51,26 @@ router.get('/api/content', async (req, res) => {
   }
 });
 
+router.get('/api/content/by-tag/latest-by-region', async (req, res) => {
+  const { tagId } = req.query;
+
+  const content = await apiService.getLatestContentByRegionByTag(tagId);
+
+  res.status(200).json(content);
+});
+
+router.get('/api/content/by-tag/top-liked-by-region', async (req, res) => {
+  const { tagId } = req.query;
+
+  const content = await apiService.getMostLikedContentByRegionByTag(tagId);
+
+  res.status(200).json(content);
+});
+
 //GET SUB_TAGS
 router.get(`/api/sub-tags`, async (req, res) => {
   try {
-    const subTags = apiService.getSubTag();
+    const subTags = apiService.getSubTags();
 
     res.status(200).json(subTags);
   } catch (error) {
@@ -62,12 +78,41 @@ router.get(`/api/sub-tags`, async (req, res) => {
   }
 });
 
-//POST CONTENT
+//POST INSERT CONTENT
 router.post(`/api/content`, async (req, res) => {
   try {
     const content = await apiService.createContent(req.body);
 
     res.status(201).json(content);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
+//POST LIKE DISLIKE CONTENT
+router.post('/api/content/like', async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const content = await apiService.addLike(id);
+
+    res.status(200).json(content);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
+router.post('/api/content/dislike', async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const content = await apiService.addDislike(id);
+
+    res.status(200).json(content);
   } catch (error) {
     res.status(500).json({
       error: error.message,
