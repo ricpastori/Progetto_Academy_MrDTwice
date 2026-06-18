@@ -1,13 +1,10 @@
-
 const express = require(`express`);
 
 const router = express.Router();
 
 const apiService = require('../services/ApiService');
 
-
-
-//GET REGION
+//GET REGIONS
 router.get(`/api/regions`, async (req, res) => {
   try {
     const regions = apiService.getRegions();
@@ -29,8 +26,8 @@ router.get(`/api/tags`, async (req, res) => {
   }
 });
 
-//GET CONTENT 
-router.get("/api/content", async (req, res) => {
+//GET VARI CONTENT
+router.get('/api/content', async (req, res) => {
   try {
     let content;
 
@@ -38,40 +35,43 @@ router.get("/api/content", async (req, res) => {
 
     if (regionId && tagId) {
       content = await apiService.getContentByRegionAndTag(regionId, tagId);
-    } 
-    else if (regionId) {
+    } else if (regionId) {
       content = await apiService.getContentByRegion(regionId);
-    } 
-    else {
+    } else {
       content = await apiService.getContent();
     }
 
     if (!content || content.length === 0) {
-      return res.status(404).json({ error: "Not found" });
+      return res.status(404).json({ error: 'Not found' });
     }
 
     res.status(200).json(content);
-
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-
-
 //GET SUB_TAGS
+router.get(`/api/sub-tags`, async (req, res) => {
+  try {
+    const subTags = apiService.getSubTag();
 
-
+    res.status(200).json(subTags);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 //POST CONTENT
 router.post(`/api/content`, async (req, res) => {
   try {
-   await 
-    apiService.createContent(req.body);
+    const content = await apiService.createContent(req.body);
 
-    res.status(201).json(apiService);
+    res.status(201).json(content);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message,
+    });
   }
 });
 
