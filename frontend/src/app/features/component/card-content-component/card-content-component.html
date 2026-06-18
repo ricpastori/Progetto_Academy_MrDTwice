@@ -1,54 +1,55 @@
 <div class="card-container">
-<p-card [style]="{overflow: 'hidden' }">
-  <ng-template #header>
-    <img class="w-full" [src]="content().image_url" [alt]="content().place" />
-  </ng-template>
+  <p-card [style]="{ overflow: 'hidden' }">
+    <ng-template #header>
+      <img class="w-full" [src]="content().image_url" [alt]="content().place" />
+    </ng-template>
 
-  <ng-template #title>
-    <div class="card-title-container">
-      <div class="content-title">
-        <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
-          {{ subTag().name }}
-        </span>
-        <span>
-          {{ content().created_at }}
-        </span>
+    <ng-template #title>
+      <div class="card-title-container">
+        <div class="content-title">
+          <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
+            {{ subTag().name }}
+          </span>
 
-      </div>
-      <h3>
+          <span class="date-info">
+            <i class="ph ph-calendar"></i>
+            {{ formatDate(content().created_at) }}
+          </span>
+        </div>
+        <h3>
           {{ content().place }}
         </h3>
-    </div>
-  </ng-template>
+      </div>
+    </ng-template>
 
-  <ng-template #subtitle>
-    <div class="info-top">
-      <span>
-        <i class="ph ph-map-pin"></i>
+    <ng-template #subtitle>
+      <div class="info-top">
+        <span>
+          <i class="ph ph-map-pin"></i>
 
-        {{ content().city }}
-      </span>
-    </div>
-  </ng-template>
+          {{ content().city }}
+        </span>
+      </div>
+    </ng-template>
 
-  <p class="description">
-    {{ content().description }}
-  </p>
+    <p class="description">
+      {{ content().description }}
+    </p>
 
-  <ng-template #footer>
-    <div class="reaction">
-      <button class="reaction-btn" (click)="addLike()">
-        <i class="ph ph-heart"></i>
+    <ng-template #footer>
+      <div class="reaction">
+        <button class="reaction-btn" (click)="addLike()">
+          <i class="ph ph-heart" [class.like-animation]="likeAnimation()"></i>
 
-        {{ content().likes }}
-      </button>
+          {{ likes() }}
+        </button>
 
-      <button class="reaction-btn" (click)="addDislike()">
-        <i class="ph ph-thumbs-down"></i>
+        <button class="reaction-btn" (click)="addDislike()">
+          <i class="ph ph-thumbs-down" [class.dislike-animation]="dislikeAnimation()"></i>
 
-        {{ content().dislikes }}
-      </button>
-    </div>
-  </ng-template>
-</p-card>
+          {{ dislikes() }}
+        </button>
+      </div>
+    </ng-template>
+  </p-card>
 </div>

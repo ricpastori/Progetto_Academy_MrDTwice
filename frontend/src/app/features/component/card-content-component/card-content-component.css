@@ -1,98 +1,301 @@
-@import "../../../../styles.css";
+@import '../../../../styles.css';
 
+:host {
+  display: block;
 
-.reaction {
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-  gap: 1rem;
-}
-.reaction-btn {
-  gap: 6px;
-  background: transparent;
-  border: none;
-  color: #9ca3af;
-  font-size: 1.1rem;
-  cursor: pointer;
+  width: 100%;
 
+  height: 100%;
 }
 
+/* CONTAINER */
 
-.reaction-btn i {
+.card-container {
+  width: 100%;
 
-  font-size: 1.5rem;
-
+  height: 100%;
 }
 
+/* PRIME CARD */
 
-.reaction-btn i:hover {
+::ng-deep .p-card {
+  width: 100%;
 
-  color: #555;
-
-}
-
-.card-container{
- display: flex;
- align-items: center;
- justify-content: center;
-
-}
-
-.content-title{
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
- justify-content: space-between;
-
-}
-
-.info-top, .description, .reaction,.card-title-container{
-  padding: 0.7rem;
-}
-
-.card-title-container {
+  height: 100%;
 
   display: flex;
-  gap: 1rem;
+
   flex-direction: column;
 
+  overflow: hidden;
+}
+
+/* HEADER IMMAGINE */
+
+::ng-deep .p-card-header {
+  height: 180px;
+
+  flex-shrink: 0;
+}
+
+::ng-deep .p-card-header img {
+  width: 100%;
+
+  height: 180px;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+/* spazio se immagine assente */
+
+::ng-deep .p-card-header:empty {
+  height: 180px;
+
+  background: #f3f4f6;
+}
+
+/* BODY */
+
+::ng-deep .p-card-body {
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+/* TITOLO */
+
+.card-title-container {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.35rem;
+
+  padding: 0.5rem;
+
+  overflow: hidden;
+}
+
+.content-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+}
+
+/* DATA */
+.date-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  color: #9ca3af;
+  font-size: .75rem;
+  white-space: nowrap;
+
+  flex-shrink: 0;
+}
+
+.date-info i {
+  font-size: .9rem;
+  color: #9ca3af;
 }
 
 
+.card-title-container h3 {
+  margin: 0;
+}
 
+/* SOTTO TITOLO */
+
+.info-top {
+  padding: 0.5rem;
+
+  display: flex;
+
+  align-items: center;
+}
+
+/* DESCRIZIONE */
+
+::ng-deep .p-card-content {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+.description {
+  margin: 0;
+
+  padding: 0.5rem;
+
+  height: 100%;
+
+  overflow-y: auto;
+
+  line-height: 1.35;
+
+  display: block;
+}
+
+/* scrollbar descrizione */
+
+.description::-webkit-scrollbar {
+  width: 5px;
+}
+
+.description::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
+/* FOOTER */
+
+::ng-deep .p-card-footer {
+  margin-top: auto;
+}
+
+.reaction {
+  height: auto;
+
+  display: flex;
+
+  flex-direction: row;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 0.8rem;
+
+  padding: 0.5rem;
+}
+
+.reaction-btn {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  background: transparent;
+
+  border: none;
+
+  color: #9ca3af;
+
+  font-size: 1.1rem;
+
+  cursor: pointer;
+}
+
+.reaction-btn i {
+  font-size: 1.5rem;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+/* LIKE */
+
+.like-animation {
+  animation: likePop 0.3s ease;
+
+  color: #ef4444;
+}
+
+/* DISLIKE */
+
+.dislike-animation {
+  animation: dislikePop 0.3s ease;
+
+  color: #6366f1;
+}
+
+/* animazioni */
+
+@keyframes likePop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.45) rotate(-10deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dislikePop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.35) rotate(10deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.reaction-btn i:hover {
+  color: #555;
+}
+
+/* BADGE */
 .subtag-badge {
-
   display: inline-flex;
 
-  width: fit-content;
+  max-width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   padding: 6px 14px;
-
   border-radius: 999px;
 
-  font-size: 0.85rem;
-
+  font-size: .75rem;
   font-weight: 500;
-
 }
 
+/* COLORI BADGE */
+
 .subtag-badge-1 {
-  background-color: #F0D7F6;
-  color: #C86DDF;
+  background-color: #f0d7f6;
+
+  color: #c86ddf;
 }
 
 .subtag-badge-2 {
-  background-color: #D9F4E8;
-  color: #32B87A;
+  background-color: #d9f4e8;
+
+  color: #32b87a;
 }
 
 .subtag-badge-3 {
-  background-color: #DCEEFF;
-  color: #4A90E2;
+  background-color: #dceeff;
+
+  color: #4a90e2;
 }
 
 .subtag-badge-4 {
-  background-color: #FFE8D6;
-  color: #F28C38;
-}
+  background-color: #ffe8d6;
 
+  color: #f28c38;
+}

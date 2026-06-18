@@ -11,7 +11,7 @@ export interface SubTag {
 })
 export class SubTagService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/sub-tag';
+  private apiUrl = 'http://localhost:8080/api/sub-tags';
 
   private readonly _subTags = signal<SubTag[]>([]);
   readonly subTags = this._subTags.asReadonly();

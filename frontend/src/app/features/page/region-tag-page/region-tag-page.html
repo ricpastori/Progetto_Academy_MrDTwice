@@ -1,62 +1,77 @@
 <div class="page">
-  <!-- BREADCRUMB -->
+  <!-- BREADCRUMB
 
-  <div class="breadcrumb">Italia / Regione / Tag</div>
+  <div class="breadcrumb">Italia / Regione / Tag</div> -->
 
   <!-- RICERCA -->
 
   <div class="search-bar">
     <input type="text" placeholder="Cerca un luogo..." [(ngModel)]="searchText" />
 
-    <select [(ngModel)]="selectedCity">
-      <option value="">Tutte le città</option>
+    <p-select
+  class="city-select"
+  [options]="cities"
+  [(ngModel)]="selectedCity"
+  placeholder="Tutte le città"
+  [filter]="true"
+  [showClear]="!!selectedCity">
+</p-select>
 
-      @for (city of cities; track city) {
-        <option [value]="city">
-          {{ city }}
-        </option>
-      }
-    </select>
   </div>
 
   <div class="content-layout">
     <!-- FILTRI -->
 
     <aside class="filters">
-      <h4>ORDINA PER</h4>
 
-      <label>
-        <input type="radio" name="sort" value="popular" [(ngModel)]="sortType" />
+  <h4>ORDINA PER</h4>
 
-        Popolari
-      </label>
+  <label>
+    <input
+      type="radio"
+      name="sort"
+      value="popular"
+      [(ngModel)]="sortType"
+    />
 
-      <label>
-        <input type="radio" name="sort" value="likes" [(ngModel)]="sortType" />
+    Popolari
+  </label>
 
-        Più apprezzati
-      </label>
 
-      <label>
-        <input type="radio" name="sort" value="recent" [(ngModel)]="sortType" />
+  <label>
+    <input
+      type="radio"
+      name="sort"
+      value="recent"
+      [(ngModel)]="sortType"
+    />
 
-        Recenti
-      </label>
+    Più recenti
+  </label>
 
-      <h4>SOTTOCATEGORIE</h4>
 
-      @for (tag of subTags(); track tag.id) {
-        <label>
-          <input
-            type="checkbox"
-            [checked]="selectedSubTags().includes(tag.id)"
-            (change)="toggleSubTag(tag.id)"
-          />
+  <h4>SOTTOCATEGORIE</h4>
 
-          {{ tag.name }}
-        </label>
-      }
-    </aside>
+
+  @for (sub of filteredSubTags(); track sub.id) {
+
+    <label>
+
+      <input
+        type="checkbox"
+        [checked]="selectedSubTags().includes(sub.id)"
+        (change)="toggleSubTag(sub.id)"
+      />
+
+
+      {{sub.name}}
+
+    </label>
+
+  }
+
+
+</aside>
 
     <!-- CARDS -->
 
@@ -64,7 +79,7 @@
       @for (item of filteredContent(); track item.id) {
          <app-card-content-component
       [content]="item"
-      [subTag]="getSubTag(item.tag_id)!"
+      [subTag]="getSubTag(item.sub_tag_id)!"
     />
       }
 

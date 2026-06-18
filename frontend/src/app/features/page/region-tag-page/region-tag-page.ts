@@ -4,10 +4,12 @@ import { CardContentComponent } from '../../component/card-content-component/car
 import { ActivatedRoute } from '@angular/router';
 import { SubTagService } from '../../../services/sub-tag-service';
 import { FormsModule } from '@angular/forms';
+import { TagService } from '../../../services/tag-service';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-region-tag-page',
-  imports: [CardContentComponent, FormsModule],
+  imports: [CardContentComponent, FormsModule, SelectModule],
   templateUrl: './region-tag-page.html',
   styleUrl: './region-tag-page.css',
 })
@@ -18,13 +20,17 @@ export class RegionTagPage implements OnInit {
 
   private subTagService = inject(SubTagService);
 
+  private tagService = inject(TagService);
+
   content = signal<Content[]>([]);
 
   subTags = this.subTagService.subTags;
+  tags = this.tagService.tags;
 
   searchText = '';
 
   selectedCity = '';
+  selectedTag = '';
 
   sortType = 'popular';
 
@@ -36,11 +42,9 @@ export class RegionTagPage implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       const regionId = params.get('regionId');
 
-      const tagId = params.get('tagId');
+      if (!regionId) return;
 
-      if (!regionId || !tagId) return;
-
-      this.contentService.getContentByRegionAndTag(regionId, tagId).subscribe((data) => {
+      this.contentService.getContentByRegion(regionId).subscribe((data) => {
         this.content.set(data);
 
         this.loadCities(data);
@@ -50,15 +54,13 @@ export class RegionTagPage implements OnInit {
     this.subTagService.getSubTags();
   }
 
-  getSubTag(tag_id: string) {
-    return this.subTags().find((tag) => tag.id === tag_id);
+  getSubTag(id: string) {
+    return this.subTags().find((tag) => tag.id === id);
   }
 
   private loadCities(data: Content[]) {
-    this.cities = [...new Set(data.map((item) => item.city))];
+    this.cities = ['Tutte le città', ...new Set(data.map((item) => item.city))];
   }
-
-
 
   filteredContent = () => {
     let data = [...this.content()];
@@ -73,7 +75,7 @@ export class RegionTagPage implements OnInit {
 
     // filtro città
 
-    if (this.selectedCity) {
+    if (this.selectedCity && this.selectedCity !== 'Tutte le città') {
       data = data.filter((item) => item.city === this.selectedCity);
     }
 
@@ -83,12 +85,6 @@ export class RegionTagPage implements OnInit {
       data = data.filter((item) => this.selectedSubTags().includes(item.sub_tag_id));
     }
 
-    // ordinamento like
-
-    if (this.sortType === 'likes') {
-      data.sort((a, b) => b.likes - a.likes);
-    }
-
     // più recenti
 
     if (this.sortType === 'recent') {
@@ -96,12 +92,23 @@ export class RegionTagPage implements OnInit {
     }
 
     // popolari
-
     if (this.sortType === 'popular') {
       data.sort((a, b) => b.likes - b.dislikes - (a.likes - a.dislikes));
     }
 
     return data;
+  };
+
+  changeTag() {
+    this.selectedSubTags.set([]);
+  }
+
+  filteredSubTags = () => {
+    if (!this.selectedTag) {
+      return this.subTags();
+    }
+
+    return this.subTags().filter((x) => String(x.tag_id) === String(this.selectedTag));
   };
 
   toggleSubTag(id: string) {

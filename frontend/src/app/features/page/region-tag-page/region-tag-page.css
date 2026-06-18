@@ -1,90 +1,354 @@
-.page{
-  padding: 20px 44px;
+@import '../../../../styles.css';
+
+.page {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+/* BREADCRUMB */
+
+.breadcrumb {
+  padding: 1rem 3rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  border-bottom: 1px solid #eee;
 }
 
 
-.search-bar{
+/* SEARCH */
 
-  display:flex;
-  gap:10px;
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 3rem;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
 
-  margin:30px 0;
+.search-bar input {
+  flex: 1;
 
+  height: 42px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  padding: 0 1rem;
+
+  font-size: 0.95rem;
+
+  outline: none;
+}
+
+.search-bar input:focus {
+  border-color: #8b5cf6;
 }
 
 
-.search-bar input{
+.city-select {
 
-  flex:1;
-
-  padding:14px;
-
-  border:1px solid #ddd;
-
-  border-radius:8px;
-
-}
-
-
-.content-layout{
-
-  display:flex;
-
-  gap:20px;
-
-}
-
-
-
-.filters{
-
-  width:180px;
-
-  background:white;
-
-  border:1px solid #eee;
-
-  border-radius:12px;
-
-  padding:20px;
-
-}
-
-
-
-.filters h4{
-
-  font-size:12px;
-
-  color:#999;
-
-  margin-bottom:15px;
+  width:220px;
 
 }
 
 
+::ng-deep .p-select {
 
-.filters label{
+  height:42px;
 
-  display:block;
+  border-radius:10px;
 
-  margin:12px 0;
+}
 
-  font-size:14px;
+
+::ng-deep .p-select-panel {
+
+  max-height:250px;
+
+}
+
+
+::ng-deep .p-select-option {
+
+  padding:.6rem 1rem;
+
+  font-size:.9rem;
+
+}
+
+
+/* LAYOUT */
+
+.content-layout {
+  display: grid;
+
+  grid-template-columns: 200px 1fr;
+
+  gap: 2rem;
+
+  padding: 2rem 3rem;
+}
+
+
+/* SIDEBAR */
+
+.filters {
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 1.3rem;
+
+  height: fit-content;
+
+  border: 1px solid #eee;
+}
+
+.filters h4 {
+  font-size: 0.75rem;
+
+  letter-spacing: 0.08em;
+
+  color: #9ca3af;
+
+  margin-bottom: 1rem;
+}
+
+.filters label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.6rem;
+
+  margin-bottom: 0.8rem;
+
+  cursor: pointer;
+
+  font-size: 0.9rem;
+
+  color: #374151;
+}
+
+.filters input[type='radio'],
+.filters input[type='checkbox'] {
+  width: 16px;
+
+  height: 16px;
+
+  accent-color: #8b5cf6;
+}
+
+
+/* CARDS GRID */
+
+.cards {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+
+  grid-auto-rows: 420px;
+  gap: 1.5rem;
+
+  width: 100%;
+
+  align-items: start;
+
+
+}
+
+
+.cards app-card-content-component {
+
+  width: 100%;
+
+  height: 100%;
+
+}
+
+
+/* se dentro hai una card con class .card */
+
+.cards ::ng-deep .card {
+  width: 100%;
+
+  height: auto;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* EMPTY */
+
+.cards p {
+  color: #777;
+
+  font-size: 1rem;
+}
+
+
+.city-select {
+
+  width: 220px;
 
 }
 
 
 
+::ng-deep .city-select .p-select {
 
-.cards{
+  width: 100%;
 
-  flex:1;
+  height: 42px;
 
-  display:grid;
+  border-radius: 10px;
 
-  grid-template-columns:repeat(3,1fr);
+}
 
-  gap:18px;
+
+
+::ng-deep .city-select .p-select-label {
+
+  display: flex;
+
+  align-items: center;
+
+  height: 100%;
+   padding-left: 0.75rem;
+
+}
+
+
+
+::ng-deep .city-select .p-select-label-placeholder {
+
+  display: flex;
+
+  align-items: center;
+
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+  .content-layout {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+
+  /* FILTRI */
+
+  .filters {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+
+    gap: 0.8rem 1rem;
+
+    padding: 1rem;
+
+  }
+
+
+  .filters h4 {
+
+    grid-column: 1 / -1;
+
+    margin-top: 0.5rem;
+
+    margin-bottom: 0.3rem;
+
+  }
+
+
+  .filters label {
+
+    margin-bottom: 0;
+
+    background: #fafafa;
+
+    padding: 0.5rem;
+
+    border-radius: 8px;
+
+  }
+
+
+  /* CARDS */
+
+  .cards {
+
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+
+  }
+
+}
+
+
+
+@media (max-width: 700px) {
+
+
+  .city-select {
+
+  width:100%;
+
+}
+
+
+  .search-bar select {
+
+    width: 100%;
+
+  }
+
+
+  /* FILTRI MOBILE */
+
+  .filters {
+
+    display: block;
+
+    padding: 1rem;
+
+  }
+
+
+  .filters h4 {
+
+    margin-top: 1rem;
+
+  }
+
+
+  .filters label {
+
+    display: inline-flex;
+
+    width: auto;
+
+    margin-right: 0.5rem;
+
+    margin-bottom: 0.5rem;
+
+  }
+
+
+  /* CARDS */
+
+  .cards {
+
+    grid-template-columns: 1fr;
+
+  }
+
 
 }
