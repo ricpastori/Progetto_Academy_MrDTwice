@@ -76,11 +76,6 @@
   text-decoration: none;
   transition: color 180ms ease;
 
-  svg {
-    opacity: 0.6;
-    flex-shrink: 0;
-  }
-
   &:hover {
     color: var(--p-primary-color);
     svg {

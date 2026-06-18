@@ -34,8 +34,6 @@
 .mrd-navbar__logo-img {
   width: 28px;
   height: 28px;
-  // Usa il primary color del tema corrente (light → {primary.600}, dark → {primary.300})
-  color: var(--p-primary-color);
   display: block;
 }
 
@@ -68,26 +66,14 @@
     color 180ms ease,
     background 180ms ease;
 
-  svg {
-    opacity: 0.7;
-    transition: opacity 180ms ease;
-  }
-
   &:hover {
     color: var(--p-surface-900);
     background: color-mix(in srgb, var(--p-primary-color) 8%, transparent);
-    svg {
-      opacity: 1;
-    }
   }
 
   &.is-active {
     color: var(--p-primary-color);
     font-weight: 600;
-    svg {
-      opacity: 1;
-      color: var(--p-primary-color);
-    }
   }
 }
 
