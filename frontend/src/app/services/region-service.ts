@@ -18,13 +18,22 @@ export class RegionService {
   private readonly _regions = signal<Region[]>([]);
   readonly regions = this._regions.asReadonly();
 
-  private loading = false;
-  private loaded = false;
+  // Stato pubblico per gestire skeleton, messaggi di errore e lista vuota nella pagina.
+  private readonly _loading = signal(false);
+  readonly loading = this._loading.asReadonly();
+
+  private readonly _loaded = signal(false);
+  readonly loaded = this._loaded.asReadonly();
+
+  private readonly _error = signal<string | null>(null);
+  readonly error = this._error.asReadonly();
 
   getRegions() {
-    if (this.loaded || this.loading) return;
+    // Evita chiamate duplicate: dopo il primo caricamento il dato resta nel signal condiviso.
+    if (this._loaded() || this._loading()) return;
 
-    this.loading = true;
+    this._loading.set(true);
+    this._error.set(null);
 
     this.http
       .get<Region[]>(this.apiUrl)
@@ -37,14 +46,15 @@ export class RegionService {
       )
       .subscribe({
         next: (data) => {
-          this._regions.set(data);
-          this.loaded = true;
-          this.loading = false;
+          this._regions.set(Array.isArray(data) ? data : []);
+          this._loaded.set(true);
+          this._loading.set(false);
         },
 
         error: (err) => {
           console.error(err);
-          this.loading = false;
+          this._error.set('Errore nel recupero delle regioni');
+          this._loading.set(false);
         },
       });
   }
