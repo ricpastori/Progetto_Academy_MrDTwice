@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 
 export interface Tag {
   id: string;
@@ -12,12 +12,19 @@ export interface Tag {
 })
 export class TagService {
   private http = inject(HttpClient);
-
   private apiUrl = 'http://localhost:8080/api/tags';
 
-  tags = signal<Tag[]>([]);
+  private readonly _tags = signal<Tag[]>([]);
+  readonly tags = this._tags.asReadonly();
+
+  private loading = false;
+  private loaded = false;
 
   getTags() {
+    if (this.loaded || this.loading) return;
+
+    this.loading = true;
+
     this.http
       .get<Tag[]>(this.apiUrl)
       .pipe(
@@ -29,11 +36,14 @@ export class TagService {
       )
       .subscribe({
         next: (data) => {
-          this.tags.set(data);
+          this._tags.set(data);
+          this.loaded = true;
+          this.loading = false;
         },
 
         error: (err) => {
           console.error(err);
+          this.loading = false;
         },
       });
   }

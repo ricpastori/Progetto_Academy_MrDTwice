@@ -11,12 +11,19 @@ export interface SubTag {
 })
 export class SubTagService {
   private http = inject(HttpClient);
-
   private apiUrl = 'http://localhost:8080/api/sub-tag';
 
-  subTags = signal<SubTag[]>([]);
+  private readonly _subTags = signal<SubTag[]>([]);
+  readonly subTags = this._subTags.asReadonly();
+
+  private loading = false;
+  private loaded = false;
 
   getSubTags() {
+    if (this.loaded || this.loading) return;
+
+    this.loading = true;
+
     this.http
       .get<SubTag[]>(this.apiUrl)
       .pipe(
@@ -28,11 +35,14 @@ export class SubTagService {
       )
       .subscribe({
         next: (data) => {
-          this.subTags.set(data);
+          this._subTags.set(data);
+          this.loaded = true;
+          this.loading = false;
         },
 
         error: (err) => {
           console.error(err);
+          this.loading = false;
         },
       });
   }
