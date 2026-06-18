@@ -21,7 +21,9 @@
     } @else if (regionService.loading()) {
       <div class="regions-grid" aria-label="Caricamento regioni">
         @for (_ of skeletonCards; track $index) {
-          <p-skeleton styleClass="region-skeleton" />
+          <div class="region-skeleton-card">
+            <p-skeleton styleClass="region-skeleton" />
+          </div>
         }
       </div>
     } @else if (regionService.error()) {

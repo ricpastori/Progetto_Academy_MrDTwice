@@ -56,6 +56,18 @@
   text-decoration: none;
 }
 
+.region-skeleton-card {
+  display: block;
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.region-skeleton-card p-skeleton {
+  display: block;
+  height: 100%;
+}
+
 .region-card-link:hover {
   transform: translateY(-2px);
   filter: saturate(1.06);
@@ -68,7 +80,7 @@
 
 :host ::ng-deep .region-skeleton {
   border-radius: 0.875rem;
-  aspect-ratio: 16 / 9;
+  height: 100%;
   width: 100%;
 }
 
@@ -152,7 +164,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .region-card-link {
+  .region-card-link,
+  .region-skeleton-card {
     grid-column: auto;
   }
 }
