@@ -70,13 +70,29 @@
 
   border-radius: 999px;
 
-  background-color: #7e22ce;
-
-  color: white;
-
   font-size: 0.85rem;
 
   font-weight: 500;
 
+}
+
+.subtag-badge-1 {
+  background-color: #F0D7F6;
+  color: #C86DDF;
+}
+
+.subtag-badge-2 {
+  background-color: #D9F4E8;
+  color: #32B87A;
+}
+
+.subtag-badge-3 {
+  background-color: #DCEEFF;
+  color: #4A90E2;
+}
+
+.subtag-badge-4 {
+  background-color: #FFE8D6;
+  color: #F28C38;
 }
 

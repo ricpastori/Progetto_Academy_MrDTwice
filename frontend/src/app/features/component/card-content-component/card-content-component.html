@@ -7,7 +7,7 @@
   <ng-template #title>
     <div class="card-title-container">
       <div class="content-title">
-        <span class="subtag-badge">
+        <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
           {{ subTag().name }}
         </span>
         <span>
