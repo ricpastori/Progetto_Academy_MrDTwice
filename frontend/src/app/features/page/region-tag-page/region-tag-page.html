@@ -1,0 +1,76 @@
+<div class="page">
+  <!-- BREADCRUMB -->
+
+  <div class="breadcrumb">Italia / Regione / Tag</div>
+
+  <!-- RICERCA -->
+
+  <div class="search-bar">
+    <input type="text" placeholder="Cerca un luogo..." [(ngModel)]="searchText" />
+
+    <select [(ngModel)]="selectedCity">
+      <option value="">Tutte le città</option>
+
+      @for (city of cities; track city) {
+        <option [value]="city">
+          {{ city }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <div class="content-layout">
+    <!-- FILTRI -->
+
+    <aside class="filters">
+      <h4>ORDINA PER</h4>
+
+      <label>
+        <input type="radio" name="sort" value="popular" [(ngModel)]="sortType" />
+
+        Popolari
+      </label>
+
+      <label>
+        <input type="radio" name="sort" value="likes" [(ngModel)]="sortType" />
+
+        Più apprezzati
+      </label>
+
+      <label>
+        <input type="radio" name="sort" value="recent" [(ngModel)]="sortType" />
+
+        Recenti
+      </label>
+
+      <h4>SOTTOCATEGORIE</h4>
+
+      @for (tag of subTags(); track tag.id) {
+        <label>
+          <input
+            type="checkbox"
+            [checked]="selectedSubTags().includes(tag.id)"
+            (change)="toggleSubTag(tag.id)"
+          />
+
+          {{ tag.name }}
+        </label>
+      }
+    </aside>
+
+    <!-- CARDS -->
+
+    <section class="cards">
+      @for (item of filteredContent(); track item.id) {
+         <app-card-content-component
+      [content]="item"
+      [subTag]="getSubTag(item.tag_id)!"
+    />
+      }
+
+      @if (filteredContent().length === 0) {
+        <p>Nessun risultato trovato</p>
+      }
+    </section>
+  </div>
+</div>

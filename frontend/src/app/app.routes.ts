@@ -5,6 +5,7 @@ import { PlaceDetailPage } from './features/page/place-detail-page/place-detail-
 import { RegionDetailPage } from './features/page/region-detail-page/region-detail-page';
 import { RegionsPage } from './features/page/regions-page/regions-page';
 import { AboutPage } from './features/page/about-page/about-page';
+import { RegionTagPage} from './features/page/region-tag-page/region-tag-page';
 
 export const routes: Routes = [
   {
@@ -20,11 +21,15 @@ export const routes: Routes = [
     component: RegionsPage,
   },
   {
-    path: 'regioni/:id',
+    path: 'regioni/regione-dettaglio',
     component: RegionDetailPage,
   },
   {
-    path: 'luoghi/:id',
+    path: 'regioni/regione-dettaglio/regione-tags',
+    component: RegionTagPage,
+  },
+  {
+    path: 'luoghi',
     component: PlaceDetailPage,
   },
   {

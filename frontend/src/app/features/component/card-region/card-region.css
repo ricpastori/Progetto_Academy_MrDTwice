@@ -59,9 +59,17 @@
   padding: 0 clamp(1.5rem, 7vw, 5.5rem) clamp(1.5rem, 6vw, 4.5rem);
 }
 
+.region-content > div {
+  min-width: 0;
+}
+
 h4,
 p {
+  display: -webkit-box;
+  overflow: hidden;
   margin: 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 h4 {

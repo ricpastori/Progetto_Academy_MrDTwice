@@ -1,1 +1,44 @@
-<p>regions-page works!</p>
+<main class="regions-page">
+  <section class="regions-shell" aria-labelledby="regions-title">
+    <header class="regions-heading">
+      <h1 id="regions-title">Regioni d'Italia</h1>
+      <p>Scegli una regione per scoprire i suoi luoghi.</p>
+    </header>
+
+    @if (regions().length > 0) {
+      <div class="regions-grid">
+        @for (region of regions(); track region.id) {
+          <a
+            class="region-card-link"
+            [routerLink]="['/regioni/regione-dettaglio']"
+            [queryParams]="{ regionId: region.id }"
+            [attr.aria-label]="'Apri la regione ' + region.name"
+          >
+            <app-card-region [region]="region" [placesCount]="getPlacesCount(region)" />
+          </a>
+        }
+      </div>
+    } @else if (regionService.loading()) {
+      <div class="regions-grid" aria-label="Caricamento regioni">
+        @for (_ of skeletonCards; track $index) {
+          <div class="region-skeleton-card">
+            <p-skeleton styleClass="region-skeleton" />
+          </div>
+        }
+      </div>
+    } @else if (regionService.error()) {
+      <div class="regions-state">
+        <p-message severity="error" [closable]="false" text="Non riesco a caricare le regioni." />
+        <p-button label="Riprova" icon="ph ph-arrow-clockwise" (onClick)="loadRegions()" />
+      </div>
+    } @else if (regionService.loaded()) {
+      <div class="regions-state">
+        <span class="regions-state__icon" aria-hidden="true">
+          <i class="ph ph-map-pin"></i>
+        </span>
+        <h2>Nessuna regione disponibile</h2>
+        <p>Appena saranno pubblicate, le destinazioni appariranno qui.</p>
+      </div>
+    }
+  </section>
+</main>
