@@ -8,14 +8,12 @@
     @if (regions().length > 0) {
       <div class="regions-grid">
         @for (region of regions(); track region.id) {
-          <a
-            class="region-card-link"
-            [routerLink]="['/regioni/regione-dettaglio']"
-            [queryParams]="{ regionId: region.id }"
-            [attr.aria-label]="'Apri la regione ' + region.name"
-          >
-            <app-card-region [region]="region" [placesCount]="getPlacesCount(region)" />
-          </a>
+          <app-card-region
+            [region]="region"
+            [placesCount]="getPlacesCount(region)"
+            [compact]="true"
+            [linkToDetails]="true"
+          />
         }
       </div>
     } @else if (regionService.loading()) {

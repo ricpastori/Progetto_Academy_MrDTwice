@@ -1,335 +1,163 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { Content, ContentService } from '../../../services/content-service';
-import { CardContentComponent } from '../../component/card-content-component/card-content-component';
-import { ActivatedRoute } from '@angular/router';
-import { SubTagService } from '../../../services/sub-tag-service';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TagService } from '../../../services/tag-service';
+import { ActivatedRoute } from '@angular/router';
+
+import { MenuItem } from 'primeng/api';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { CheckboxModule } from 'primeng/checkbox';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectModule } from 'primeng/select';
+
+import { Content, ContentService } from '../../../services/content-service';
+import { RegionService } from '../../../services/region-service';
+import { SubTag, SubTagService } from '../../../services/sub-tag-service';
+import { TagService } from '../../../services/tag-service';
+import { CardContentComponent } from '../../component/card-content-component/card-content-component';
 
 @Component({
   selector: 'app-region-tag-page',
   imports: [
-    CardContentComponent,
     FormsModule,
-    SelectModule
+    BreadcrumbModule,
+    CheckboxModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    RadioButtonModule,
+    SelectModule,
+    CardContentComponent,
   ],
   templateUrl: './region-tag-page.html',
   styleUrl: './region-tag-page.css',
 })
 export class RegionTagPage implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly contentService = inject(ContentService);
+  private readonly regionService = inject(RegionService);
+  private readonly subTagService = inject(SubTagService);
+  private readonly tagService = inject(TagService);
 
+  protected readonly content = signal<Content[]>([]);
+  protected readonly subTags = this.subTagService.subTags;
+  protected readonly selectedRegionId = signal('');
+  protected readonly selectedTagId = signal('');
 
-  private route = inject(ActivatedRoute);
+  protected searchText = '';
+  protected selectedCity = '';
+  protected sortType = 'popular';
+  protected readonly selectedSubTags = signal<string[]>([]);
+  protected cities: string[] = [];
 
-  private contentService = inject(ContentService);
+  protected readonly sortOptions = [
+    { label: 'Popolari', value: 'popular' },
+    { label: 'Più apprezzati', value: 'liked' },
+    { label: 'Recenti', value: 'recent' },
+  ] as const;
 
-  private subTagService = inject(SubTagService);
+  protected readonly filteredSubTags = computed(() => {
+    const tagId = this.selectedTagId();
 
-  private tagService = inject(TagService);
+    if (!tagId) return [];
 
+    return this.subTags().filter((subTag) => String(subTag.tag_id) === String(tagId));
+  });
 
+  protected readonly breadcrumbItems = computed<MenuItem[]>(() => {
+    const regionId = this.selectedRegionId();
+    const tagId = this.selectedTagId();
+    const regionName =
+      this.regionService.regions().find((region) => String(region.id) === String(regionId))?.name ??
+      'Regione';
+    const tagName =
+      this.tagService.tags().find((tag) => String(tag.id) === String(tagId))?.name ?? 'Categoria';
 
-  content = signal<Content[]>([]);
+    return [
+      { label: 'Italia', routerLink: '/regioni' },
+      {
+        label: regionName,
+        routerLink: '/regioni/regione-dettaglio',
+        queryParams: { regionId },
+      },
+      { label: tagName },
+    ];
+  });
 
-
-  subTags = this.subTagService.subTags;
-
-  tags = this.tagService.tags;
-
-
-
-  searchText = '';
-
-  selectedCity = '';
-
-  selectedTag = '';
-
-  sortType = 'popular';
-
-
-
-  selectedSubTags = signal<string[]>([]);
-
-
-
-  cities: string[] = [];
-
-
-
-  selectedTagId = signal<string>('');
-
-
-
-
-  ngOnInit() {
-
-
+  ngOnInit(): void {
+    this.regionService.getRegions();
     this.subTagService.getSubTags();
+    this.tagService.getTags();
 
-
-
-    this.route.queryParamMap.subscribe(params => {
-
-
+    this.route.queryParamMap.subscribe((params) => {
       const regionId = params.get('regionId');
-
       const tagId = params.get('tagId');
-
-
 
       if (!regionId || !tagId) return;
 
-
-
+      this.selectedRegionId.set(regionId);
       this.selectedTagId.set(tagId);
+      this.selectedSubTags.set([]);
 
-      this.selectedTag = tagId;
-
-
-
-      this.contentService
-        .getContentByRegionAndTag(regionId, tagId)
-        .subscribe(data => {
-
-
-          this.content.set(data);
-
-
-          this.loadCities(data);
-
-
-        });
-
-
+      this.contentService.getContentByRegionAndTag(regionId, tagId).subscribe((data) => {
+        this.content.set(data);
+        this.loadCities(data);
+      });
     });
-
-
   }
 
-
-
-
-
-  getSubTag(id:string) {
-
-
-    return this.subTags()
-      .find(tag => tag.id === id);
-
+  protected getSubTag(id: string): SubTag {
+    return (
+      this.subTags().find((subTag) => String(subTag.id) === String(id)) ?? {
+        id,
+        tag_id: this.selectedTagId(),
+        name: 'Categoria',
+      }
+    );
   }
 
-
-
-
-
-  /*
-    restituisce solo i subtag
-    del tag arrivato da query params
-  */
-
-  filteredSubTags = () => {
-
-
-    const tagId = this.selectedTagId();
-
-
-
-    if(!tagId){
-
-      return [];
-
-    }
-
-
-
-    return this.subTags()
-      .filter(x =>
-        String(x.tag_id) === String(tagId)
-      );
-
-
-  };
-
-
-
-
-
-  private loadCities(data:Content[]) {
-
-
-    this.cities = [
-      'Tutte le città',
-      ...new Set(
-        data.map(item => item.city)
-      )
-    ];
-
-
-  }
-
-
-
-
-
-
-  filteredContent = () => {
-
-
+  protected filteredContent(): Content[] {
     let data = [...this.content()];
 
-
-
-    // ricerca luogo
-
-    if(this.searchText){
-
-
-      data = data.filter(item =>
-        item.place
-          .toLowerCase()
-          .includes(
-            this.searchText.toLowerCase()
-          )
-      );
-
-
+    if (this.searchText.trim()) {
+      const search = this.searchText.trim().toLocaleLowerCase('it-IT');
+      data = data.filter((item) => item.place.toLocaleLowerCase('it-IT').includes(search));
     }
 
-
-
-
-
-    // filtro città
-
-    if(
-      this.selectedCity &&
-      this.selectedCity !== 'Tutte le città'
-    ){
-
-
-      data = data.filter(item =>
-        item.city === this.selectedCity
-      );
-
-
+    if (this.selectedCity && this.selectedCity !== 'Tutte le città') {
+      data = data.filter((item) => item.city === this.selectedCity);
     }
 
-
-
-
-
-    // filtro subtag
-
-    if(this.selectedSubTags().length){
-
-
-      data = data.filter(item =>
-        this.selectedSubTags()
-          .includes(item.sub_tag_id)
-      );
-
-
+    if (this.selectedSubTags().length) {
+      data = data.filter((item) => this.selectedSubTags().includes(item.sub_tag_id));
     }
 
-
-
-
-
-    // recenti
-
-    if(this.sortType === 'recent'){
-
-
-      data.sort((a,b)=>
-
-        new Date(b.created_at).getTime()
-        -
-        new Date(a.created_at).getTime()
-
+    if (this.sortType === 'recent') {
+      data.sort(
+        (first, second) =>
+          new Date(second.created_at).getTime() - new Date(first.created_at).getTime(),
       );
-
-
+    } else if (this.sortType === 'liked') {
+      data.sort((first, second) => second.likes - first.likes);
+    } else {
+      data.sort((first, second) => second.likes - second.dislikes - (first.likes - first.dislikes));
     }
-
-
-
-
-
-
-
-    // popolari
-
-    if(this.sortType === 'popular'){
-
-
-      data.sort((a,b)=>
-
-        (b.likes - b.dislikes)
-        -
-        (a.likes - a.dislikes)
-
-      );
-
-
-    }
-
-
 
     return data;
-
-
-  };
-
-
-
-
-
-
-
-  changeTag(){
-
-
-    this.selectedSubTags.set([]);
-
-
   }
 
-
-
-
-
-
-  toggleSubTag(id:string){
-
-
+  protected toggleSubTag(id: string): void {
     const current = this.selectedSubTags();
 
-
-
-    if(current.includes(id)){
-
-
-      this.selectedSubTags.set(
-        current.filter(x => x !== id)
-      );
-
-
-    }
-    else {
-
-
-      this.selectedSubTags.set([
-        ...current,
-        id
-      ]);
-
-
-    }
-
-
+    this.selectedSubTags.set(
+      current.includes(id) ? current.filter((subTagId) => subTagId !== id) : [...current, id],
+    );
   }
 
+  private loadCities(data: Content[]): void {
+    const cities = data.map((item) => item.city).filter(Boolean);
 
-
+    this.cities = ['Tutte le città', ...new Set(cities)];
+  }
 }

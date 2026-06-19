@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 import { CardRegion } from '../../component/card-region/card-region';
 import { CardContentComponent } from '../../component/card-content-component/card-content-component';
@@ -12,7 +13,7 @@ import { TagService } from '../../../services/tag-service';
 @Component({
   selector: 'app-home-page',
 
-  imports: [RouterLink, CardRegion, CardContentComponent],
+  imports: [RouterLink, ButtonModule, CardRegion, CardContentComponent],
 
   templateUrl: './home-page.html',
 

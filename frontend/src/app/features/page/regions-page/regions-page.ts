@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -9,7 +8,7 @@ import { CardRegion } from '../../component/card-region/card-region';
 
 @Component({
   selector: 'app-regions-page',
-  imports: [RouterLink, ButtonModule, MessageModule, SkeletonModule, CardRegion],
+  imports: [ButtonModule, MessageModule, SkeletonModule, CardRegion],
   templateUrl: './regions-page.html',
   styleUrl: './regions-page.css',
 })
@@ -30,7 +29,6 @@ export class RegionsPage {
 
   protected getPlacesCount(region: Region): number {
     // Il service gestisce il fallback a 0 se il conteggio non è disponibile.
-    console.log("aaa")
     return this.regionService.getRegionContentsCount(region.id);
   }
 }

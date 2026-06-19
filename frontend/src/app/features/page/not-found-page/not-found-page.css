@@ -73,25 +73,14 @@
 }
 
 /* ── Divider ────────────────────────────────────────────────────────────────── */
-.mrd-not-found__divider {
+:host ::ng-deep .mrd-not-found__divider.p-divider {
   width: 100%;
   max-width: 360px;
-  margin: 2.2rem auto 2.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  margin: 2.2rem auto;
+}
 
-  span {
-    flex: 1;
-    height: 1px;
-    background: var(--p-surface-200);
-  }
-
-  i {
-    font-size: 1.3rem;
-    color: var(--p-primary-color);
-  }
+:host ::ng-deep .mrd-not-found__divider .p-divider-content {
+  background: transparent;
 }
 
 .not-found__logo-img {
@@ -109,59 +98,12 @@
   color: var(--p-surface-700);
 }
 
-/* ── Button ─────────────────────────────────────────────────────────────────── */
-
 .mrd-not-found__actions {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.875rem;
   flex-wrap: wrap;
-}
-
-.mrd-not-found__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 46px;
-  padding: 0.85rem 1.35rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition:
-    transform 180ms ease,
-    background 180ms ease,
-    color 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
-}
-
-.mrd-not-found__btn--primary {
-  background: #7e22ce;
-  color: #ffffff;
-  box-shadow: 0 10px 24px color-mix(in srgb, #7e22ce 18%, transparent);
-
-  &:hover {
-    background: #6b21a8;
-  }
-}
-
-.mrd-not-found__btn--secondary {
-  background: transparent;
-  color: var(--p-surface-700);
-  border: 1px solid var(--p-surface-300);
-
-  &:hover {
-    background: var(--p-surface-50);
-    color: var(--p-surface-900);
-    border-color: var(--p-surface-400);
-  }
 }
 
 /* ── Icons Settings ──────────────────────────────────────────────────────────── */
@@ -195,7 +137,7 @@
     flex-direction: column;
   }
 
-  .mrd-not-found__btn {
+  .mrd-not-found__actions .p-button {
     width: 100%;
     max-width: 320px;
   }

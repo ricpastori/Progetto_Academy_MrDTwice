@@ -134,83 +134,10 @@
   gap: 1rem;
 }
 
-:host ::ng-deep .mrd-home__regions-grid app-card-region .region-card {
-  min-height: 0;
-  border-radius: 0.875rem;
-  aspect-ratio: 16 / 9;
-}
-
-:host ::ng-deep .mrd-home__regions-grid app-card-region .region-card::after {
-  background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.02), rgb(0 0 0 / 0.58)),
-    linear-gradient(90deg, rgb(0 0 0 / 0.34), transparent 72%);
-}
-
-:host ::ng-deep .mrd-home__regions-grid app-card-region .region-content {
-  align-items: end;
-  gap: 0.75rem;
-  padding: 0 1.15rem 0.9rem;
-}
-
-:host ::ng-deep .mrd-home__regions-grid app-card-region h4 {
-  font-size: 1rem;
-  line-height: 1.05;
-}
-
-:host ::ng-deep .mrd-home__regions-grid app-card-region p {
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  -webkit-line-clamp: 1;
-}
-
-:host ::ng-deep .mrd-home__regions-grid app-card-region .places-badge.p-tag {
-  border-radius: var(--p-border-radius-sm);
-  padding: 0.3rem 0.45rem;
-  color: var(--p-primary-color);
-  font-weight: 650;
-  font-size: 0.68rem;
-  line-height: 1;
-}
-
 .mrd-home__section-action {
   display: flex;
   justify-content: center;
   margin-top: 1.25rem;
-}
-
-.mrd-home__ghost-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease;
-  border: 1px solid var(--p-content-border-color);
-  border-radius: var(--p-border-radius-md);
-  background: var(--p-content-background);
-  padding: 0.65rem 1rem;
-  color: var(--p-text-color);
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-decoration: none;
-}
-
-.mrd-home__ghost-link:hover,
-.mrd-home__ghost-link:focus-visible {
-  border-color: color-mix(in srgb, var(--p-primary-color) 38%, var(--p-content-border-color));
-  background: var(--p-highlight-background);
-  color: var(--p-primary-color);
-  outline: none;
-}
-
-.mrd-home__ghost-link:focus-visible {
-  box-shadow: var(--p-focus-ring-shadow);
-}
-
-.mrd-home__ghost-link i {
-  font-size: 0.9rem;
 }
 
 /* ── CONTENUTI ────────────────────────────────────────────────────────── */
@@ -292,11 +219,5 @@
 
   :host ::ng-deep .mrd-home__content-grid app-card-content-component {
     flex-basis: min(82vw, 17rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mrd-home__ghost-link {
-    transition: none;
   }
 }

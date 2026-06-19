@@ -14,28 +14,26 @@
         cercando potrebbe essere stata spostata, rimossa o non essere mai stata pubblicata.
       </p>
 
-      <div class="mrd-not-found__divider" aria-hidden="true">
-        <span></span>
+      <p-divider styleClass="mrd-not-found__divider" align="center">
         <img
           class="not-found__logo-img"
           src="/images/origin/logo.svg"
           aria-hidden="true"
           alt="Logo Mr D Twice"
         />
-        <span></span>
-      </div>
+      </p-divider>
 
       <p class="mrd-not-found__question">Dove ti piacerebbe andare?</p>
 
       <div class="mrd-not-found__actions">
-        <a routerLink="/" class="mrd-not-found__btn mrd-not-found__btn--primary">
-          <i class="ph ph-house" aria-hidden="true"></i>
-          Torna alla home
+        <a pButton routerLink="/" size="large">
+          <i pButtonIcon class="ph ph-house" aria-hidden="true"></i>
+          <span pButtonLabel>Torna alla home</span>
         </a>
 
-        <a routerLink="/regioni" class="mrd-not-found__btn mrd-not-found__btn--secondary">
-          <i class="ph ph-map-pin" aria-hidden="true"></i>
-          Esplora le regioni
+        <a pButton routerLink="/regioni" severity="secondary" [outlined]="true" size="large">
+          <i pButtonIcon class="ph ph-map-pin" aria-hidden="true"></i>
+          <span pButtonLabel>Esplora le regioni</span>
         </a>
       </div>
     </div>

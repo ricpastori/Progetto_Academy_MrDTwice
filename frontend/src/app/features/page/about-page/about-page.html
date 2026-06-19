@@ -99,22 +99,28 @@
               <p>{{ member.role }}</p>
               <div class="social-actions" aria-label="Profili social">
                 <a
-                  class="social-button"
+                  pButton
                   [href]="member.githubUrl"
                   target="_blank"
                   rel="noopener noreferrer"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="secondary"
                   [attr.aria-label]="'Profilo GitHub di ' + member.name"
                 >
-                  <i class="ph ph-github-logo" aria-hidden="true"></i>
+                  <i pButtonIcon class="ph ph-github-logo" aria-hidden="true"></i>
                 </a>
                 <a
-                  class="social-button"
+                  pButton
                   [href]="member.linkedinUrl"
                   target="_blank"
                   rel="noopener noreferrer"
+                  [text]="true"
+                  [rounded]="true"
+                  severity="secondary"
                   [attr.aria-label]="'Profilo LinkedIn di ' + member.name"
                 >
-                  <i class="ph ph-linkedin-logo" aria-hidden="true"></i>
+                  <i pButtonIcon class="ph ph-linkedin-logo" aria-hidden="true"></i>
                 </a>
               </div>
             </div>

@@ -1,91 +1,94 @@
-<div class="page">
-  <!-- BREADCRUMB
+<section class="region-tag-page">
+  <header class="region-tag-header">
+    <div class="region-tag-header__meta">
+      <p-breadcrumb styleClass="region-tag-breadcrumb" [model]="breadcrumbItems()">
+        <ng-template #separator>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        </ng-template>
+      </p-breadcrumb>
 
-  <div class="breadcrumb">Italia / Regione / Tag</div> -->
+      <span class="results-count" aria-live="polite">
+        {{ filteredContent().length }}
+        {{ filteredContent().length === 1 ? 'luogo trovato' : 'luoghi trovati' }}
+      </span>
+    </div>
 
-  <!-- RICERCA -->
+    <div class="search-controls">
+      <p-iconfield>
+        <p-inputicon class="ph ph-magnifying-glass" />
+        <input
+          pInputText
+          type="search"
+          [(ngModel)]="searchText"
+          placeholder="Cerca un luogo..."
+          aria-label="Cerca un luogo"
+          [fluid]="true"
+        />
+      </p-iconfield>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Cerca un luogo..." [(ngModel)]="searchText" />
-
-    <p-select
-  class="city-select"
-  [options]="cities"
-  [(ngModel)]="selectedCity"
-  placeholder="Tutte le città"
-  [filter]="true"
-  [showClear]="!!selectedCity">
-</p-select>
-
-  </div>
+      <p-select
+        styleClass="city-select"
+        [options]="cities"
+        [(ngModel)]="selectedCity"
+        placeholder="Tutte le città"
+        [filter]="true"
+        [showClear]="!!selectedCity && selectedCity !== 'Tutte le città'"
+        [fluid]="true"
+        appendTo="body"
+        ariaLabel="Filtra per città"
+      />
+    </div>
+  </header>
 
   <div class="content-layout">
-    <!-- FILTRI -->
+    <aside class="filters" aria-label="Filtri dei luoghi">
+      <fieldset class="filter-group">
+        <legend>Ordina per</legend>
 
-    <aside class="filters">
+        @for (option of sortOptions; track option.value) {
+          <div class="filter-option">
+            <p-radiobutton
+              name="sortType"
+              [inputId]="'sort-' + option.value"
+              [value]="option.value"
+              [(ngModel)]="sortType"
+            />
+            <label [for]="'sort-' + option.value">{{ option.label }}</label>
+          </div>
+        }
+      </fieldset>
 
-  <h4>ORDINA PER</h4>
+      <fieldset class="filter-group">
+        <legend>Sottocategorie</legend>
 
-  <label>
-    <input
-      type="radio"
-      name="sort"
-      value="popular"
-      [(ngModel)]="sortType"
-    />
+        @for (subTag of filteredSubTags(); track subTag.id) {
+          <div class="filter-option">
+            <p-checkbox
+              [inputId]="'subtag-' + subTag.id"
+              [binary]="true"
+              [ngModel]="selectedSubTags().includes(subTag.id)"
+              (onChange)="toggleSubTag(subTag.id)"
+            />
+            <label [for]="'subtag-' + subTag.id">{{ subTag.name }}</label>
+          </div>
+        } @empty {
+          <p class="filters-empty">Nessuna sottocategoria</p>
+        }
+      </fieldset>
+    </aside>
 
-    Popolari
-  </label>
-
-
-  <label>
-    <input
-      type="radio"
-      name="sort"
-      value="recent"
-      [(ngModel)]="sortType"
-    />
-
-    Più recenti
-  </label>
-
-
-  <h4>SOTTOCATEGORIE</h4>
-
-
-  @for (sub of filteredSubTags(); track sub.id) {
-
-    <label>
-
-      <input
-        type="checkbox"
-        [checked]="selectedSubTags().includes(sub.id)"
-        (change)="toggleSubTag(sub.id)"
-      />
-
-
-      {{sub.name}}
-
-    </label>
-
-  }
-
-
-</aside>
-
-    <!-- CARDS -->
-
-    <section class="cards">
-      @for (item of filteredContent(); track item.id) {
-         <app-card-content-component
-      [content]="item"
-      [subTag]="getSubTag(item.sub_tag_id)!"
-    />
-      }
-
-      @if (filteredContent().length === 0) {
-        <p>Nessun risultato trovato</p>
-      }
+    <section class="results" aria-label="Luoghi trovati">
+      <div class="cards">
+        @for (item of filteredContent(); track item.id) {
+          <app-card-content-component [content]="item" [subTag]="getSubTag(item.sub_tag_id)" />
+        } @empty {
+          <div class="empty-state">
+            <span aria-hidden="true"><i class="ph ph-magnifying-glass"></i></span>
+            <h2>Nessun risultato trovato</h2>
+            <p>Prova a modificare la ricerca o i filtri selezionati.</p>
+          </div>
+        }
+      </div>
     </section>
   </div>
-</div>
+</section>

@@ -137,8 +137,7 @@
   color: var(--p-primary-color, #7c3aed);
 }
 
-.about-icon .ph,
-.social-button .ph {
+.about-icon .ph {
   font-size: 1.15rem;
 }
 
@@ -233,20 +232,6 @@
   background: color-mix(in srgb, var(--p-primary-color, #7c3aed) 11%, transparent);
   width: 4.1rem;
   height: 4.1rem;
-}
-
-.social-button {
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  border: 1px solid var(--p-content-border-color, #e5e7eb);
-  border-radius: 0.5rem;
-  background: var(--p-surface-0, #ffffff);
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  color: var(--p-text-color, #1f2937);
-  text-decoration: none;
 }
 
 /* PrimeNG genera markup interno ai suoi componenti: ::ng-deep serve solo per rifinire questi contenitori. */

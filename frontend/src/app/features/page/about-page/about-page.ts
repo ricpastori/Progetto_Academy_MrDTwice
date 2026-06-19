@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 
 import { ResponsiveImage } from '../../component/responsive-image/responsive-image';
@@ -27,7 +28,7 @@ interface TeamMember {
 
 @Component({
   selector: 'app-about-page',
-  imports: [CardModule, ResponsiveImage],
+  imports: [ButtonModule, CardModule, ResponsiveImage],
   templateUrl: './about-page.html',
   styleUrl: './about-page.css',
 })

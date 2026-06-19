@@ -1,4 +1,6 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, linkedSignal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 
@@ -17,7 +19,7 @@ const REGION_IMAGE_EXTENSION = 'jpg';
 
 @Component({
   selector: 'app-card-region',
-  imports: [CardModule, TagModule, ResponsiveImage],
+  imports: [NgTemplateOutlet, RouterLink, CardModule, TagModule, ResponsiveImage],
   templateUrl: './card-region.html',
   styleUrl: './card-region.css',
 })
@@ -26,6 +28,11 @@ export class CardRegion {
   readonly region = input<Partial<Region> | null>();
   readonly city = input<string | null>('');
   readonly placesCount = input<number | null>(0);
+  readonly compact = input(false);
+  readonly linkToDetails = input(false);
+
+  protected readonly regionId = computed(() => this.region()?.id ?? null);
+  protected readonly isLinked = computed(() => this.linkToDetails() && this.regionId() !== null);
 
   // Oggetto "pulito" usato dal template: qui centralizziamo fallback e normalizzazione dei dati.
   protected readonly card = computed(() => {

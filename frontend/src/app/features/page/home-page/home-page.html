@@ -49,15 +49,16 @@
           [region]="region"
           [city]="getRegionCity(region)"
           [placesCount]="getPlacesCount(region)"
+          [compact]="true"
+          [linkToDetails]="true"
         />
       }
     </div>
 
     <div class="mrd-home__section-action">
-      <a routerLink="/regioni" class="mrd-home__ghost-link">
-        Vedi tutte le regioni
-
-        <i class="ph ph-arrow-right" aria-hidden="true"></i>
+      <a pButton routerLink="/regioni" [outlined]="true" size="small">
+        <span pButtonLabel>Vedi tutte le regioni</span>
+        <i pButtonIcon class="ph ph-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
   </section>
