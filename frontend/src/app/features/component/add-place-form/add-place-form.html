@@ -14,31 +14,32 @@
 
   <div class="form-group">
     <label for="subCategoryId">Sotto-categoria <span class="required-asterisk">*</span></label>
-    <p-dropdown
+    <p-select
       inputId="subCategoryId"
-      options="categorieList"
+      [options]="filteredSubTags()"
       formControlName="sub_tag_id"
-      placeholder="Scegli prima una categoria"
+      [placeholder]="
+        selectedTagId() ? 'Seleziona una sotto-categoria' : 'Scegli prima una categoria'
+      "
       optionLabel="name"
       optionValue="id"
       styleClass="w-full"
-    >
-    </p-dropdown>
+    ></p-select>
   </div>
 
   <div class="form-row-grid-2">
     <div class="form-group">
       <label for="regionId">Regione <span class="required-asterisk">*</span></label>
-      <p-dropdown
+      <p-select
         inputId="regionId"
-        options="regionService.regions()"
+        [options]="regionService.regions()"
         formControlName="region_id"
         placeholder="Seleziona regione"
         optionLabel="name"
         optionValue="id"
         styleClass="w-full"
       >
-      </p-dropdown>
+      </p-select>
     </div>
 
     <div class="form-group">
@@ -102,7 +103,7 @@
       pButton
       type="button"
       class="p-button-outlined p-button-secondary"
-      (click)="placeForm.reset(); selectedFile.set(null); imagePreview.set(null)"
+      (click)="onAnnulla()"
     >
       Annulla
     </button>
