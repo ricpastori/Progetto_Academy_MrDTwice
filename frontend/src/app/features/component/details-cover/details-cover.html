@@ -1,0 +1,30 @@
+<figure class="details-cover" [class.details-cover--with-content]="hasTextContent()">
+  <app-responsive-image
+    class="details-cover__image"
+    [src]="src()"
+    [alt]="alt()"
+    [size]="size()"
+    [loading]="loading()"
+    [decoding]="decoding()"
+    [fetchPriority]="fetchPriority()"
+    [fill]="true"
+    (imageError)="emitImageError($event)"
+  />
+
+  @if (hasTextContent()) {
+    <figcaption class="details-cover__content">
+      @if (displayTitle()) {
+        <h1 class="details-cover__title">{{ displayTitle() }}</h1>
+      }
+
+      @if (displaySubtitle()) {
+        <p class="details-cover__subtitle">
+          @if (displaySubtitleIcon()) {
+            <i [class]="displaySubtitleIcon()" aria-hidden="true"></i>
+          }
+          <span>{{ displaySubtitle() }}</span>
+        </p>
+      }
+    </figcaption>
+  }
+</figure>
