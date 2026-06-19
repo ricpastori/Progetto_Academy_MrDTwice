@@ -1,0 +1,15 @@
+<picture [class.responsive-image-fill]="fill()">
+  @if (webpSrcSet()) {
+    <source type="image/webp" [attr.srcset]="webpSrcSet()" [attr.sizes]="resolvedSizes()" />
+  }
+
+  <img
+    [src]="resolvedSrc()"
+    [alt]="alt()"
+    [attr.loading]="loading()"
+    [attr.decoding]="decoding()"
+    [attr.fetchpriority]="fetchPriority()"
+    [style.object-fit]="fit()"
+    (error)="emitImageError($event)"
+  />
+</picture>
