@@ -77,8 +77,8 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
   public selectedFile = signal<File | null>(null);
   public imagePreview = signal<string | null>(null);
 
-  public readonly titleMaxLength = 400;
-  public readonly descriptionMaxLength = 3000;
+  public readonly titleMaxLength = 120;
+  public readonly descriptionMaxLength = 4000;
   public readonly maxImageFileSize = 5_000_000;
 
   private redirectTimer: ReturnType<typeof setInterval> | null = null;
