@@ -181,27 +181,73 @@
 /* CARD CONTENT SOLO in HOME */
 
 :host ::ng-deep .mrd-home__content-grid {
+
   display: grid;
 
   grid-template-columns: repeat(5, minmax(0, 1fr));
 
   gap: 1.25rem;
 
-  align-items: stretch;
+  grid-auto-rows: 1fr;
+
 }
+
 
 :host ::ng-deep .mrd-home__content-grid app-card-content-component {
-  display: block;
+
+  display: flex;
 
   height: 100%;
+
 }
+
 
 :host ::ng-deep .mrd-home__content-grid .card-container {
+
   height: 100%;
+
+  width: 100%;
+
+  display: flex;
+
 }
 
+
 :host ::ng-deep .mrd-home__content-grid .p-card {
+
   height: 100%;
+
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+:host ::ng-deep .mrd-home__content-grid .p-card-body {
+
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+}
+
+
+:host ::ng-deep .mrd-home__content-grid .p-card-content {
+
+  flex: 1;
+
+}
+
+
+:host ::ng-deep .mrd-home__content-grid .p-card-footer {
+
+  margin-top: auto;
+
 }
 
 .mrd-home__section-action {
