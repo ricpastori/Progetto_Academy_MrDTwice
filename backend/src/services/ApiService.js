@@ -25,6 +25,25 @@ async function getRegions() {
   }
 }
 
+//GET REGION BY ID
+async function getRegionById(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT *
+      FROM regions
+      WHERE id = $1
+  `,
+      [id],
+    );
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+
 //GET TAGS
 async function getTags() {
   try {
@@ -121,7 +140,7 @@ async function getLatestContentByRegionByTag(tagId) {
        created_at
         FROM content
         WHERE tag_id = $1 
-        ORDER BY region_id, created_at desc;
+        ORDER BY region_id, created_at desc  LIMIT 5;
   `,
       [tagId],
     );
@@ -145,7 +164,7 @@ async function getMostLikedContentByRegionByTag(tagId) {
        created_at
 FROM content
 WHERE tag_id = $1 
-ORDER BY region_id, likes desc;
+ORDER BY region_id, likes desc LIMIT 5;
   `,
       [tagId],
     );
@@ -237,6 +256,7 @@ async function addDislike(id) {
 
 module.exports = {
   getRegions,
+  getRegionById,
   getTags,
   getContents,
   getSubTags,
