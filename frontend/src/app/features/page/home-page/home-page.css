@@ -28,7 +28,7 @@
   width: 100%;
   max-width: 860px;
   text-align: center;
-  color: white;
+  color: #ffffff;
 }
 
 .mrd-home__hero-badge {
@@ -36,8 +36,8 @@
   margin-bottom: 1rem;
   padding: 0.45rem 0.85rem;
   border-radius: 999px;
-  background: color-mix(in srgb, white 12%, transparent);
-  border: 1px solid color-mix(in srgb, white 18%, transparent);
+  background: color-mix(in srgb, #ffffff 12%, transparent);
+  border: 1px solid color-mix(in srgb, #ffffff 18%, transparent);
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -46,8 +46,8 @@
   margin: 0;
   font-size: clamp(2.4rem, 5vw, 4.2rem);
   line-height: 1.05;
-  letter-spacing: -0.03em;
-  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-weight: 700;
 }
 
 .mrd-home__hero p {
@@ -55,7 +55,7 @@
   margin: 1rem auto 0;
   font-size: 1.05rem;
   line-height: 1.7;
-  color: color-mix(in srgb, white 88%, transparent);
+  color: color-mix(in srgb, #ffffff 88%, transparent);
 }
 
 .mrd-home__hero-stats {
@@ -74,12 +74,13 @@
 
 .mrd-home__hero-stats strong {
   font-size: 1.5rem;
-  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-weight: 700;
 }
 
 .mrd-home__hero-stats span {
   font-size: 0.9rem;
-  color: color-mix(in srgb, white 82%, transparent);
+  color: color-mix(in srgb, #ffffff 82%, transparent);
 }
 
 .mrd-home__section {
@@ -100,7 +101,8 @@
   margin: 0;
   font-size: 1.75rem;
   line-height: 1.15;
-  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-weight: 700;
   color: var(--p-surface-900);
 }
 
