@@ -3,6 +3,14 @@ const express = require(`express`);
 // Router Express che raccoglie tutti gli endpoint API principali dell'app.
 const router = express.Router();
 
+const multer = require('multer');
+
+// Configurazione dello storage in memoria RAM per Multer
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
+
 // Service che contiene le query e le operazioni sul database.
 const apiService = require('../services/ApiService');
 
@@ -167,6 +175,27 @@ router.post('/api/content/dislike', async (req, res) => {
     res.status(500).json({
       error: error.message,
     });
+  }
+});
+
+// ROUTE POST UPLOAD IMAGE
+router.post('/api/upload', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nessun file ricevuto.' });
+    }
+
+    // Chiamata al servizio per caricare su Supabase
+    const publicUrl = await apiService.uploadImageToSupabase(req.file);
+
+    if (!publicUrl) {
+      return res.status(500).json({ error: 'Caricamento fallito.' });
+    }
+
+    // Restituisce l'URL finale al frontend
+    res.status(200).json({ publicUrl: publicUrl });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
