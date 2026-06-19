@@ -87,7 +87,14 @@
         @for (member of team; track member.name) {
           <p-card class="about-card member-card">
             <div class="member-content">
-              <img class="member-avatar" [src]="member.avatarUrl" alt="" aria-hidden="true" />
+              <app-responsive-image
+                class="member-avatar"
+                [src]="member.avatarUrl"
+                alt=""
+                size="xs"
+                [fill]="true"
+                aria-hidden="true"
+              />
               <h3>{{ member.name }}</h3>
               <p>{{ member.role }}</p>
               <div class="social-actions" aria-label="Profili social">

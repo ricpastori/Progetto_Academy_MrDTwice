@@ -1,11 +1,13 @@
 <p-card styleClass="region-card" [attr.aria-label]="card().name">
   <ng-template #header>
-    <img
+    <app-responsive-image
       class="region-image"
       [class.region-image-placeholder]="isPlaceholderImage()"
       [src]="imageSrc()"
       [alt]="card().name"
-      (error)="useFallbackImage()"
+      size="lg"
+      [fill]="true"
+      (imageError)="useFallbackImage()"
     />
   </ng-template>
 

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CardModule } from 'primeng/card';
 
+import { ResponsiveImage } from '../../component/responsive-image/responsive-image';
+
 type PhosphorIconClass = `ph ph-${string}`;
 
 interface AboutStat {
@@ -25,7 +27,7 @@ interface TeamMember {
 
 @Component({
   selector: 'app-about-page',
-  imports: [CardModule],
+  imports: [CardModule, ResponsiveImage],
   templateUrl: './about-page.html',
   styleUrl: './about-page.css',
 })
@@ -67,28 +69,28 @@ export class AboutPage {
 
   protected readonly team: readonly TeamMember[] = [
     {
-      avatarUrl: '/images/about/avatar_davide_braghi.png',
-      name: 'Davide Draghi',
+      avatarUrl: '/images/origin/about/avatar_davide_braghi.png',
+      name: 'Davide Braghi',
       role: 'Co-founder & Explorer',
       githubUrl: 'https://github.com/Dade1991',
       linkedinUrl: 'https://www.linkedin.com/in/davide-braghi-1991-pc/',
     },
     {
-      avatarUrl: '/images/about/avatar_davide_donnarumma.png',
+      avatarUrl: '/images/origin/about/avatar_davide_donnarumma.png',
       name: 'Davide Donnarumma',
       role: 'Lead Developer',
       githubUrl: 'https://github.com/Davide-Donnarumma',
       linkedinUrl: 'https://www.linkedin.com/in/davide-donnarumma-5403611bb/',
     },
     {
-      avatarUrl: '/images/about/avatar_marianna_masala.png',
+      avatarUrl: '/images/origin/about/avatar_marianna_masala.png',
       name: 'Marianna Masala',
       role: 'Creative Director',
       githubUrl: 'https://github.com/Marienne-ma',
       linkedinUrl: 'https://www.linkedin.com/in/marianna-masala-a06b74292/',
     },
     {
-      avatarUrl: '/images/about/avatar_riccardo_pastori.png',
+      avatarUrl: '/images/origin/about/avatar_riccardo_pastori.png',
       name: 'Riccardo Pastori',
       role: 'UX Engineer',
       githubUrl: 'https://github.com/ricpastori',
