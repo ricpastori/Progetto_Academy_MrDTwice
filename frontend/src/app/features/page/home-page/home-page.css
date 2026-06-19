@@ -8,6 +8,7 @@
   width: 100%;
 }
 
+/* ── Hero Section ────────────────────────────────────────────────────────────── */
 .mrd-home__hero {
   position: relative;
   min-height: 420px;
@@ -83,6 +84,9 @@
   color: color-mix(in srgb, #ffffff 82%, transparent);
 }
 
+/* ── MAIN CONTAINER ───────────────────────────────────────────────────────────────── */
+
+/* ── SECTION (Regions) ────────────────────────────────────────────────────────────── */
 .mrd-home__section {
   max-width: 1200px;
   margin-inline: auto;
@@ -112,6 +116,53 @@
   color: var(--p-surface-500);
 }
 
+/* ── Regole importate da CardRegion ───────────────────────────────────────────────── */
+
+/* Override locale del componente condiviso per copiare il mockup regions.png. */
+:host ::ng-deep .mrd-home__regions-grid app-card-region .region-card {
+  border-radius: 0.875rem;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+}
+
+/* ── Layer su img ────────────────────────────────────────────────────────────── */
+:host ::ng-deep .mrd-home__regions-grid app-card-region .region-card::after {
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.56)),
+    linear-gradient(90deg, rgb(0 0 0 / 0.36), transparent 72%);
+}
+
+/* ── Disposizione Titoli & Sottotitoli ───────────────────────────────────────── */
+:host ::ng-deep .mrd-home__regions-grid app-card-region .region-content {
+  align-items: end;
+  gap: 0.75rem;
+  padding: 0 1.25rem 1rem;
+}
+
+/* ── Titoli ──────────────────────────────────────────────────────────────────── */
+:host ::ng-deep .mrd-home__regions-grid app-card-region h4 {
+  font-size: 1rem;
+  line-height: 1.05;
+}
+
+/* ── Sottotitoli ─────────────────────────────────────────────────────────────── */
+:host ::ng-deep .mrd-home__regions-grid app-card-region p {
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+/* ── Pills ───────────────────────────────────────────────────────────────────── */
+:host ::ng-deep .mrd-home__regions-grid app-card-region .places-badge.p-tag {
+  border-radius: 0.35rem;
+  padding: 0.28rem 0.45rem;
+  color: var(--p-primary-color, #7c3aed);
+  font-weight: 700;
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+/* ── SECTION (Content) ───────────────────────────────────────────────────────── */
 .mrd-home__regions-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -130,6 +181,7 @@
   margin-top: 1.5rem;
 }
 
+/* ── Button per tutte le Regioni ─────────────────────────────────────────────── */
 .mrd-home__ghost-link {
   display: inline-flex;
   align-items: center;
@@ -153,6 +205,7 @@
   }
 }
 
+/* ── MediaQuery (mobile) ─────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .mrd-home__regions-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
