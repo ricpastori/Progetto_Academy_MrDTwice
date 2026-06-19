@@ -1,21 +1,23 @@
 const express = require(`express`);
 
+// Router Express che raccoglie tutti gli endpoint API principali dell'app.
 const router = express.Router();
 
+// Service che contiene le query e le operazioni sul database.
 const apiService = require('../services/ApiService');
 
-//GET REGIONS
+// GET /api/regions
+// Restituisce l'elenco completo delle regioni.
 router.get(`/api/region`, async (req, res) => {
   try {
-
     let region;
 
     const { regionId } = req.query;
 
     if (regionId) {
-       region = await apiService.getRegionById(regionId);
+      region = await apiService.getRegionById(regionId);
     } else {
-    region = await apiService.getRegions();
+      region = await apiService.getRegions();
     }
 
     res.status(200).json(region);
@@ -24,7 +26,18 @@ router.get(`/api/region`, async (req, res) => {
   }
 });
 
-//GET TAGS
+// GET /api/regions/contents-count
+// Restituisce per ogni regione il numero di contenuti collegati.
+router.get('/api/region/contents-count', async (req, res) => {
+  const { regionId } = req.query;
+
+  const content = await apiService.getContentsCountByRegion(regionId);
+
+  res.status(200).json(content);
+});
+
+// GET /api/tags
+// Restituisce tutti i tag usati per classificare i contenuti.
 router.get(`/api/tag`, async (req, res) => {
   try {
     const tags = await apiService.getTags();
@@ -35,7 +48,10 @@ router.get(`/api/tag`, async (req, res) => {
   }
 });
 
-//GET VARI CONTENT
+// GET /api/content
+// Restituisce i contenuti, eventualmente filtrati tramite query string:
+// - regionId: filtra per regione
+// - tagId: filtra per tag, se presente insieme a regionId
 router.get('/api/content', async (req, res) => {
   try {
     let content;
@@ -60,14 +76,18 @@ router.get('/api/content', async (req, res) => {
   }
 });
 
+// GET /api/content/by-tag/latest-by-region
+// Endpoint dedicato ai dati "latest by region" richiesti tramite tagId.
 router.get('/api/content/by-tag/latest-by-region', async (req, res) => {
   const { tagId } = req.query;
 
-  const content = await apiService.getLatestContentByRegionByTag(tagId);
+  const content = await apiService.getContentsCountByRegion(tagId);
 
   res.status(200).json(content);
 });
 
+// GET /api/content/by-tag/top-liked-by-region
+// Restituisce, per ogni regione, il contenuto con più like filtrato per tagId.
 router.get('/api/content/by-tag/top-liked-by-region', async (req, res) => {
   const { tagId } = req.query;
 
@@ -76,7 +96,8 @@ router.get('/api/content/by-tag/top-liked-by-region', async (req, res) => {
   res.status(200).json(content);
 });
 
-//GET SUB_TAGS
+// GET /api/sub-tags
+// Restituisce tutti i sotto-tag disponibili.
 router.get(`/api/sub-tag`, async (req, res) => {
   try {
     const subTags = await apiService.getSubTags();
@@ -87,7 +108,8 @@ router.get(`/api/sub-tag`, async (req, res) => {
   }
 });
 
-//POST INSERT CONTENT
+// POST /api/content
+// Crea un nuovo contenuto usando i dati inviati nel body della richiesta.
 router.post(`/api/content`, async (req, res) => {
   try {
     const content = await apiService.createContent(req.body);
@@ -100,7 +122,8 @@ router.post(`/api/content`, async (req, res) => {
   }
 });
 
-//POST LIKE DISLIKE CONTENT
+// POST /api/content/like
+// Incrementa i like del contenuto indicato tramite query string id.
 router.post('/api/content/like', async (req, res) => {
   try {
     const { id } = req.query;
@@ -115,6 +138,8 @@ router.post('/api/content/like', async (req, res) => {
   }
 });
 
+// POST /api/content/dislike
+// Incrementa i dislike del contenuto indicato tramite query string id.
 router.post('/api/content/dislike', async (req, res) => {
   try {
     const { id } = req.query;
@@ -129,4 +154,5 @@ router.post('/api/content/dislike', async (req, res) => {
   }
 });
 
+// Esporta il router per montarlo nell'app Express principale.
 module.exports = router;
