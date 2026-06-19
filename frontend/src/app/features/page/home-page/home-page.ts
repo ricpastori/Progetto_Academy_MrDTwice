@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -12,21 +12,28 @@ import { TagService } from '../../../services/tag-service';
 
 @Component({
   selector: 'app-home-page',
+
   imports: [RouterLink, ButtonModule, CardRegion, CardContentComponent],
+
   templateUrl: './home-page.html',
+
   styleUrl: './home-page.css',
 })
 export class HomePage implements OnInit {
   protected readonly regionService = inject(RegionService);
+
   protected readonly contentService = inject(ContentService);
+
   protected readonly subTagService = inject(SubTagService);
+
   protected readonly tagService = inject(TagService);
-  private cdr = inject(ChangeDetectorRef);
 
   protected readonly regions = this.regionService.regions;
+
   protected readonly subTags = this.subTagService.subTags;
 
   protected recentPosts: Content[] = [];
+
   protected topRatedPosts: Content[] = [];
 
   ngOnInit(): void {
@@ -35,34 +42,42 @@ export class HomePage implements OnInit {
 
   protected loadHomePageData(): void {
     this.regionService.getRegions();
-    // Carica il numero di contenuti per regione usato dalle card.
+
     this.regionService.getRegionsContentsCount();
+
     this.subTagService.getSubTags();
+
     this.tagService.getTags();
 
-    // ID del tag da usare per filtrare i contenuti della homepage
-    // Qui è hardcodato a '1', ma in futuro potrebbe arrivare da costante/config/backend
-    const homepageTagId = '1';
+    this.contentService
+      .getLatestContentByRegion()
 
-    this.contentService.getLatestContentByRegionByTag(homepageTagId).subscribe({
-      next: (data) => {
-        this.recentPosts = data.slice(0, 4);
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+      .subscribe({
+        next: (data: Content[]) => {
+          console.log('RECENTI:', data);
 
-    this.contentService.getMostLikedContentByRegionByTag(homepageTagId).subscribe({
-      next: (data) => {
-        this.topRatedPosts = data.slice(0, 4);
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+          this.recentPosts = data.slice(0, 5);
+        },
+
+        error: (error) => {
+          console.error('Errore caricamento recenti', error);
+        },
+      });
+
+    this.contentService
+      .getMostLikedContentByRegion()
+
+      .subscribe({
+        next: (data: Content[]) => {
+          console.log('PIU LIKE:', data);
+
+          this.topRatedPosts = data.slice(0, 5);
+        },
+
+        error: (error) => {
+          console.error('Errore caricamento like', error);
+        },
+      });
   }
 
   protected getFeaturedRegions(): Region[] {
@@ -70,14 +85,15 @@ export class HomePage implements OnInit {
   }
 
   protected getPlacesCount(region: Region): number {
-    // Il service gestisce il fallback a 0 se il conteggio non è disponibile.
     return this.regionService.getRegionContentsCount(region.id);
   }
 
   protected getRegionCity(region: Region): string {
     const regionSource = region as Region & {
       city?: string;
+
       capital?: string;
+
       featuredCity?: string;
     };
 
@@ -86,7 +102,9 @@ export class HomePage implements OnInit {
 
   protected getSubTagForContent(content: Content): SubTag {
     return (
-      this.subTags().find((subTag) => subTag.id === content.sub_tag_id) ?? {
+      this.subTags()
+
+        .find((subTag) => String(subTag.id) === String(content.sub_tag_id)) ?? {
         id: '',
         tag_id: '',
         name: 'Categoria',

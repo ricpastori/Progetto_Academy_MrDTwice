@@ -22,7 +22,7 @@ async function getRegions() {
   try {
     const { rows } = await pool.query(`
       SELECT *
-      FROM regions
+      FROM public.regions
       ORDER BY name
     `);
 
@@ -39,7 +39,7 @@ async function getRegionById(id) {
     const { rows } = await pool.query(
       `
       SELECT *
-      FROM regions
+      FROM public.regions
       WHERE id = $1
   `,
       [id],
@@ -57,7 +57,7 @@ async function getTags() {
   try {
     const { rows } = await pool.query(`
       SELECT *
-      FROM tags
+      FROM public.tags
     `);
 
     return rows;
@@ -72,7 +72,7 @@ async function getContents() {
   try {
     const { rows } = await pool.query(`
       SELECT *
-      FROM content
+      FROM public.content
     `);
 
     return rows;
@@ -91,7 +91,7 @@ async function getContentsCountByRegion() {
       SELECT regions.id,
         COALESCE(COUNT(content.id), 0)::int AS count
       FROM public.regions
-      LEFT JOIN public.content ON content.region_id = regions.id
+      LEFT JOIN public.content ON public.content.region_id = regions.id
       GROUP BY regions.id, regions.name;
       `,
     );
@@ -110,7 +110,7 @@ async function getContentsByRegion(regionId) {
     const { rows } = await pool.query(
       `
       SELECT *
-      FROM content
+      FROM public.content
       WHERE region_id = $1
   `,
       [regionId],
@@ -129,7 +129,7 @@ async function getContentsByRegionAndTag(regionId, tagId) {
     const { rows } = await pool.query(
       `
       SELECT *
-      FROM content
+      FROM public.content
       WHERE region_id = $1 AND tag_id = $2
   `,
       [regionId, tagId],
@@ -148,7 +148,7 @@ async function getSubTags() {
     const { rows } = await pool.query(
       `
       SELECT *
-      FROM sub_tags
+      FROM public.sub_tags
   `,
     );
 
@@ -161,49 +161,69 @@ async function getSubTags() {
 
 // Per ogni regione restituisce il contenuto più recente associato al tag indicato.
 // DISTINCT ON sceglie una sola riga per region_id dopo l'ordinamento per data.
-async function getLatestContentByRegionByTag(tagId) {
+async function getLatestContentByRegion() {
   try {
     const { rows } = await pool.query(
       `
-      SELECT DISTINCT ON (region_id)
-       region_id, 
-       place,
-       created_at
-        FROM content
-        WHERE tag_id = $1 
-        ORDER BY region_id, created_at desc  LIMIT 5;
-  `,
-      [tagId],
+      SELECT *
+FROM (
+    SELECT DISTINCT ON (region_id)
+        id,
+        region_id,
+        tag_id,
+        sub_tag_id,
+        city,
+        place,
+        image_url,
+        description,
+        likes,
+        dislikes,
+        created_at
+    FROM public.content
+    WHERE tag_id = 1
+    ORDER BY region_id, created_at DESC
+) AS latest
+ORDER BY created_at DESC
+LIMIT 5;
+      `,
     );
 
     return rows;
   } catch (error) {
     console.error(error);
+
     throw error;
   }
 }
 
 // Per ogni regione restituisce il contenuto con più like associato al tag indicato.
 // DISTINCT ON sceglie una sola riga per region_id dopo l'ordinamento per like.
-async function getMostLikedContentByRegionByTag(tagId) {
+async function getMostLikedContentByRegion() {
   try {
     const { rows } = await pool.query(
       `
       SELECT DISTINCT ON (region_id)
-		likes,
-       region_id, 
-       place,
-       created_at
-FROM content
-WHERE tag_id = $1 
-ORDER BY region_id, likes desc LIMIT 5;
-  `,
-      [tagId],
+    id,
+    region_id,
+    tag_id,
+    sub_tag_id,
+    city,
+    place,
+    image_url,
+    description,
+    likes,
+    dislikes,
+    created_at
+FROM public.content
+ORDER BY region_id, likes DESC;
+
+      `,
     );
 
     return rows;
   } catch (error) {
     console.error(error);
+
     throw error;
   }
 }
@@ -215,7 +235,7 @@ async function createContent(data) {
 
     const result = await pool.query(
       `
-      INSERT INTO content
+      INSERT INTO public.content
       (
         region_id,
         tag_id,
@@ -248,7 +268,7 @@ async function addLike(id) {
   try {
     const { rows } = await pool.query(
       `
-      UPDATE content
+      UPDATE public.content
       SET likes = likes + 1
       WHERE id = $1
       RETURNING *
@@ -270,7 +290,7 @@ async function addDislike(id) {
   try {
     const { rows } = await pool.query(
       `
-      UPDATE content
+      UPDATE public.content
       SET dislikes = dislikes + 1
       WHERE id = $1
       RETURNING *
@@ -323,8 +343,8 @@ module.exports = {
   getContentsByRegion,
   getContentsCountByRegion,
   getContentsByRegionAndTag,
-  getLatestContentByRegionByTag,
-  getMostLikedContentByRegionByTag,
+  getLatestContentByRegion,
+  getMostLikedContentByRegion,
   createContent,
   addLike,
   addDislike,

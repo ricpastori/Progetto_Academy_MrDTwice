@@ -69,15 +69,12 @@ export class ContentService {
   }
 
 
-  getLatestContentByRegionByTag(tagId: string) {
+  getLatestContentByRegion() {
 
-    const params = new HttpParams()
-      .set('tagId', tagId);
 
     return this.http
       .get<Content[]>(
-        `${this.apiUrl}/by-tag/latest-by-region`,
-        { params }
+        `${this.apiUrl}/latest-by-region`
       )
       .pipe(
         catchError((err) => {
@@ -88,15 +85,12 @@ export class ContentService {
   }
 
 
-  getMostLikedContentByRegionByTag(tagId: string) {
+  getMostLikedContentByRegion() {
 
-    const params = new HttpParams()
-      .set('tagId', tagId);
 
     return this.http
       .get<Content[]>(
-        `${this.apiUrl}/by-tag/top-liked-by-region`,
-        { params }
+        `${this.apiUrl}/top-liked-by-region`
       )
       .pipe(
         catchError((err) => {

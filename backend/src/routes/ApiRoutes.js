@@ -84,22 +84,20 @@ router.get('/api/content', async (req, res) => {
   }
 });
 
-// GET /api/content/by-tag/latest-by-region
-// Endpoint dedicato ai dati "latest by region" richiesti tramite tagId.
-router.get('/api/content/by-tag/latest-by-region', async (req, res) => {
-  const { tagId } = req.query;
 
-  const content = await apiService.getContentsCountByRegion(tagId);
+// GET /api/content/by-tag/top-liked-by-region
+// Restituisce, per ogni regione, il contenuto con più like filtrato per tagId.
+router.get('/api/content/top-liked-by-region', async (req, res) => {
+
+  const content = await apiService.getMostLikedContentByRegion();
 
   res.status(200).json(content);
 });
 
-// GET /api/content/by-tag/top-liked-by-region
-// Restituisce, per ogni regione, il contenuto con più like filtrato per tagId.
-router.get('/api/content/by-tag/top-liked-by-region', async (req, res) => {
-  const { tagId } = req.query;
 
-  const content = await apiService.getMostLikedContentByRegionByTag(tagId);
+router.get('/api/content/latest-by-region', async (req, res) => {
+
+  const content = await apiService.getLatestContentByRegion();
 
   res.status(200).json(content);
 });

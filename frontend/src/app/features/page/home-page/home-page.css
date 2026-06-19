@@ -9,6 +9,7 @@
 }
 
 /* ── Hero Section ────────────────────────────────────────────────────────────── */
+
 .mrd-home__hero {
   position: relative;
   min-height: 420px;
@@ -84,9 +85,8 @@
   color: color-mix(in srgb, #ffffff 82%, transparent);
 }
 
-/* ── MAIN CONTAINER ───────────────────────────────────────────────────────────────── */
+/* ── SECTION ────────────────────────────────────────────────────────────── */
 
-/* ── SECTION (Regions) ────────────────────────────────────────────────────────────── */
 .mrd-home__section {
   max-width: 1200px;
   margin-inline: auto;
@@ -116,83 +116,125 @@
   color: var(--p-surface-500);
 }
 
-/* ── Regole importate da CardRegion ───────────────────────────────────────────────── */
+/* ── CARD REGION SOLO HOME ────────────────────────────────────────────── */
 
-/* Override locale del componente condiviso per copiare il mockup regions.png. */
 :host ::ng-deep .mrd-home__regions-grid app-card-region .region-card {
   border-radius: 0.875rem;
+
   aspect-ratio: 16 / 9;
+
   min-height: 0;
 }
 
-/* ── Layer su img ────────────────────────────────────────────────────────────── */
 :host ::ng-deep .mrd-home__regions-grid app-card-region .region-card::after {
   background:
     linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.56)),
     linear-gradient(90deg, rgb(0 0 0 / 0.36), transparent 72%);
 }
 
-/* ── Disposizione Titoli & Sottotitoli ───────────────────────────────────────── */
 :host ::ng-deep .mrd-home__regions-grid app-card-region .region-content {
   align-items: end;
+
   gap: 0.75rem;
+
   padding: 0 1.25rem 1rem;
 }
 
-/* ── Titoli ──────────────────────────────────────────────────────────────────── */
 :host ::ng-deep .mrd-home__regions-grid app-card-region h4 {
   font-size: 1rem;
+
   line-height: 1.05;
 }
 
-/* ── Sottotitoli ─────────────────────────────────────────────────────────────── */
 :host ::ng-deep .mrd-home__regions-grid app-card-region p {
   margin-top: 0.25rem;
+
   font-size: 0.78rem;
+
   line-height: 1.2;
 }
 
-/* ── Pills ───────────────────────────────────────────────────────────────────── */
 :host ::ng-deep .mrd-home__regions-grid app-card-region .places-badge.p-tag {
   border-radius: 0.35rem;
+
   padding: 0.28rem 0.45rem;
+
   color: var(--p-primary-color, #7c3aed);
+
   font-weight: 700;
+
   font-size: 0.72rem;
+
   line-height: 1;
 }
 
-/* ── SECTION (Content) ───────────────────────────────────────────────────────── */
+/* ── GRID ────────────────────────────────────────────────────────────── */
+
 .mrd-home__regions-grid {
   display: grid;
+
   grid-template-columns: repeat(3, minmax(0, 1fr));
+
   gap: 1.25rem;
 }
 
-.mrd-home__content-grid {
+/* CARD CONTENT SOLO in HOME */
+
+:host ::ng-deep .mrd-home__content-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
   gap: 1.25rem;
+
+  align-items: stretch;
+}
+
+:host ::ng-deep .mrd-home__content-grid app-card-content-component {
+  display: block;
+
+  height: 100%;
+}
+
+:host ::ng-deep .mrd-home__content-grid .card-container {
+  height: 100%;
+}
+
+:host ::ng-deep .mrd-home__content-grid .p-card {
+  height: 100%;
 }
 
 .mrd-home__section-action {
   display: flex;
+
   justify-content: center;
+
   margin-top: 1.5rem;
 }
 
-/* ── Button per tutte le Regioni ─────────────────────────────────────────────── */
+/* ── BUTTON ────────────────────────────────────────────────────────────── */
+
 .mrd-home__ghost-link {
   display: inline-flex;
+
   align-items: center;
+
   gap: 0.45rem;
+
   text-decoration: none;
+
   color: var(--p-surface-700);
+
   border: 1px solid var(--p-surface-300);
+
   border-radius: 999px;
+
   padding: 0.8rem 1.15rem;
+
   font-size: 0.95rem;
+
   font-weight: 600;
+
   transition:
     color 180ms ease,
     border-color 180ms ease,
@@ -200,18 +242,21 @@
 
   &:hover {
     color: var(--p-primary-color);
+
     border-color: color-mix(in srgb, var(--p-primary-color) 35%, var(--p-surface-300));
+
     background: color-mix(in srgb, var(--p-primary-color) 6%, transparent);
   }
 }
 
-/* ── MediaQuery (mobile) ─────────────────────────────────────────────────────── */
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+
 @media (max-width: 1024px) {
   .mrd-home__regions-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .mrd-home__content-grid {
+  :host ::ng-deep .mrd-home__content-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -219,6 +264,7 @@
 @media (max-width: 640px) {
   .mrd-home__hero {
     min-height: 360px;
+
     padding: 3rem 1rem;
   }
 
@@ -235,7 +281,7 @@
   }
 
   .mrd-home__regions-grid,
-  .mrd-home__content-grid {
+  :host ::ng-deep .mrd-home__content-grid {
     grid-template-columns: 1fr;
   }
 

@@ -1,8 +1,9 @@
 <section class="mrd-home">
-  <!-- Hero Section -->
+  <!-- HERO -->
+
   <section class="mrd-home__hero">
     <div class="mrd-home__hero-overlay">
-      <span class="mrd-home__hero-badge">Community italiana di viaggiatori</span>
+      <span class="mrd-home__hero-badge"> Community italiana di viaggiatori </span>
 
       <h1>Dove vuoi andare?</h1>
 
@@ -10,25 +11,32 @@
 
       <div class="mrd-home__hero-stats">
         <div>
-          <strong>10.000+</strong>
-          <span>Luoghi</span>
+          <strong> 10.000+ </strong>
+
+          <span> Luoghi </span>
         </div>
+
         <div>
-          <strong>20</strong>
-          <span>Regioni</span>
+          <strong> 20 </strong>
+
+          <span> Regioni </span>
         </div>
+
         <div>
-          <strong>50k+</strong>
-          <span>Recensioni</span>
+          <strong> 50k+ </strong>
+
+          <span> Recensioni </span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Esplora per regione SECTION (Regions) -->
+  <!-- REGIONI -->
+
   <section class="mrd-home__section">
     <div class="mrd-home__section-head">
       <h2>Esplora per regione</h2>
+
       <p>Scegli una regione e inizia la scoperta</p>
     </div>
 
@@ -42,40 +50,48 @@
       }
     </div>
 
-    <!-- Button per accedere alle Regioni -->
     <div class="mrd-home__section-action">
       <a routerLink="/regioni" class="mrd-home__ghost-link">
         Vedi tutte le regioni
+
         <i class="ph ph-arrow-right"></i>
       </a>
     </div>
   </section>
 
-  <!-- Post recenti SECTION (Content) -->
+  <!-- POST RECENTI -->
+
   <section class="mrd-home__section">
     <div class="mrd-home__section-head">
-      <h2>Post recenti</h2>
+      <h2>Post recenti per regione</h2>
+
       <p>Le ultime scoperte della community</p>
     </div>
 
-    <div class="mrd-home__content-grid">
-      @for (content of recentPosts; track content.id) {
-        <app-card-content-component [content]="content" [subTag]="getSubTagForContent(content)" />
-      }
-    </div>
+    @if (recentPosts.length) {
+      <div class="mrd-home__content-grid">
+        @for (content of recentPosts; track content.id) {
+          <app-card-content-component [content]="content" [subTag]="getSubTagForContent(content)" />
+        }
+      </div>
+    }
   </section>
 
-  <!-- I più apprezzati SECTION (Content) -->
+  <!-- PIÙ APPREZZATI -->
+
   <section class="mrd-home__section">
     <div class="mrd-home__section-head">
-      <h2>I più apprezzati</h2>
+      <h2>I più apprezzati per regione</h2>
+
       <p>I post con più like dalla community</p>
     </div>
 
-    <div class="mrd-home__content-grid">
-      @for (content of topRatedPosts; track content.id) {
-        <app-card-content-component [content]="content" [subTag]="getSubTagForContent(content)" />
-      }
-    </div>
+    @if (topRatedPosts.length) {
+      <div class="mrd-home__content-grid">
+        @for (content of topRatedPosts; track content.id) {
+          <app-card-content-component [content]="content" [subTag]="getSubTagForContent(content)" />
+        }
+      </div>
+    }
   </section>
 </section>

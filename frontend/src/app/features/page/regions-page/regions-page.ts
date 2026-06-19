@@ -30,6 +30,7 @@ export class RegionsPage {
 
   protected getPlacesCount(region: Region): number {
     // Il service gestisce il fallback a 0 se il conteggio non è disponibile.
+    console.log("aaa")
     return this.regionService.getRegionContentsCount(region.id);
   }
 }
