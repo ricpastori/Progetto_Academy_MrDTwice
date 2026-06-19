@@ -215,7 +215,7 @@ export class RegionDetailPage implements OnInit {
 
 
     this.router.navigate(
-      ['/region-tag'],
+      ['/regioni/regione-dettaglio/regione-tags'],
       {
         queryParams:{
           regionId:this.selectedRegionId(),

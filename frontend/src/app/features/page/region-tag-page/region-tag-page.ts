@@ -9,11 +9,17 @@ import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-region-tag-page',
-  imports: [CardContentComponent, FormsModule, SelectModule],
+  imports: [
+    CardContentComponent,
+    FormsModule,
+    SelectModule
+  ],
   templateUrl: './region-tag-page.html',
   styleUrl: './region-tag-page.css',
 })
 export class RegionTagPage implements OnInit {
+
+
   private route = inject(ActivatedRoute);
 
   private contentService = inject(ContentService);
@@ -22,102 +28,308 @@ export class RegionTagPage implements OnInit {
 
   private tagService = inject(TagService);
 
+
+
   content = signal<Content[]>([]);
 
+
   subTags = this.subTagService.subTags;
+
   tags = this.tagService.tags;
+
+
 
   searchText = '';
 
   selectedCity = '';
+
   selectedTag = '';
 
   sortType = 'popular';
 
+
+
   selectedSubTags = signal<string[]>([]);
+
+
 
   cities: string[] = [];
 
+
+
+  selectedTagId = signal<string>('');
+
+
+
+
   ngOnInit() {
-    this.route.queryParamMap.subscribe((params) => {
-      const regionId = params.get('regionId');
 
-      if (!regionId) return;
-
-      this.contentService.getContentByRegion(regionId).subscribe((data) => {
-        this.content.set(data);
-
-        this.loadCities(data);
-      });
-    });
 
     this.subTagService.getSubTags();
+
+
+
+    this.route.queryParamMap.subscribe(params => {
+
+
+      const regionId = params.get('regionId');
+
+      const tagId = params.get('tagId');
+
+
+
+      if (!regionId || !tagId) return;
+
+
+
+      this.selectedTagId.set(tagId);
+
+      this.selectedTag = tagId;
+
+
+
+      this.contentService
+        .getContentByRegionAndTag(regionId, tagId)
+        .subscribe(data => {
+
+
+          this.content.set(data);
+
+
+          this.loadCities(data);
+
+
+        });
+
+
+    });
+
+
   }
 
-  getSubTag(id: string) {
-    return this.subTags().find((tag) => tag.id === id);
+
+
+
+
+  getSubTag(id:string) {
+
+
+    return this.subTags()
+      .find(tag => tag.id === id);
+
   }
 
-  private loadCities(data: Content[]) {
-    this.cities = ['Tutte le città', ...new Set(data.map((item) => item.city))];
+
+
+
+
+  /*
+    restituisce solo i subtag
+    del tag arrivato da query params
+  */
+
+  filteredSubTags = () => {
+
+
+    const tagId = this.selectedTagId();
+
+
+
+    if(!tagId){
+
+      return [];
+
+    }
+
+
+
+    return this.subTags()
+      .filter(x =>
+        String(x.tag_id) === String(tagId)
+      );
+
+
+  };
+
+
+
+
+
+  private loadCities(data:Content[]) {
+
+
+    this.cities = [
+      'Tutte le città',
+      ...new Set(
+        data.map(item => item.city)
+      )
+    ];
+
+
   }
+
+
+
+
+
 
   filteredContent = () => {
+
+
     let data = [...this.content()];
 
-    // ricerca nome luogo
 
-    if (this.searchText) {
-      data = data.filter((item) =>
-        item.place.toLowerCase().includes(this.searchText.toLowerCase()),
+
+    // ricerca luogo
+
+    if(this.searchText){
+
+
+      data = data.filter(item =>
+        item.place
+          .toLowerCase()
+          .includes(
+            this.searchText.toLowerCase()
+          )
       );
+
+
     }
+
+
+
+
 
     // filtro città
 
-    if (this.selectedCity && this.selectedCity !== 'Tutte le città') {
-      data = data.filter((item) => item.city === this.selectedCity);
+    if(
+      this.selectedCity &&
+      this.selectedCity !== 'Tutte le città'
+    ){
+
+
+      data = data.filter(item =>
+        item.city === this.selectedCity
+      );
+
+
     }
 
-    // filtro sottotag
 
-    if (this.selectedSubTags().length) {
-      data = data.filter((item) => this.selectedSubTags().includes(item.sub_tag_id));
+
+
+
+    // filtro subtag
+
+    if(this.selectedSubTags().length){
+
+
+      data = data.filter(item =>
+        this.selectedSubTags()
+          .includes(item.sub_tag_id)
+      );
+
+
     }
 
-    // più recenti
 
-    if (this.sortType === 'recent') {
-      data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+
+
+    // recenti
+
+    if(this.sortType === 'recent'){
+
+
+      data.sort((a,b)=>
+
+        new Date(b.created_at).getTime()
+        -
+        new Date(a.created_at).getTime()
+
+      );
+
+
     }
+
+
+
+
+
+
 
     // popolari
-    if (this.sortType === 'popular') {
-      data.sort((a, b) => b.likes - b.dislikes - (a.likes - a.dislikes));
+
+    if(this.sortType === 'popular'){
+
+
+      data.sort((a,b)=>
+
+        (b.likes - b.dislikes)
+        -
+        (a.likes - a.dislikes)
+
+      );
+
+
     }
+
+
 
     return data;
+
+
   };
 
-  changeTag() {
+
+
+
+
+
+
+  changeTag(){
+
+
     this.selectedSubTags.set([]);
+
+
   }
 
-  filteredSubTags = () => {
-    if (!this.selectedTag) {
-      return this.subTags();
-    }
 
-    return this.subTags().filter((x) => String(x.tag_id) === String(this.selectedTag));
-  };
 
-  toggleSubTag(id: string) {
+
+
+
+  toggleSubTag(id:string){
+
+
     const current = this.selectedSubTags();
 
-    if (current.includes(id)) {
-      this.selectedSubTags.set(current.filter((x) => x !== id));
-    } else {
-      this.selectedSubTags.set([...current, id]);
+
+
+    if(current.includes(id)){
+
+
+      this.selectedSubTags.set(
+        current.filter(x => x !== id)
+      );
+
+
     }
+    else {
+
+
+      this.selectedSubTags.set([
+        ...current,
+        id
+      ]);
+
+
+    }
+
+
   }
+
+
+
 }
