@@ -1,6 +1,6 @@
 <section class="content-details">
   <div class="content-details__shell">
-    @if (isLoading) {
+    @if (isLoading()) {
       <div class="content-details__skeleton" aria-label="Caricamento dettaglio contenuto">
         <p-skeleton width="18rem" height="1rem" />
         <p-skeleton height="2.875rem" borderRadius="0.75rem" />
@@ -8,8 +8,8 @@
         <p-skeleton height="7.375rem" borderRadius="0.75rem" />
         <p-skeleton height="9.875rem" borderRadius="0.75rem" />
       </div>
-    } @else if (content; as contentData) {
-      <p-breadcrumb styleClass="content-details__breadcrumb" [model]="breadcrumbItems" />
+    } @else if (content(); as contentData) {
+      <p-breadcrumb styleClass="content-details__breadcrumb" [model]="breadcrumbItems()" />
 
       <p-card styleClass="content-details__location-card">
         <div class="content-details__location">
@@ -117,7 +117,7 @@
         variant="outlined"
         icon="ph ph-warning"
       >
-        {{ errorMessage }}
+        {{ errorMessage() }}
       </p-message>
     }
   </div>

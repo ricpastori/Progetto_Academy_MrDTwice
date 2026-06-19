@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MenuItem } from 'primeng/api';
@@ -36,10 +36,12 @@ export class ContentDetails implements OnInit {
   private readonly tagService = inject(TagService);
   private readonly subTagService = inject(SubTagService);
 
-  protected content: Content | null = null;
-  protected isLoading = true;
-  protected errorMessage = '';
-  protected breadcrumbItems: MenuItem[] = [{ label: 'Italia', routerLink: '/regioni' }];
+  protected readonly content = signal<Content | null>(null);
+  protected readonly isLoading = signal(true);
+  protected readonly errorMessage = signal('');
+  protected readonly breadcrumbItems = signal<MenuItem[]>([
+    { label: 'Italia', routerLink: '/regioni' },
+  ]);
 
   ngOnInit(): void {
     this.regionService.getRegions();
@@ -89,30 +91,33 @@ export class ContentDetails implements OnInit {
   }
 
   private loadContent(contentId: string | null): void {
-    this.content = null;
-    this.errorMessage = '';
+    this.content.set(null);
+    this.errorMessage.set('');
 
     if (!contentId) {
-      this.isLoading = false;
-      this.errorMessage = 'Nessun contenuto selezionato.';
+      this.isLoading.set(false);
+      this.errorMessage.set('Nessun contenuto selezionato.');
       return;
     }
 
-    this.isLoading = true;
+    this.isLoading.set(true);
 
     this.contentService.getContentById(contentId).subscribe({
       next: (content) => this.setContent(content),
       error: () => {
-        this.isLoading = false;
-        this.errorMessage = 'Contenuto non trovato.';
+        this.isLoading.set(false);
+        this.errorMessage.set('Contenuto non trovato.');
       },
     });
   }
 
   private setContent(content: Content): void {
-    this.content = content;
-    this.isLoading = false;
-    this.breadcrumbItems = [{ label: 'Italia', routerLink: '/regioni' }, { label: content.place }];
+    this.content.set(content);
+    this.isLoading.set(false);
+    this.breadcrumbItems.set([
+      { label: 'Italia', routerLink: '/regioni' },
+      { label: content.place },
+    ]);
   }
 }
 

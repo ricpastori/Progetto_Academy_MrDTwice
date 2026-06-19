@@ -54,6 +54,10 @@
   margin-bottom: 1rem;
 }
 
+:host ::ng-deep .content-details__location-card .p-card-body {
+  padding: 0 1rem;
+}
+
 :host ::ng-deep .content-details__hero-card.p-card,
 :host ::ng-deep .content-details__section-card.p-card {
   margin-top: 1rem;
@@ -152,8 +156,6 @@
 
 .content-details__section h2,
 .content-details__metadata dt {
-  color: var(--p-surface-500);
-  font-weight: 800;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -161,6 +163,8 @@
 
 .content-details__section h2 {
   margin: 0 0 1rem;
+  color: var(--p-surface-500);
+  font-weight: 800;
 }
 
 .content-details__section p {
@@ -179,6 +183,8 @@
 
 .content-details__metadata dt {
   margin-bottom: 0.35rem;
+  color: var(--p-surface-400);
+  font-weight: 600;
 }
 
 .content-details__metadata dd {
