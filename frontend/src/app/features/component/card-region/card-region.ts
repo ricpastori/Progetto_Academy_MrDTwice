@@ -3,28 +3,31 @@ import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 
 import { Region } from '../../../services/region-service';
+import { ResponsiveImage } from '../responsive-image/responsive-image';
 
 // Fallback unico per dati mancanti, incompleti o immagini non caricabili.
 const REGION_PLACEHOLDER = {
   name: 'Regione',
   description: 'Luoghi in arrivo',
-  image: '/images/placeholders/region_placeholder.svg',
+  image: '/images/origin/placeholders/region_placeholder.svg',
 } satisfies Pick<Region, 'name' | 'description' | 'image'>;
 
-const REGION_IMAGE_DIR = '/images/regions';
+const REGION_IMAGE_DIR = '/images/origin/regions';
 const REGION_IMAGE_EXTENSION = 'jpg';
 
 @Component({
   selector: 'app-card-region',
-  imports: [CardModule, TagModule],
+  imports: [CardModule, TagModule, ResponsiveImage],
   templateUrl: './card-region.html',
   styleUrl: './card-region.css',
 })
 export class CardRegion {
+  // Input ricevuti dalla pagina: possono essere null/parziali perché arrivano da API o stato asincrono.
   readonly region = input<Partial<Region> | null>();
   readonly city = input<string | null>('');
   readonly placesCount = input<number | null>(0);
 
+  // Oggetto "pulito" usato dal template: qui centralizziamo fallback e normalizzazione dei dati.
   protected readonly card = computed(() => {
     const region = this.region();
     const regionName = region?.name?.trim();
@@ -38,13 +41,15 @@ export class CardRegion {
     };
   });
 
+  // Se la pagina passa una città la mostriamo come sottotitolo, altrimenti usiamo la descrizione regione.
   protected readonly subtitle = computed(() => this.city()?.trim() || this.card().description);
 
-  // Si aggiorna quando cambia la regione, ma resta scrivibile per gestire l'errore immagine.
+  // Si riallinea quando cambia la regione, ma resta scrivibile per reagire agli errori immagine.
   protected readonly imageSrc = linkedSignal(() => this.card().image);
   protected readonly isPlaceholderImage = computed(
     () => this.imageSrc() === REGION_PLACEHOLDER.image,
   );
+  // Protegge il template da valori non numerici e gestisce singolare/plurale.
   protected readonly placesLabel = computed(() => {
     const count = Number(this.placesCount() ?? 0);
     const safeCount = Number.isFinite(count) ? Math.max(0, Math.trunc(count)) : 0;
@@ -55,6 +60,7 @@ export class CardRegion {
   protected useFallbackImage(): void {
     const localImage = this.card().localImage;
 
+    // Prima prova: se l'API ha fornito una URL rotta, proviamo l'immagine locale generata dallo slug.
     if (localImage && this.imageSrc() !== localImage) {
       this.imageSrc.set(localImage);
       return;
@@ -69,6 +75,8 @@ export class CardRegion {
   }
 
   private getLocalImageSrc(regionName: string | undefined): string | null {
+    // La convenzione degli asset è /images/origin/regions/nome-regione.jpg.
+    // Esempio: "Valle d'Aosta" diventa "valle-daosta.jpg".
     const slug = regionName
       ?.normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')

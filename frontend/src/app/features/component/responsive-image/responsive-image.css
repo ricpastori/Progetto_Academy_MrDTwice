@@ -1,0 +1,18 @@
+:host {
+  display: block;
+}
+
+picture,
+img {
+  display: block;
+  width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+.responsive-image-fill,
+.responsive-image-fill img {
+  height: 100%;
+}
