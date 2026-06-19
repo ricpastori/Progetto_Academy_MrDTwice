@@ -11,29 +11,36 @@ export const routes: Routes = [
   {
     path: '',
     component: HomePage,
+    data: { appShell: { tone: 'soft' } },
   },
   {
     path: 'chi-siamo',
     component: AboutPage,
+    data: { appShell: { tone: 'surface' } },
   },
   {
     path: 'regioni',
     component: RegionsPage,
+    data: { appShell: { tone: 'soft' } },
   },
   {
     path: 'regioni/regione-dettaglio',
     component: RegionDetailPage,
+    data: { appShell: { tone: 'soft' } },
   },
   {
     path: 'regioni/regione-dettaglio/regione-tags',
     component: RegionTagPage,
+    data: { appShell: { layout: 'fluid', tone: 'soft' } },
   },
   {
     path: 'content',
     component: ContentDetails,
+    data: { appShell: { tone: 'muted' } },
   },
   {
     path: '**',
     component: NotFoundPage,
+    data: { appShell: { tone: 'surface' } },
   },
 ];

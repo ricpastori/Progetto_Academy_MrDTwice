@@ -6,13 +6,12 @@
 
 .regions-page {
   background: var(--p-surface-50, #f8fafc);
-  padding: 2.35rem 1.5rem 4.75rem;
+  padding: 2.35rem 0 4.75rem;
   min-height: 100%;
 }
 
 .regions-shell {
-  margin: 0 auto;
-  width: min(100%, 65rem);
+  width: 100%;
 }
 
 .regions-heading {
@@ -172,7 +171,7 @@
 
 @media (max-width: 640px) {
   .regions-page {
-    padding: 2rem 1rem 3.5rem;
+    padding: 2rem 0 3.5rem;
   }
 
   .regions-grid {

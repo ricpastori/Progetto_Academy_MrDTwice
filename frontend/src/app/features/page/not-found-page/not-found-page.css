@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1.5rem 4rem;
+  padding: 3rem 0 4rem;
 }
 
 /* ── 404 HTTP Code ───────────────────────────────────────────────────────────── */
@@ -172,7 +172,7 @@
 /* ── MediaQuery (mobile) ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .mrd-not-found {
-    padding: 2.5rem 1.25rem 3rem;
+    padding: 2.5rem 0 3rem;
     align-items: flex-start;
   }
 

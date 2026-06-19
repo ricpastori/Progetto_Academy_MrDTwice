@@ -4,6 +4,7 @@
   min-height: 100dvh;
 }
 
-.app-main {
+app-shell {
+  display: flex;
   flex: 1;
 }

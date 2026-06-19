@@ -1,5 +1,5 @@
 <div class="page-container">
-  <header class="hero-section">
+  <header class="hero-section app-shell-full-bleed">
     @if (currentRegion(); as regionData) {
       <app-card-region [region]="regionData" [placesCount]="regionContents().length" />
     } @else if (isLoading()) {
@@ -29,15 +29,13 @@
                 {{ tag.name }}
               </h4>
 
-              <span >
+              <span>
                 {{ getCountForTag(tag.id) }}
                 luoghi
               </span>
             </div>
 
             <div class="category-actions">
-
-
               @if (getCountForTag(tag.id) > 0) {
                 <button class="arrow-link" type="button" (click)="onTagClick(tag.id)">
                   Vedi tutti →

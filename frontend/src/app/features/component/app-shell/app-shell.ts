@@ -1,0 +1,55 @@
+import { Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
+
+export const APP_SHELL_DATA_KEY = 'appShell';
+
+export type AppShellLayout = 'contained' | 'fluid';
+export type AppShellTone = 'surface' | 'soft' | 'muted';
+
+export interface AppShellConfig {
+  layout?: AppShellLayout;
+  tone?: AppShellTone;
+}
+
+const DEFAULT_CONFIG: Required<AppShellConfig> = {
+  layout: 'contained',
+  tone: 'soft',
+};
+
+@Component({
+  selector: 'app-shell',
+  imports: [RouterOutlet],
+  templateUrl: './app-shell.html',
+  styleUrl: './app-shell.css',
+})
+export class AppShell {
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+
+  protected readonly config = signal(DEFAULT_CONFIG);
+
+  constructor() {
+    this.updateConfig();
+
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => this.updateConfig());
+  }
+
+  private updateConfig(): void {
+    let activeRoute = this.activatedRoute;
+
+    while (activeRoute.firstChild) {
+      activeRoute = activeRoute.firstChild;
+    }
+
+    const routeConfig = activeRoute.snapshot.data[APP_SHELL_DATA_KEY] as AppShellConfig | undefined;
+
+    this.config.set({ ...DEFAULT_CONFIG, ...routeConfig });
+  }
+}

@@ -6,7 +6,6 @@
 
 .mrd-home {
   width: 100%;
-  overflow: hidden;
 }
 
 /* ── HERO ─────────────────────────────────────────────────────────────── */
@@ -101,9 +100,7 @@
 
 .mrd-home__section {
   width: 100%;
-  max-width: 72rem;
-  margin-inline: auto;
-  padding: 3rem 1.5rem 0;
+  padding: 3rem 0 0;
 }
 
 .mrd-home__section:last-child {
@@ -286,7 +283,7 @@
   }
 
   .mrd-home__section {
-    padding: 2.5rem 1rem 0;
+    padding: 2.5rem 0 0;
   }
 
   .mrd-home__regions-grid {

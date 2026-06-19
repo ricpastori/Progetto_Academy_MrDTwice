@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+}
+
+.app-shell {
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  flex: 1;
+  background: var(--p-surface-50);
+}
+
+.app-shell--surface {
+  background: var(--p-surface-0);
+}
+
+.app-shell--muted {
+  background: var(--p-surface-100);
+}
+
+.app-shell__content {
+  width: 100%;
+  max-width: 72rem;
+  min-height: 100%;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.app-shell--fluid .app-shell__content {
+  max-width: none;
+  padding-inline: 0;
+}
+
+/* Le hero possono uscire dal contenitore senza rinunciare ai margini nel resto della pagina. */
+:host ::ng-deep .app-shell-full-bleed {
+  width: 100vw;
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
+}
+
+@media (max-width: 640px) {
+  .app-shell__content {
+    padding-inline: 1rem;
+  }
+}

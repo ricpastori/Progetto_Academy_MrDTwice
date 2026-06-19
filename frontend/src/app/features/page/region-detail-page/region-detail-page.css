@@ -9,9 +9,9 @@
 .page-container {
   min-height: 100vh;
 
-  background: #fafafa;
+  background: var(--p-surface-50);
 
-  padding: 2rem clamp(1rem, 8vw, 13rem);
+  padding: 2rem 0;
 
   display: flex;
 
@@ -32,7 +32,6 @@
 
 :host ::ng-deep app-card-region {
   width: 100%;
-
 }
 
 /* CARD REGION SOLO QUI */
@@ -277,15 +276,9 @@
    RESPONSIVE
 ========================== */
 
-@media (max-width: 1024px) {
-  :host ::ng-deep app-card-region {
-    width: 90%;
-  }
-}
-
 @media (max-width: 768px) {
   .page-container {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 0;
   }
 
   :host ::ng-deep app-card-region {

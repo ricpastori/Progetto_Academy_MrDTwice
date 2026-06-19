@@ -10,9 +10,8 @@
 }
 
 .content-details__shell {
-  width: min(100%, 45rem);
-  margin-inline: auto;
-  padding: 1.75rem 1rem 6rem;
+  width: 100%;
+  padding: 1.75rem 0 6rem;
 }
 
 .content-details__skeleton {
@@ -167,11 +166,44 @@
   font-weight: 800;
 }
 
-.content-details__section p {
-  margin: 0;
+.content-details__description {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   color: var(--p-surface-700);
   font-size: 1rem;
   line-height: 1.7;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+:host ::ng-deep .content-details__description * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+:host ::ng-deep .content-details__description p {
+  margin: 0 0 0.75rem;
+}
+
+:host ::ng-deep .content-details__description > :last-child {
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .content-details__description img,
+:host ::ng-deep .content-details__description video,
+:host ::ng-deep .content-details__description iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+:host ::ng-deep .content-details__description pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
 }
 
 .content-details__metadata {
@@ -202,7 +234,7 @@
 
 @media (max-width: 640px) {
   .content-details__shell {
-    padding: 1.25rem 1rem 4rem;
+    padding: 1.25rem 0 4rem;
   }
 
   .content-details__hero-grid,
