@@ -1,26 +1,26 @@
 :host {
   display: block;
-  color: var(--p-text-color, #1f2937);
   background: var(--p-surface-0, #ffffff);
+  color: var(--p-text-color, #1f2937);
 }
 
 .about-page {
-  min-height: 100%;
   background: var(--p-surface-0, #ffffff);
+  min-height: 100%;
 }
 
 .about-hero {
   /* Cambia solo questo nome file per provare hero-2, hero-3 o hero-4. */
-  --about-hero-image: url('/images/about/hero-1.jpg');
+  --about-hero-image: url('/images/about/hero.jpg');
 
   display: grid;
-  min-height: clamp(24rem, 43vw, 32rem);
   place-items: center;
-  padding: clamp(4rem, 7vw, 6.5rem) 1.5rem;
-  text-align: center;
   background:
     linear-gradient(180deg, rgb(8 15 28 / 0.58), rgb(8 15 28 / 0.66)),
     var(--about-hero-image) center 42% / cover;
+  padding: clamp(4rem, 7vw, 6.5rem) 1.5rem;
+  min-height: clamp(24rem, 43vw, 32rem);
+  text-align: center;
 }
 
 .hero-copy {
@@ -52,33 +52,33 @@
 }
 
 .hero-copy p {
-  max-width: 43rem;
   margin: 1.25rem auto 0;
+  max-width: 43rem;
   color: rgb(255 255 255 / 0.72);
   font-size: clamp(1rem, 1.4vw, 1.16rem);
   line-height: 1.7;
 }
 
 .about-container {
-  width: min(calc(100% - 2rem), 58rem);
   margin: 0 auto;
   padding: clamp(3.5rem, 7vw, 5.5rem) 0 4rem;
+  width: min(calc(100% - 2rem), 58rem);
 }
 
 .story-section {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.75fr);
-  gap: clamp(2rem, 6vw, 5rem);
   align-items: start;
+  gap: clamp(2rem, 6vw, 5rem);
 }
 
 .section-eyebrow {
   margin: 0 0 0.85rem;
   color: var(--p-primary-color, #7c3aed);
-  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  font-size: 0.78rem;
   line-height: 1;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -108,8 +108,8 @@
 
 .story-copy blockquote {
   margin: 1.45rem 0 0;
-  padding-left: 1rem;
   border-left: 0.25rem solid var(--p-primary-color, #7c3aed);
+  padding-left: 1rem;
   color: var(--p-text-color, #1f2937);
   font-style: italic;
   font-weight: 700;
@@ -131,12 +131,12 @@
 
 .about-icon {
   display: grid;
-  width: 2.25rem;
-  height: 2.25rem;
   place-items: center;
   border-radius: 0.75rem;
-  color: var(--p-primary-color, #7c3aed);
   background: color-mix(in srgb, var(--p-primary-color, #7c3aed) 10%, transparent);
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--p-primary-color, #7c3aed);
 }
 
 .about-icon .ph,
@@ -180,8 +180,8 @@
 .value-content {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 1.1rem;
   align-items: start;
+  gap: 1.1rem;
 }
 
 .value-content h3,
@@ -229,38 +229,38 @@
 }
 
 .member-avatar {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--p-primary-color, #7c3aed) 11%, transparent);
   width: 4.1rem;
   height: 4.1rem;
-  border-radius: 999px;
   object-fit: cover;
-  background: color-mix(in srgb, var(--p-primary-color, #7c3aed) 11%, transparent);
 }
 
 .social-button {
   display: grid;
-  width: 2rem;
-  height: 2rem;
   place-items: center;
-  padding: 0;
+  cursor: pointer;
   border: 1px solid var(--p-content-border-color, #e5e7eb);
   border-radius: 0.5rem;
-  color: var(--p-text-color, #1f2937);
   background: var(--p-surface-0, #ffffff);
-  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  color: var(--p-text-color, #1f2937);
   text-decoration: none;
 }
 
 /* PrimeNG genera markup interno ai suoi componenti: ::ng-deep serve solo per rifinire questi contenitori. */
 :host ::ng-deep .about-card {
-  height: 100%;
+  box-shadow: none;
   border: 1px solid var(--p-content-border-color, #e5e7eb);
   border-radius: 0.75rem;
-  box-shadow: none;
+  height: 100%;
 }
 
 :host ::ng-deep .about-card .p-card-body {
-  height: 100%;
   padding: 1.35rem;
+  height: 100%;
 }
 
 :host ::ng-deep .about-card .p-card-content {
@@ -268,9 +268,9 @@
 }
 
 :host ::ng-deep .stat-card .p-card-body {
-  min-height: 8.6rem;
   display: grid;
   place-items: center;
+  min-height: 8.6rem;
 }
 
 :host ::ng-deep .member-card .p-card-body {
