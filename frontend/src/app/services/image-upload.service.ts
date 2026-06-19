@@ -10,7 +10,7 @@ export class ImageUploadService {
 
   constructor() {
     // Inserire le vere credenziali del progetto Supabase
-    const supabaseUrl = 'https://glmljicqclsxyiqkbxqb.supabase.co/rest/v1/';
+    const supabaseUrl = 'https://glmljicqclsxyiqkbxqb.supabase.co';
     const supabaseKey = 'sb_publishable_EmpKKlU__k2OatF_VT8nIg_kZjCzIuB';
     this.supabase = createClient(supabaseUrl, supabaseKey);
   }
