@@ -1,4 +1,10 @@
 const { Pool } = require('pg');
+const { createClient } = require('@supabase/supabase-js');
+const { v4: uuidv4 } = require('uuid');
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Pool di connessioni PostgreSQL usato da tutte le funzioni del service.
 // I valori arrivano dalle variabili d'ambiente configurate per il backend.
@@ -281,6 +287,32 @@ async function addDislike(id) {
   }
 }
 
+async function uploadImageToSupabase(file) {
+  try {
+    const fileExt = file.originalname.split('.').pop();
+    const fileName = `${uuidv4()}.${fileExt}`;
+    const filePath = `places/${fileName}`;
+
+    const { error } = await supabase.storage.from('mrdtwice-images').upload(filePath, file.buffer, {
+      contentType: file.mimetype,
+      cacheControl: '3600',
+      upsert: false,
+    });
+
+    if (error) {
+      console.error('Errore storage Supabase:', error.message);
+      return null;
+    }
+
+    const { data } = supabase.storage.from('mrdtwice-images').getPublicUrl(filePath);
+
+    return data.publicUrl;
+  } catch (err) {
+    console.error("Eccezione durante l'upload:", err);
+    throw err;
+  }
+}
+
 // Esporta tutte le operazioni usate dalle routes API.
 module.exports = {
   getRegions,
@@ -296,4 +328,5 @@ module.exports = {
   createContent,
   addLike,
   addDislike,
+  uploadImageToSupabase,
 };
