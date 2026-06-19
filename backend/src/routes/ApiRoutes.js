@@ -102,6 +102,22 @@ router.get('/api/content/latest-by-region', async (req, res) => {
   res.status(200).json(content);
 });
 
+// GET /api/content/:id
+// Restituisce un singolo contenuto per la pagina dettaglio.
+router.get('/api/content/:id', async (req, res) => {
+  try {
+    const content = await apiService.getContentById(req.params.id);
+
+    if (!content) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    res.status(200).json(content);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // GET /api/sub-tags
 // Restituisce tutti i sotto-tag disponibili.
 router.get(`/api/sub-tag`, async (req, res) => {

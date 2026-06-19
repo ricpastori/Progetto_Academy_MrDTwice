@@ -1,0 +1,219 @@
+:host {
+  display: block;
+  background: var(--p-surface-100);
+}
+
+.content-details {
+  min-height: 100%;
+  background: var(--p-surface-100);
+  color: var(--p-surface-800);
+}
+
+.content-details__shell {
+  width: min(100%, 45rem);
+  margin-inline: auto;
+  padding: 1.75rem 1rem 6rem;
+}
+
+.content-details__skeleton {
+  display: grid;
+  gap: 1rem;
+  padding-top: 0.25rem;
+}
+
+:host ::ng-deep .content-details__breadcrumb.p-breadcrumb {
+  border: 0;
+  background: transparent;
+  padding: 0.25rem 0 1.5rem;
+}
+
+:host ::ng-deep .content-details__breadcrumb .p-breadcrumb-list {
+  gap: 0.35rem;
+}
+
+:host ::ng-deep .content-details__breadcrumb .p-breadcrumb-item-link {
+  color: var(--p-primary-color);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+:host ::ng-deep .content-details__breadcrumb .p-breadcrumb-item:last-child .p-breadcrumb-item-link {
+  color: var(--p-surface-700);
+  font-weight: 700;
+}
+
+:host ::ng-deep .content-details__location-card.p-card,
+:host ::ng-deep .content-details__hero-card.p-card,
+:host ::ng-deep .content-details__section-card.p-card {
+  border: 1px solid var(--p-surface-200);
+  border-radius: 0.75rem;
+  box-shadow: none;
+}
+
+:host ::ng-deep .content-details__location-card.p-card {
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .content-details__location-card .p-card-body {
+  padding: 0 1rem;
+}
+
+:host ::ng-deep .content-details__hero-card.p-card,
+:host ::ng-deep .content-details__section-card.p-card {
+  margin-top: 1rem;
+}
+
+.content-details__location,
+.content-details__location span,
+.content-details__actions {
+  display: flex;
+  align-items: center;
+}
+
+.content-details__location {
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.875rem;
+  color: var(--p-surface-500);
+  font-size: 0.875rem;
+}
+
+.content-details__location span {
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.content-details__location i,
+.content-details__location time {
+  flex: 0 0 auto;
+  color: var(--p-surface-400);
+}
+
+.content-details__cover {
+  display: block;
+  margin-bottom: 1rem;
+  --details-cover-height: clamp(16rem, 37vw, 20rem);
+  --details-cover-radius: 0.5rem;
+}
+
+.content-details__hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.75rem;
+  min-height: 7.375rem;
+  padding: 1.5rem;
+}
+
+.content-details__heading {
+  min-width: 0;
+}
+
+.content-details__heading h1 {
+  margin: 0 0 0.45rem;
+  color: var(--p-surface-900);
+  font-weight: 800;
+  font-size: clamp(1.625rem, 4vw, 1.875rem);
+  line-height: 1.1;
+}
+
+:host ::ng-deep .content-details__tag.p-tag {
+  border-radius: 0.35rem;
+  background: color-mix(in srgb, var(--p-primary-color) 18%, #fff);
+  color: var(--p-primary-color);
+  padding: 0.32rem 0.625rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.content-details__actions {
+  gap: 0.5rem;
+  border-left: 1px solid var(--p-surface-300);
+  padding-left: 2rem;
+}
+
+:host ::ng-deep .content-details__reaction.p-button {
+  min-width: 4.25rem;
+  height: 2.45rem;
+  border-color: var(--p-surface-200);
+  color: var(--p-surface-500);
+  background: #fff;
+}
+
+:host ::ng-deep .content-details__reaction.p-button:hover {
+  border-color: color-mix(in srgb, var(--p-primary-color) 35%, var(--p-surface-200));
+  color: var(--p-primary-color);
+}
+
+:host ::ng-deep .content-details__reaction .p-button-label {
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.content-details__section {
+  padding: 1.5rem;
+}
+
+.content-details__section h2,
+.content-details__metadata dt {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.content-details__section h2 {
+  margin: 0 0 1rem;
+  color: var(--p-surface-500);
+  font-weight: 800;
+}
+
+.content-details__section p {
+  margin: 0;
+  color: var(--p-surface-700);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.content-details__metadata {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem 2rem;
+  margin: 0;
+}
+
+.content-details__metadata dt {
+  margin-bottom: 0.35rem;
+  color: var(--p-surface-400);
+  font-weight: 600;
+}
+
+.content-details__metadata dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--p-surface-700);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+:host ::ng-deep .content-details__message.p-message {
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .content-details__shell {
+    padding: 1.25rem 1rem 4rem;
+  }
+
+  .content-details__hero-grid,
+  .content-details__metadata {
+    grid-template-columns: 1fr;
+  }
+
+  .content-details__actions {
+    border-top: 1px solid var(--p-surface-200);
+    border-left: 0;
+    padding-top: 1.25rem;
+    padding-left: 0;
+  }
+}

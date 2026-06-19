@@ -27,6 +27,15 @@ export class NavbarComponent {
     this.ref = this.dialogService.open(AddPlaceFormComponent, {
       header: 'Aggiungi un Luogo',
       width: '45rem',
+      modal: true,
+      closable: true,
+      closeOnEscape: true,
+      dismissableMask: false,
+      draggable: false,
+      resizable: false,
+      autoZIndex: true,
+      baseZIndex: 2000,
+      maskStyleClass: 'add-place-dialog-mask',
       contentStyle: { overflow: 'auto' },
       breakpoints: {
         '1199px': '75vw',

@@ -1,0 +1,124 @@
+<section class="content-details">
+  <div class="content-details__shell">
+    @if (isLoading()) {
+      <div class="content-details__skeleton" aria-label="Caricamento dettaglio contenuto">
+        <p-skeleton width="18rem" height="1rem" />
+        <p-skeleton height="2.875rem" borderRadius="0.75rem" />
+        <p-skeleton height="20rem" borderRadius="0.75rem" />
+        <p-skeleton height="7.375rem" borderRadius="0.75rem" />
+        <p-skeleton height="9.875rem" borderRadius="0.75rem" />
+      </div>
+    } @else if (content(); as contentData) {
+      <p-breadcrumb styleClass="content-details__breadcrumb" [model]="breadcrumbItems()" />
+
+      <p-card styleClass="content-details__location-card">
+        <div class="content-details__location">
+          <span>
+            <i class="ph ph-map-pin" aria-hidden="true"></i>
+            {{ locationLabel(contentData) || contentData.city }}
+          </span>
+
+          <time [attr.datetime]="contentData.created_at">
+            {{ formatDate(contentData.created_at) }}
+          </time>
+        </div>
+      </p-card>
+
+      <app-details-cover
+        class="content-details__cover"
+        [src]="coverImage(contentData)"
+        [alt]="contentData.place"
+        loading="eager"
+        fetchPriority="high"
+      />
+
+      <p-card styleClass="content-details__hero-card">
+        <div class="content-details__hero-grid">
+          <div class="content-details__heading">
+            <h1>{{ contentData.place }}</h1>
+
+            <p-tag
+              styleClass="content-details__tag"
+              [value]="subTagName(contentData)"
+              [rounded]="true"
+            />
+          </div>
+
+          <div class="content-details__actions" aria-label="Azioni sul contenuto">
+            <p-button
+              styleClass="content-details__reaction"
+              icon="ph ph-heart"
+              [label]="contentData.likes.toString()"
+              severity="secondary"
+              variant="outlined"
+              ariaLabel="Like"
+            />
+
+            <p-button
+              styleClass="content-details__reaction"
+              icon="ph ph-thumbs-down"
+              [label]="contentData.dislikes.toString()"
+              severity="secondary"
+              variant="outlined"
+              ariaLabel="Dislike"
+            />
+          </div>
+        </div>
+      </p-card>
+
+      <p-card styleClass="content-details__section-card">
+        <section class="content-details__section" aria-labelledby="content-details-description">
+          <h2 id="content-details-description">Descrizione</h2>
+
+          <p [innerHTML]="contentData.description"></p>
+        </section>
+      </p-card>
+
+      <p-card styleClass="content-details__section-card">
+        <section class="content-details__section" aria-labelledby="content-details-metadata">
+          <h2 id="content-details-metadata">Dettagli</h2>
+
+          <dl class="content-details__metadata">
+            <div>
+              <dt>Categoria</dt>
+              <dd>{{ tagName(contentData) }}</dd>
+            </div>
+
+            <div>
+              <dt>Sotto-categoria</dt>
+              <dd>{{ subTagName(contentData) }}</dd>
+            </div>
+
+            <div>
+              <dt>Citta</dt>
+              <dd>{{ contentData.city }}</dd>
+            </div>
+
+            <div>
+              <dt>Regione</dt>
+              <dd>{{ regionName(contentData) || 'Non disponibile' }}</dd>
+            </div>
+
+            <div>
+              <dt>Pubblicato</dt>
+              <dd>
+                <time [attr.datetime]="contentData.created_at">
+                  {{ formatDate(contentData.created_at) }}
+                </time>
+              </dd>
+            </div>
+          </dl>
+        </section>
+      </p-card>
+    } @else {
+      <p-message
+        styleClass="content-details__message"
+        severity="warn"
+        variant="outlined"
+        icon="ph ph-warning"
+      >
+        {{ errorMessage() }}
+      </p-message>
+    }
+  </div>
+</section>
