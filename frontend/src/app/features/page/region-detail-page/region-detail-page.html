@@ -1,11 +1,7 @@
 <div class="page-container">
-
   <header class="hero-section">
     @if (currentRegion(); as regionData) {
-      <app-card-region
-        [region]="regionData"
-        [placesCount]="regionContents().length"
-      />
+      <app-card-region [region]="regionData" [placesCount]="regionContents().length" />
     } @else if (isLoading()) {
       <div class="loading-placeholder">Caricamento dettagli regione...</div>
     } @else {
@@ -19,14 +15,17 @@
     <div class="categories-list">
       @for (tag of tags(); track tag.id) {
         <div class="category-row">
-
           <div
             class="category-header"
             role="button"
             tabindex="0"
             (click)="onTagClick(tag.id)"
-            (keyup.enter)="onTagClick(tag.id)">
-            <h4>{{ tag.name }}</h4>
+            (keyup.enter)="onTagClick(tag.id)"
+          >
+            <h4>
+              {{ tag.name }}
+            </h4>
+
             <span class="arrow-link">
               Vedi tutti ({{ getContentsForTag(tag.id).length }}) &rarr;
             </span>
@@ -46,7 +45,6 @@
               </div>
             }
           </div>
-
         </div>
       }
     </div>

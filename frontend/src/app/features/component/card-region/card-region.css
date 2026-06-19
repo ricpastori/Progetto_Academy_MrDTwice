@@ -27,6 +27,7 @@
 
 :host ::ng-deep .region-card .p-card-header {
   position: absolute;
+
   inset: 0;
 }
 

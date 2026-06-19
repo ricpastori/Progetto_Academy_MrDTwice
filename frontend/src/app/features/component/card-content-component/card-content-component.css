@@ -21,7 +21,7 @@
 
 /* PRIME CARD */
 
-::ng-deep .p-card {
+::ng-deep .card-container .p-card {
 
   width: 100%;
 
@@ -37,7 +37,7 @@
 
 /* HEADER */
 
-::ng-deep .p-card-header {
+::ng-deep .card-container .p-card-header {
 
   height: 17rem;
 
@@ -76,7 +76,7 @@
 
 /* immagine */
 
-::ng-deep .p-card-header img {
+::ng-deep .card-container .p-card-header img {
 
   width: 100%;
 
@@ -93,7 +93,7 @@
 
 /* BODY */
 
-::ng-deep .p-card-body {
+::ng-deep .card-container .p-card-body {
 
   flex: 1;
 
@@ -113,7 +113,7 @@
 
 /* TITLE */
 
-::ng-deep .p-card-title {
+::ng-deep .card-container .p-card-title {
 
   flex-shrink: 0;
 
@@ -137,7 +137,7 @@
 
 /* SUBTITLE = DESCRIPTION */
 
-::ng-deep .p-card-subtitle {
+::ng-deep .card-container .p-card-subtitle {
 
   flex: 1;
 
@@ -187,7 +187,7 @@
 /* FOOTER */
 
 
-::ng-deep .p-card-footer {
+::ng-deep .card-container .p-card-footer {
 
   flex-shrink: 0;
 
