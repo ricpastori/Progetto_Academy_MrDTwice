@@ -10,7 +10,6 @@
 }
 
 .about-hero {
-  /* Cambia solo questo nome file per provare hero-2, hero-3 o hero-4. */
   --about-hero-image: url('/images/about/hero.jpg');
 
   display: grid;
