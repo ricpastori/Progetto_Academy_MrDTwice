@@ -9,10 +9,10 @@ import { ResponsiveImage } from '../responsive-image/responsive-image';
 const REGION_PLACEHOLDER = {
   name: 'Regione',
   description: 'Luoghi in arrivo',
-  image: '/images/placeholders/region_placeholder.svg',
+  image: '/images/origin/placeholders/region_placeholder.svg',
 } satisfies Pick<Region, 'name' | 'description' | 'image'>;
 
-const REGION_IMAGE_DIR = '/images/regions';
+const REGION_IMAGE_DIR = '/images/origin/regions';
 const REGION_IMAGE_EXTENSION = 'jpg';
 
 @Component({
@@ -75,7 +75,7 @@ export class CardRegion {
   }
 
   private getLocalImageSrc(regionName: string | undefined): string | null {
-    // La convenzione degli asset è /images/regions/nome-regione.jpg.
+    // La convenzione degli asset è /images/origin/regions/nome-regione.jpg.
     // Esempio: "Valle d'Aosta" diventa "valle-daosta.jpg".
     const slug = regionName
       ?.normalize('NFD')

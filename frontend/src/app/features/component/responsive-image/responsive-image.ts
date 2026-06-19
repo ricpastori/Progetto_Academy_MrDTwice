@@ -9,6 +9,9 @@ type ResponsiveImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 // Riconosce URL esterni come https://... per non riscriverli come asset locali.
 const absoluteUrlPattern = /^[a-z][a-z0-9+.-]*:\/\//i;
 const imageExtensionPattern = /\.(?:jpe?g|png|webp)$/i;
+const imageRoot = '/images/';
+const originRoot = '/images/origin/';
+const generatedRoot = '/images/generated/';
 // Must match scripts/optimize-images.mjs.
 const generatedWidths = [320, 480, 768, 1024, 1440, 1920] as const;
 const sizePresets = {
@@ -27,7 +30,7 @@ const sizePresets = {
 })
 export class ResponsiveImage {
   // src accetta sia path completi sia nomi relativi dentro /images.
-  // Esempi validi: "/images/regions/toscana.jpg", "images/regions/toscana.jpg", "regions/toscana.jpg".
+  // Esempi validi: "/images/origin/regions/toscana.jpg", "images/regions/toscana.jpg", "regions/toscana.jpg".
   readonly src = input<string | null>(null);
   readonly alt = input('');
   // size sceglie quanto spazio l'immagine dovrebbe occupare: il componente lo traduce in sizes.
@@ -58,12 +61,12 @@ function buildWebpSrcSet(src: string): string {
   }
 
   const extension = src.match(imageExtensionPattern)?.[0] ?? '';
-  // Da /images/regions/toscana.jpg otteniamo regions/toscana.
-  const imageName = src.slice('/images/'.length, -extension.length);
+  // Da /images/origin/regions/toscana.jpg otteniamo regions/toscana.
+  const imageName = src.slice(originRoot.length, -extension.length);
 
   // Un solo <source> basta: le diverse risoluzioni sono tutte dentro questo srcset.
   return generatedWidths
-    .map((width) => `/images/generated/${imageName}-${width}w.webp ${width}w`)
+    .map((width) => `${generatedRoot}${imageName}-${width}w.webp ${width}w`)
     .join(', ');
 }
 
@@ -71,8 +74,9 @@ function canUseGeneratedVersions(src: string): boolean {
   // Generiamo <source> WebP solo per raster locali già processati dallo script.
   // SVG, URL esterni e immagini già dentro /generated restano normali <img>.
   return (
-    src.startsWith('/images/') &&
-    !src.startsWith('/images/generated/') &&
+    src.startsWith(imageRoot) &&
+    src.startsWith(originRoot) &&
+    !src.startsWith(generatedRoot) &&
     imageExtensionPattern.test(src)
   );
 }
@@ -84,10 +88,20 @@ function normalizePublicImagePath(src: string | null | undefined): string | null
     return null;
   }
 
-  if (absoluteUrlPattern.test(value) || value.startsWith('/')) {
+  if (absoluteUrlPattern.test(value)) {
     return value;
   }
 
+  if (value.startsWith(originRoot) || value.startsWith(generatedRoot)) {
+    return value;
+  }
+
+  if (value.startsWith(imageRoot)) {
+    return `${originRoot}${value.slice(imageRoot.length)}`;
+  }
+
   // Accept both "regions/toscana.jpg" and "images/regions/toscana.jpg".
-  return value.startsWith('images/') ? `/${value}` : `/images/${value}`;
+  return value.startsWith('images/')
+    ? `${originRoot}${value.slice('images/'.length)}`
+    : `${originRoot}${value}`;
 }
