@@ -1,162 +1,225 @@
+:host {
+  display: block;
+}
+
 .add-place-form {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 0;
   width: 100%;
-  font-family: inherit;
 }
 
-/* Gruppo Form standard */
+.add-place-form > :not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .form-group label,
 .form-label-title {
-  font-size: 0.875rem;
-  font-weight: 600;
   color: var(--p-text-color);
-  display: inline-block;
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .required-asterisk {
-  color: var(--p-red-500, #ef4444);
-  margin-left: 0.125rem;
+  color: var(--p-red-500);
 }
 
 .form-row-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-}
-
-@media (max-width: 768px) {
-  .form-row-grid-2 {
-    grid-template-columns: 1fr;
-  }
-}
-
-.category-selection {
-  display: flex;
   gap: 0.75rem;
+}
+
+/* La selezione delle categorie è l'unico controllo di form con resa custom. */
+.category-selection {
+  min-height: 2.5rem;
+}
+
+:host ::ng-deep .category-selection .p-selectbutton {
+  display: flex;
   flex-wrap: wrap;
-  margin-top: 0.25rem;
+  gap: 0.5rem;
 }
 
-.btn-category {
-  padding: 0.6rem 1.35rem;
-  border: 1px solid var(--p-surface-300);
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background-color: var(--p-surface-0);
-  color: var(--p-text-muted-color);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+:host ::ng-deep .category-option.p-togglebutton,
+:host ::ng-deep .category-option .p-togglebutton-content {
+  border-radius: var(--p-button-rounded-border-radius);
 }
 
-.btn-category:hover {
+:host ::ng-deep .category-option.p-togglebutton-checked {
   border-color: var(--p-primary-color);
-  color: var(--p-primary-color);
-  background-color: var(--p-primary-50);
+  background: var(--p-highlight-background);
+  color: var(--p-highlight-color);
 }
 
-.active-category {
+.category-option-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.category-indicator {
+  flex: 0 0 1rem;
+  box-shadow: inset 0 0 0 3px var(--p-content-background);
+  border: 2px solid var(--p-togglebutton-border-color);
+  border-radius: 50%;
+  background: var(--p-content-background);
+  width: 1rem;
+  height: 1rem;
+}
+
+:host ::ng-deep .p-togglebutton-checked .category-indicator {
   border-color: var(--p-primary-color);
-  color: var(--p-primary-contrast-color);
-  background-color: var(--p-primary-color);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--p-primary-color) 25%, transparent);
+  background: var(--p-primary-color);
 }
 
-.active-category:hover {
-  color: var(--p-primary-contrast-color);
-  background-color: var(--p-primary-hover-color);
+.category-icon {
+  font-size: 1rem;
+}
+
+.category-icon--nature {
+  color: var(--p-green-500);
+}
+
+.category-icon--food {
+  color: var(--p-red-400);
+}
+
+.category-icon--culture {
+  color: var(--p-violet-400);
+}
+
+.category-icon--attraction {
+  color: var(--p-amber-500);
+}
+
+/* Toolbar PrimeNG/Quill standard, senza i due picker non richiesti. */
+:host ::ng-deep .p-editor-toolbar .ql-header,
+:host ::ng-deep .p-editor-toolbar .ql-font,
+:host ::ng-deep .p-editor-toolbar .ql-color,
+:host ::ng-deep .p-editor-toolbar .ql-background,
+:host ::ng-deep .p-editor-toolbar .ql-image,
+:host ::ng-deep .p-editor-toolbar .ql-code-block,
+:host ::ng-deep .p-editor-toolbar .ql-clean {
+  display: none;
+}
+
+/* Upload custom costruito sopra FileUpload, che mantiene drag/drop e validazione. */
+:host ::ng-deep .image-uploader.p-fileupload,
+:host ::ng-deep .image-uploader .p-fileupload-content {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+:host ::ng-deep .image-uploader .p-fileupload-header {
+  display: none;
+}
+
+.upload-messages {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.upload-area {
+  position: relative;
 }
 
 .upload-dropzone {
-  border: 2px dashed var(--p-surface-300);
-  border-radius: var(--p-border-radius-md, 8px);
-  padding: 2.5rem 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   cursor: pointer;
-  background-color: var(--p-surface-50);
-  transition:
-    border-color 0.2s,
-    background-color 0.2s;
+  border: 2px dashed var(--p-fileupload-border-color);
+  border-radius: var(--p-fileupload-border-radius);
+  background: var(--p-fileupload-background);
+  padding: 1rem 1.5rem;
+  width: 100%;
+  min-height: 7.5rem;
+  color: var(--p-fileupload-color);
 }
 
-.upload-dropzone:hover {
-  border-color: var(--p-primary-color);
-  background-color: var(--p-surface-100);
+.upload-dropzone:hover:not(:disabled),
+.upload-dropzone:focus-visible {
+  outline: none;
+  border-color: var(--p-fileupload-content-highlight-border-color);
+  background: var(--p-highlight-background);
+}
+
+.upload-dropzone:disabled {
+  opacity: 1;
+  cursor: default;
+  color: var(--p-fileupload-color);
 }
 
 .upload-icon {
-  background-color: var(--p-surface-200);
-  padding: 0.75rem;
-  border-radius: 50%;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
+  display: inline-flex;
   justify-content: center;
-}
-
-.upload-icon i {
+  align-items: center;
+  margin-bottom: 0.5rem;
+  border-radius: var(--p-border-radius-lg);
+  background: var(--p-surface-100);
+  width: 2.25rem;
+  height: 2.25rem;
   color: var(--p-text-muted-color);
-  font-size: 1.35rem;
 }
 
-.upload-dropzone:hover .upload-icon i {
-  color: var(--p-primary-color);
+.upload-icon .ph {
+  font-size: 1.125rem;
 }
 
-.upload-cta {
-  font-weight: 600;
-  color: var(--p-text-color);
-  font-size: 0.925rem;
-  margin: 0 0 0.25rem 0;
+.upload-cta,
+.upload-filename {
+  margin-bottom: 0.125rem;
+  font-weight: 500;
+  font-size: 0.8125rem;
 }
 
 .upload-filename {
-  font-weight: 600;
+  max-width: calc(100% - 3rem);
+  overflow: hidden;
   color: var(--p-primary-color);
-  font-size: 0.925rem;
-  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .upload-hint {
-  font-size: 0.75rem;
   color: var(--p-text-muted-color);
-  font-weight: 500;
-  margin: 0;
+  font-size: 0.6875rem;
+}
+
+:host ::ng-deep .upload-remove.p-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 
 .form-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-  border-top: 1px solid var(--p-surface-200);
-  padding-top: 1.25rem;
+  gap: 0.75rem;
 }
 
-::ng-deep .p-select,
-::ng-deep .p-inputtext,
-::ng-deep .p-editor-container {
-  width: 100%;
-  border-radius: var(--p-border-radius-md, 6px) !important;
-}
+@media (max-width: 575px) {
+  .form-row-grid-2 {
+    grid-template-columns: 1fr;
+  }
 
-::ng-deep .p-editor-content .ql-editor {
-  background-color: var(--p-surface-0);
-  color: var(--p-text-color);
-}
+  .form-footer p-button {
+    flex: 1;
+  }
 
-::ng-deep .p-editor-container .ql-toolbar {
-  background-color: var(--p-surface-50) !important;
-  border-color: var(--p-surface-300) !important;
+  :host ::ng-deep .form-footer .p-button {
+    width: 100%;
+  }
 }

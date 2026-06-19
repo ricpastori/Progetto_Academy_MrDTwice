@@ -6,7 +6,11 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { EditorModule } from 'primeng/editor';
+import { FileUploadModule } from 'primeng/fileupload';
+import type { FileSelectEvent } from 'primeng/fileupload';
+import { MessageModule } from 'primeng/message';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 // Servizi
@@ -19,7 +23,17 @@ import { SubTagService } from '../../../services/sub-tag-service';
 @Component({
   selector: 'app-add-place-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, Select, EditorModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    Select,
+    SelectButtonModule,
+    EditorModule,
+    FileUploadModule,
+    MessageModule,
+  ],
   providers: [ContentService, ImageUploadService, RegionService, TagService, SubTagService],
   templateUrl: './add-place-form.html',
   styleUrls: ['./add-place-form.css'],
@@ -85,6 +99,21 @@ export class AddPlaceFormComponent implements OnInit {
       const file = input.files[0];
       this.selectedFile.set(file);
       this.imagePreview.set(file.name);
+    }
+  }
+
+  onPrimeFileSelected(event: FileSelectEvent): void {
+    const file = event.files[0];
+    if (file) {
+      this.selectedFile.set(file);
+      this.imagePreview.set(file.name);
+    }
+  }
+
+  onPrimeFileRemoved(file: File): void {
+    if (this.selectedFile() === file) {
+      this.selectedFile.set(null);
+      this.imagePreview.set(null);
     }
   }
 

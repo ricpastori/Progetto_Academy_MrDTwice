@@ -6,28 +6,61 @@
       id="placeId"
       formControlName="place"
       placeholder="es. Fontana di Trevi"
-      class="w-full"
+      [fluid]="true"
     />
   </div>
 
   <div class="form-group">
-    <span class="form-label-title">Categoria <span class="required-asterisk">*</span></span>
+    <span id="categoryLabel" class="form-label-title">
+      Categoria <span class="required-asterisk">*</span>
+    </span>
+
     <div class="category-selection">
-      @for (cat of tagService.tags(); track cat.id) {
-        <button
-          type="button"
-          (click)="selectCategory(cat.id)"
-          [class.active-category]="placeForm.get('tag_id')?.value === cat.id"
-          class="btn-category"
-        >
-          {{ cat.name }}
-        </button>
-      }
+      <p-selectbutton
+        [options]="tagService.tags()"
+        optionLabel="name"
+        optionValue="id"
+        formControlName="tag_id"
+        [allowEmpty]="false"
+        ariaLabelledBy="categoryLabel"
+        styleClass="category-option"
+        (onChange)="selectCategory($event.value)"
+      >
+        <ng-template #item let-category>
+          <span class="category-option-content">
+            <span class="category-indicator" aria-hidden="true"></span>
+            @switch (category.name) {
+              @case ('Natura') {
+                <i class="ph ph-leaf category-icon category-icon--nature" aria-hidden="true"></i>
+              }
+              @case ('Cibo') {
+                <i
+                  class="ph ph-fork-knife category-icon category-icon--food"
+                  aria-hidden="true"
+                ></i>
+              }
+              @case ('Cultura') {
+                <i
+                  class="ph ph-palette category-icon category-icon--culture"
+                  aria-hidden="true"
+                ></i>
+              }
+              @default {
+                <i
+                  class="ph ph-bank category-icon category-icon--attraction"
+                  aria-hidden="true"
+                ></i>
+              }
+            }
+            <span>{{ category.name }}</span>
+          </span>
+        </ng-template>
+      </p-selectbutton>
     </div>
   </div>
 
   <div class="form-group">
-    <label for="subCategoryId">Sotto-categoria <span class="required-asterisk">*</span></label>
+    <label for="subCategoryId"> Sotto-categoria <span class="required-asterisk">*</span> </label>
     <p-select
       inputId="subCategoryId"
       [options]="filteredSubTags()"
@@ -37,7 +70,10 @@
       "
       optionLabel="name"
       optionValue="id"
-      styleClass="w-full"
+      [fluid]="true"
+      appendTo="body"
+      panelStyleClass="add-place-select-overlay"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 4000 }"
     ></p-select>
   </div>
 
@@ -51,13 +87,16 @@
         placeholder="Seleziona regione"
         optionLabel="name"
         optionValue="id"
-        styleClass="w-full"
+        [fluid]="true"
+        appendTo="body"
+        panelStyleClass="add-place-select-overlay"
+        [overlayOptions]="{ autoZIndex: true, baseZIndex: 4000 }"
       ></p-select>
     </div>
 
     <div class="form-group">
       <label for="cityId">Città <span class="required-asterisk">*</span></label>
-      <input pInputText id="cityId" formControlName="city" placeholder="es. Roma" class="w-full" />
+      <input pInputText id="cityId" formControlName="city" placeholder="es. Roma" [fluid]="true" />
     </div>
   </div>
 
@@ -72,53 +111,101 @@
   </div>
 
   <div class="form-group">
-    <span class="form-label-title"
-      >Immagine (Obbligatoria) <span class="required-asterisk">*</span></span
+    <span class="form-label-title"> Immagine <span class="required-asterisk">*</span> </span>
+
+    <p-fileupload
+      mode="advanced"
+      name="image"
+      accept="image/jpeg,image/png,image/webp"
+      [multiple]="false"
+      [maxFileSize]="10000000"
+      [fileLimit]="1"
+      [showUploadButton]="false"
+      [showCancelButton]="false"
+      invalidFileSizeMessageSummary="File troppo grande"
+      invalidFileSizeMessageDetail="La dimensione massima consentita è 10 MB."
+      invalidFileTypeMessageSummary="Formato non supportato"
+      invalidFileTypeMessageDetail="Sono accettati file JPG, PNG e WEBP."
+      styleClass="image-uploader"
+      (onSelect)="onPrimeFileSelected($event)"
+      (onRemove)="onPrimeFileRemoved($event.file)"
     >
-    <div
-      role="button"
-      tabindex="0"
-      (click)="triggerFileInput()"
-      (keydown)="onFileDropKeydown($event)"
-      class="upload-dropzone"
-    >
-      <div class="upload-icon">
-        <i class="pi pi-upload" aria-hidden="true"></i>
-      </div>
-      @if (!imagePreview()) {
-        <p class="upload-cta">Clicca o trascina qui</p>
-      } @else {
-        <p class="upload-filename">{{ imagePreview() }}</p>
-      }
-      <p class="upload-hint">JPG, PNG, WEBP — max 10 MB</p>
-    </div>
-    <input
-      type="file"
-      id="hiddenFileInput"
-      (change)="onFileSelected($event)"
-      accept=".jpg,.jpeg,.png,.webp"
-      style="display: none"
-    />
+      <ng-template #header></ng-template>
+
+      <ng-template
+        #content
+        let-files
+        let-chooseCallback="chooseCallback"
+        let-removeFileCallback="removeFileCallback"
+        let-messages="messages"
+      >
+        @if (messages?.length) {
+          <div class="upload-messages">
+            @for (message of messages ?? []; track $index) {
+              <p-message
+                [severity]="message.severity"
+                [text]="message.text"
+                size="small"
+              ></p-message>
+            }
+          </div>
+        }
+
+        <div class="upload-area">
+          <button
+            type="button"
+            class="upload-dropzone"
+            [disabled]="!!files?.length"
+            [attr.aria-label]="
+              files?.length ? 'Immagine selezionata' : 'Scegli o trascina un’immagine'
+            "
+            (click)="chooseCallback()"
+          >
+            <span class="upload-icon" aria-hidden="true">
+              <i class="ph ph-upload-simple"></i>
+            </span>
+
+            @if (files?.length) {
+              <span class="upload-filename">{{ files[0].name }}</span>
+            } @else {
+              <span class="upload-cta">Clicca o trascina qui</span>
+            }
+
+            <span class="upload-hint">JPG, PNG, WEBP — max 10 MB</span>
+          </button>
+
+          @if (files?.length) {
+            <p-button
+              type="button"
+              icon="ph ph-x"
+              [rounded]="true"
+              [text]="true"
+              severity="secondary"
+              styleClass="upload-remove"
+              ariaLabel="Rimuovi immagine"
+              (onClick)="removeFileCallback($event, 0)"
+            ></p-button>
+          }
+        </div>
+      </ng-template>
+    </p-fileupload>
   </div>
 
   <footer class="form-footer">
-    <button pButton type="button" class="p-button-text p-button-secondary" (click)="onAnnulla()">
-      Annulla
-    </button>
+    <p-button
+      type="button"
+      label="Annulla"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="onAnnulla()"
+    ></p-button>
 
-    <button
-      pButton
+    <p-button
       type="submit"
+      icon="pi pi-plus"
+      [label]="isSubmitting() ? 'Salvataggio...' : 'Aggiungi'"
+      [loading]="isSubmitting()"
       [disabled]="placeForm.invalid || !selectedFile() || isSubmitting()"
-      class="btn-submit"
-    >
-      @if (isSubmitting()) {
-        <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
-        <span>Salvataggio...</span>
-      } @else {
-        <i class="pi pi-plus" aria-hidden="true"></i>
-        <span>Aggiungi</span>
-      }
-    </button>
+    ></p-button>
   </footer>
 </form>
