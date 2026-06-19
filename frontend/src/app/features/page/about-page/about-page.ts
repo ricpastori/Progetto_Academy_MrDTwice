@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { ResponsiveImage } from '../../component/responsive-image/responsive-image';
 
@@ -28,7 +29,7 @@ interface TeamMember {
 
 @Component({
   selector: 'app-about-page',
-  imports: [ButtonModule, CardModule, ResponsiveImage],
+  imports: [ButtonModule, CardModule, TooltipModule, ResponsiveImage],
   templateUrl: './about-page.html',
   styleUrl: './about-page.css',
 })

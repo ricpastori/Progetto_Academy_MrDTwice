@@ -11,6 +11,7 @@ import { EditorModule } from 'primeng/editor';
 import { FileUploadModule } from 'primeng/fileupload';
 import type { FileSelectEvent } from 'primeng/fileupload';
 import { MessageModule } from 'primeng/message';
+import { TooltipModule } from 'primeng/tooltip';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 // Servizi
@@ -33,6 +34,7 @@ import { SubTagService } from '../../../services/sub-tag-service';
     EditorModule,
     FileUploadModule,
     MessageModule,
+    TooltipModule,
   ],
   providers: [ContentService, ImageUploadService, RegionService, TagService, SubTagService],
   templateUrl: './add-place-form.html',

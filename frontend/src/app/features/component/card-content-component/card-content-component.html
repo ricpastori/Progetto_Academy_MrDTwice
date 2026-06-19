@@ -48,6 +48,8 @@
           type="button"
           class="reaction-btn"
           [attr.aria-label]="'Metti mi piace a ' + content().place"
+          pTooltip="Mi piace"
+          tooltipPosition="top"
           (click)="addLike()"
         >
           <i class="ph ph-heart" [class.like-animation]="likeAnimation()" aria-hidden="true"></i>
@@ -59,6 +61,8 @@
           type="button"
           class="reaction-btn"
           [attr.aria-label]="'Non mi piace ' + content().place"
+          pTooltip="Non mi piace"
+          tooltipPosition="top"
           (click)="addDislike()"
         >
           <i
@@ -78,5 +82,7 @@
     [routerLink]="['/content']"
     [queryParams]="{ id: content().id }"
     [attr.aria-label]="'Apri la scheda di ' + content().place"
+    [pTooltip]="'Apri ' + content().place"
+    tooltipPosition="top"
   ></a>
 </article>

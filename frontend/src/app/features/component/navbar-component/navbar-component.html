@@ -36,7 +36,9 @@
       (click)="toggleMenu()"
       [attr.aria-expanded]="menuOpen"
       aria-controls="mrd-mobile-menu"
-      aria-label="Apri menu"
+      [attr.aria-label]="menuOpen ? 'Chiudi menu' : 'Apri menu'"
+      [pTooltip]="menuOpen ? 'Chiudi menu' : 'Apri menu'"
+      tooltipPosition="bottom"
     >
       <span></span>
       <span></span>

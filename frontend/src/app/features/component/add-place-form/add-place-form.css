@@ -100,17 +100,6 @@
   color: var(--p-amber-500);
 }
 
-/* Toolbar PrimeNG/Quill standard, senza i due picker non richiesti. */
-:host ::ng-deep .p-editor-toolbar .ql-header,
-:host ::ng-deep .p-editor-toolbar .ql-font,
-:host ::ng-deep .p-editor-toolbar .ql-color,
-:host ::ng-deep .p-editor-toolbar .ql-background,
-:host ::ng-deep .p-editor-toolbar .ql-image,
-:host ::ng-deep .p-editor-toolbar .ql-code-block,
-:host ::ng-deep .p-editor-toolbar .ql-clean {
-  display: none;
-}
-
 /* Upload custom costruito sopra FileUpload, che mantiene drag/drop e validazione. */
 :host ::ng-deep .image-uploader.p-fileupload,
 :host ::ng-deep .image-uploader .p-fileupload-content {

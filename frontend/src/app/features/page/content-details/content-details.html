@@ -45,23 +45,33 @@
           </div>
 
           <div class="content-details__actions" aria-label="Azioni sul contenuto">
-            <p-button
-              styleClass="content-details__reaction"
-              icon="ph ph-heart"
-              [label]="contentData.likes.toString()"
+            <button
+              pButton
+              type="button"
+              class="content-details__reaction"
               severity="secondary"
-              variant="outlined"
-              ariaLabel="Like"
-            />
+              [outlined]="true"
+              aria-label="Mi piace"
+              pTooltip="Mi piace"
+              tooltipPosition="top"
+            >
+              <i pButtonIcon class="ph ph-heart" aria-hidden="true"></i>
+              <span pButtonLabel>{{ contentData.likes }}</span>
+            </button>
 
-            <p-button
-              styleClass="content-details__reaction"
-              icon="ph ph-thumbs-down"
-              [label]="contentData.dislikes.toString()"
+            <button
+              pButton
+              type="button"
+              class="content-details__reaction"
               severity="secondary"
-              variant="outlined"
-              ariaLabel="Dislike"
-            />
+              [outlined]="true"
+              aria-label="Non mi piace"
+              pTooltip="Non mi piace"
+              tooltipPosition="top"
+            >
+              <i pButtonIcon class="ph ph-thumbs-down" aria-hidden="true"></i>
+              <span pButtonLabel>{{ contentData.dislikes }}</span>
+            </button>
           </div>
         </div>
       </p-card>

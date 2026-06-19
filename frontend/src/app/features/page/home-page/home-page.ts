@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -33,6 +33,17 @@ export class HomePage implements OnInit {
   protected readonly regions = this.regionService.regions;
 
   protected readonly subTags = this.subTagService.subTags;
+
+  protected readonly featuredRegions = computed(() =>
+    [...this.regions()]
+      .sort((firstRegion, secondRegion) => {
+        const countDifference =
+          this.getPlacesCount(secondRegion) - this.getPlacesCount(firstRegion);
+
+        return countDifference || firstRegion.name.localeCompare(secondRegion.name, 'it');
+      })
+      .slice(0, 6),
+  );
 
   protected recentPosts: Content[] = [];
 
@@ -80,10 +91,6 @@ export class HomePage implements OnInit {
           console.error('Errore caricamento like', error);
         },
       });
-  }
-
-  protected getFeaturedRegions(): Region[] {
-    return this.regions().slice(0, 6);
   }
 
   protected getPlacesCount(region: Region): number {

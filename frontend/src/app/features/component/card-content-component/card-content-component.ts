@@ -2,12 +2,13 @@ import { NgClass } from '@angular/common';
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CardModule } from 'primeng/card';
+import { TooltipModule } from 'primeng/tooltip';
 import { ContentService, Content } from '../../../services/content-service';
 import { SubTag } from '../../../services/sub-tag-service';
 
 @Component({
   selector: 'app-card-content-component',
-  imports: [CardModule, NgClass, RouterLink],
+  imports: [CardModule, TooltipModule, NgClass, RouterLink],
   templateUrl: './card-content-component.html',
   styleUrl: './card-content-component.css',
 })

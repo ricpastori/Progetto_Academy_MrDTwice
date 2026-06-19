@@ -4,12 +4,27 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TabsModule } from 'primeng/tabs';
+import { TooltipModule } from 'primeng/tooltip';
 import { filter } from 'rxjs';
 import { AddPlaceFormComponent } from '../add-place-form/add-place-form';
 
 @Component({
+  selector: 'app-add-place-dialog-close-icon',
+  imports: [TooltipModule],
+  template: `
+    <i
+      class="p-button-icon ph ph-x"
+      pTooltip="Chiudi"
+      tooltipPosition="left"
+      aria-hidden="true"
+    ></i>
+  `,
+})
+class AddPlaceDialogCloseIcon {}
+
+@Component({
   selector: 'app-navbar-component',
-  imports: [RouterLink, ButtonModule, TabsModule],
+  imports: [RouterLink, ButtonModule, TabsModule, TooltipModule],
   providers: [DialogService],
   templateUrl: './navbar-component.html',
   styleUrl: './navbar-component.css',
@@ -57,6 +72,8 @@ export class NavbarComponent {
       autoZIndex: true,
       baseZIndex: 2000,
       maskStyleClass: 'add-place-dialog-mask',
+      closeAriaLabel: 'Chiudi',
+      templates: { closeicon: AddPlaceDialogCloseIcon },
       contentStyle: { overflow: 'auto' },
       breakpoints: {
         '1199px': '75vw',

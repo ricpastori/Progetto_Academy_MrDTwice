@@ -8,6 +8,7 @@ import { CardModule } from 'primeng/card';
 import { MessageModule } from 'primeng/message';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { Content, ContentService } from '../../../services/content-service';
 import { RegionService } from '../../../services/region-service';
@@ -24,6 +25,7 @@ import { DetailsCover } from '../../component/details-cover/details-cover';
     MessageModule,
     SkeletonModule,
     TagModule,
+    TooltipModule,
     DetailsCover,
   ],
   templateUrl: './content-details.html',

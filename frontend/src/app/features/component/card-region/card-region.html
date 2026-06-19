@@ -4,6 +4,8 @@
     [routerLink]="['/regioni/regione-dettaglio']"
     [queryParams]="{ regionId: regionId() }"
     [attr.aria-label]="'Apri la regione ' + card().name"
+    [pTooltip]="'Apri ' + card().name"
+    tooltipPosition="top"
   >
     <ng-container [ngTemplateOutlet]="regionCard" />
   </a>

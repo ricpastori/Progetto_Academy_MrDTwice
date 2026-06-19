@@ -3,6 +3,7 @@ import { Component, computed, input, linkedSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { Region } from '../../../services/region-service';
 import { ResponsiveImage } from '../responsive-image/responsive-image';
@@ -19,7 +20,7 @@ const REGION_IMAGE_EXTENSION = 'jpg';
 
 @Component({
   selector: 'app-card-region',
-  imports: [NgTemplateOutlet, RouterLink, CardModule, TagModule, ResponsiveImage],
+  imports: [NgTemplateOutlet, RouterLink, CardModule, TagModule, TooltipModule, ResponsiveImage],
   templateUrl: './card-region.html',
   styleUrl: './card-region.css',
 })

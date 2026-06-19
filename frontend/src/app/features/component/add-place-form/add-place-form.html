@@ -107,7 +107,71 @@
       id="descriptionId"
       [style]="{ height: '150px' }"
       placeholder="Descrivi questo luogo..."
-    ></p-editor>
+    >
+      <ng-template #header>
+        <span class="ql-formats">
+          <button
+            type="button"
+            class="ql-bold"
+            aria-label="Grassetto"
+            pTooltip="Grassetto"
+            tooltipPosition="top"
+          ></button>
+          <button
+            type="button"
+            class="ql-italic"
+            aria-label="Corsivo"
+            pTooltip="Corsivo"
+            tooltipPosition="top"
+          ></button>
+          <button
+            type="button"
+            class="ql-underline"
+            aria-label="Sottolineato"
+            pTooltip="Sottolineato"
+            tooltipPosition="top"
+          ></button>
+        </span>
+
+        <span class="ql-formats">
+          <button
+            type="button"
+            class="ql-list"
+            value="ordered"
+            aria-label="Elenco numerato"
+            pTooltip="Elenco numerato"
+            tooltipPosition="top"
+          ></button>
+          <button
+            type="button"
+            class="ql-list"
+            value="bullet"
+            aria-label="Elenco puntato"
+            pTooltip="Elenco puntato"
+            tooltipPosition="top"
+          ></button>
+        </span>
+
+        <span class="ql-formats" pTooltip="Allineamento" tooltipPosition="top">
+          <select class="ql-align" aria-label="Allineamento">
+            <option selected></option>
+            <option value="center"></option>
+            <option value="right"></option>
+            <option value="justify"></option>
+          </select>
+        </span>
+
+        <span class="ql-formats">
+          <button
+            type="button"
+            class="ql-link"
+            aria-label="Inserisci link"
+            pTooltip="Inserisci link"
+            tooltipPosition="top"
+          ></button>
+        </span>
+      </ng-template>
+    </p-editor>
   </div>
 
   <div class="form-group">
@@ -175,16 +239,20 @@
           </button>
 
           @if (files?.length) {
-            <p-button
+            <button
+              pButton
               type="button"
-              icon="ph ph-x"
               [rounded]="true"
               [text]="true"
               severity="secondary"
-              styleClass="upload-remove"
-              ariaLabel="Rimuovi immagine"
-              (onClick)="removeFileCallback($event, 0)"
-            ></p-button>
+              class="upload-remove"
+              aria-label="Rimuovi immagine"
+              pTooltip="Rimuovi immagine"
+              tooltipPosition="top"
+              (click)="removeFileCallback($event, 0)"
+            >
+              <i pButtonIcon class="ph ph-x" aria-hidden="true"></i>
+            </button>
           }
         </div>
       </ng-template>
