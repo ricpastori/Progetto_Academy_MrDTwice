@@ -25,10 +25,10 @@
   filter: var(--region-placeholder-filter);
 }
 
-:host ::ng-deep .region-card .p-card-header {
-  position: absolute;
+/* :host ::ng-deep .region-card .p-card-header {
+
   inset: 0;
-}
+} */
 
 :host ::ng-deep .region-card::after {
   position: absolute;

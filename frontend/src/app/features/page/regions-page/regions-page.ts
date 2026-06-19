@@ -24,24 +24,12 @@ export class RegionsPage {
 
   protected loadRegions(): void {
     this.regionService.getRegions();
+    // Carica il numero di contenuti per regione usato dalle card.
+    this.regionService.getRegionsContentsCount();
   }
 
   protected getPlacesCount(region: Region): number {
-    // Il backend puo' esporre il conteggio con nomi diversi: la card vuole solo un numero.
-    const countSource = region as Region & {
-      placesCount?: number;
-      places_count?: number;
-      contentCount?: number;
-      content_count?: number;
-    };
-    const count = Number(
-      countSource.placesCount ??
-        countSource.places_count ??
-        countSource.contentCount ??
-        countSource.content_count ??
-        0,
-    );
-
-    return Number.isFinite(count) ? count : 0;
+    // Il service gestisce il fallback a 0 se il conteggio non è disponibile.
+    return this.regionService.getRegionContentsCount(region.id);
   }
 }
