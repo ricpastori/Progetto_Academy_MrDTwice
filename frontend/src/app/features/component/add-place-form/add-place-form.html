@@ -14,51 +14,57 @@
 
   <div class="form-group">
     <label for="subCategoryId">Sotto-categoria <span class="required-asterisk">*</span></label>
-    <select id="subCategoryId" formControlName="sub_tag_id" class="native-input w-full">
-      <option [ngValue]="null" disabled>Scegli prima una categoria</option>
-      @for (sub of getFilteredSubTags(); track sub.id) {
-        <option [value]="sub.id">{{ sub.name }}</option>
-      }
-    </select>
+    <p-dropdown
+      inputId="subCategoryId"
+      options="categorieList"
+      formControlName="sub_tag_id"
+      placeholder="Scegli prima una categoria"
+      optionLabel="name"
+      optionValue="id"
+      styleClass="w-full"
+    >
+    </p-dropdown>
   </div>
 
-  <div class="form-row-grid">
+  <div class="form-row-grid-2">
     <div class="form-group">
       <label for="regionId">Regione <span class="required-asterisk">*</span></label>
-      <select id="regionId" formControlName="region_id" class="native-input w-full">
-        <option [ngValue]="null" disabled>Seleziona regione</option>
-        @for (region of regionService.regions(); track region.id) {
-          <option [value]="region.id">{{ region.name }}</option>
-        }
-      </select>
+      <p-dropdown
+        inputId="regionId"
+        options="regionService.regions()"
+        formControlName="region_id"
+        placeholder="Seleziona regione"
+        optionLabel="name"
+        optionValue="id"
+        styleClass="w-full"
+      >
+      </p-dropdown>
     </div>
 
     <div class="form-group">
       <label for="cityId">Città <span class="required-asterisk">*</span></label>
       <input pInputText id="cityId" formControlName="city" placeholder="es. Roma" class="w-full" />
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="placeId">Nome del Luogo <span class="required-asterisk">*</span></label>
-      <input
-        pInputText
-        id="placeId"
-        formControlName="place"
-        placeholder="es. Colosseo"
-        class="w-full"
-      />
-    </div>
+  <div class="form-group">
+    <label for="placeId">Nome del Luogo <span class="required-asterisk">*</span></label>
+    <input
+      pInputText
+      id="placeId"
+      formControlName="place"
+      placeholder="es. Colosseo"
+      class="w-full"
+    />
   </div>
 
   <div class="form-group">
     <label for="descriptionId">Descrizione <span class="required-asterisk">*</span></label>
-    <textarea
-      id="descriptionId"
+    <p-editor
       formControlName="description"
-      rows="6"
+      [style]="{ height: '180px' }"
       placeholder="Descrivi questo luogo in dettaglio..."
-      class="native-input w-full"
-    ></textarea>
+    ></p-editor>
   </div>
 
   <div class="form-group">
@@ -92,7 +98,14 @@
   </div>
 
   <footer class="form-footer">
-    <button pButton type="button" class="p-button-outlined p-button-secondary">Annulla</button>
+    <button
+      pButton
+      type="button"
+      class="p-button-outlined p-button-secondary"
+      (click)="placeForm.reset(); selectedFile.set(null); imagePreview.set(null)"
+    >
+      Annulla
+    </button>
     <button
       pButton
       type="submit"
