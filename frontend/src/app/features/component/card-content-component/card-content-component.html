@@ -1,40 +1,38 @@
 <div class="card-container">
   <p-card [style]="{ overflow: 'hidden' }">
     <ng-template #header>
+      <div class="content-title">
+
+          <span>
+            <i class="ph ph-map-pin"></i>
+
+            {{ content().city }}
+          </span>
+
+        <span class="date-info">
+          <i class="ph ph-calendar"></i>
+          {{ formatDate(content().created_at) }}
+        </span>
+      </div>
       <img class="w-full" [src]="content().image_url" [alt]="content().place" />
     </ng-template>
 
     <ng-template #title>
       <div class="card-title-container">
-        <div class="content-title">
-          <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
-            {{ subTag().name }}
-          </span>
-
-          <span class="date-info">
-            <i class="ph ph-calendar"></i>
-            {{ formatDate(content().created_at) }}
-          </span>
-        </div>
-        <h3>
-          {{ content().place }}
-        </h3>
+        <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
+          {{ subTag().name }}
+        </span>
+        <span>{{ content().place }} </span>
       </div>
     </ng-template>
 
     <ng-template #subtitle>
-      <div class="info-top">
-        <span>
-          <i class="ph ph-map-pin"></i>
+<p class="description" [innerHTML]="content().description">
 
-          {{ content().city }}
-        </span>
-      </div>
+    </p>
     </ng-template>
 
-    <p class="description">
-      {{ content().description }}
-    </p>
+
 
     <ng-template #footer>
       <div class="reaction">

@@ -5,18 +5,27 @@ const router = express.Router();
 const apiService = require('../services/ApiService');
 
 //GET REGIONS
-router.get(`/api/regions`, async (req, res) => {
+router.get(`/api/region`, async (req, res) => {
   try {
-    const regions = await apiService.getRegions();
 
-    res.status(200).json(regions);
+    let region;
+
+    const { regionId } = req.query;
+
+    if (regionId) {
+       region = await apiService.getRegionById(regionId);
+    } else {
+    region = await apiService.getRegions();
+    }
+
+    res.status(200).json(region);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 //GET TAGS
-router.get(`/api/tags`, async (req, res) => {
+router.get(`/api/tag`, async (req, res) => {
   try {
     const tags = await apiService.getTags();
 
@@ -68,7 +77,7 @@ router.get('/api/content/by-tag/top-liked-by-region', async (req, res) => {
 });
 
 //GET SUB_TAGS
-router.get(`/api/sub-tags`, async (req, res) => {
+router.get(`/api/sub-tag`, async (req, res) => {
   try {
     const subTags = await apiService.getSubTags();
 
