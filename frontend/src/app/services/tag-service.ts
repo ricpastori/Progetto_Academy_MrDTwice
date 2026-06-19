@@ -12,7 +12,7 @@ export interface Tag {
 })
 export class TagService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/tags';
+  private apiUrl = 'http://localhost:8080/api/tag';
 
   private readonly _tags = signal<Tag[]>([]);
   readonly tags = this._tags.asReadonly();

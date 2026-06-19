@@ -1,1 +1,54 @@
-<p>region-detail-page works!</p>
+<div class="page-container">
+
+  <header class="hero-section">
+    @if (currentRegion(); as regionData) {
+      <app-card-region
+        [region]="regionData"
+        [placesCount]="regionContents().length"
+      />
+    } @else if (isLoading()) {
+      <div class="loading-placeholder">Caricamento dettagli regione...</div>
+    } @else {
+      <div class="error-placeholder">Regione non trovata o ID errato.</div>
+    }
+  </header>
+
+  <main class="categories-section">
+    <h3>Esplora le categorie</h3>
+
+    <div class="categories-list">
+      @for (tag of tags(); track tag.id) {
+        <div class="category-row">
+
+          <div
+            class="category-header"
+            role="button"
+            tabindex="0"
+            (click)="onTagClick(tag.id)"
+            (keyup.enter)="onTagClick(tag.id)">
+            <h4>{{ tag.name }}</h4>
+            <span class="arrow-link">
+              Vedi tutti ({{ getContentsForTag(tag.id).length }}) &rarr;
+            </span>
+          </div>
+
+          <div class="horizontal-scroll-container">
+            @for (item of getContentsForTag(tag.id); track item.id) {
+              <div class="scroll-item">
+                <app-card-content-component
+                  [content]="item"
+                  [subTag]="getSubTagById(item.sub_tag_id)"
+                />
+              </div>
+            } @empty {
+              <div class="empty-category-box">
+                Nessun luogo presente in questa categoria per la regione corrente.
+              </div>
+            }
+          </div>
+
+        </div>
+      }
+    </div>
+  </main>
+</div>
