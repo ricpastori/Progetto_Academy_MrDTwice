@@ -1,96 +1,109 @@
 :host {
   display: block;
-  background: var(--p-surface-0);
-  color: var(--p-surface-900);
+  background: var(--p-surface-50);
+  color: var(--p-text-color);
 }
 
 .mrd-home {
   width: 100%;
+  overflow: hidden;
 }
 
-/* ── Hero Section ────────────────────────────────────────────────────────────── */
+/* ── HERO ─────────────────────────────────────────────────────────────── */
 
 .mrd-home__hero {
-  display: flex;
   position: relative;
+  display: flex;
+  min-height: 460px;
+  align-items: stretch;
   justify-content: center;
-  align-items: center;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--p-surface-950) 35%, transparent),
-      color-mix(in srgb, var(--p-surface-950) 55%, transparent)
-    ),
-    url('/images/origin/home/hero.png') center / cover no-repeat;
-  padding: 4rem 1.5rem;
-  min-height: 420px;
+  background: url('/images/origin/home/hero.png') center / cover no-repeat;
 }
 
 .mrd-home__hero-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
   width: 100%;
-  max-width: 860px;
+  min-height: inherit;
+  align-items: center;
+  justify-content: center;
+  padding: 2.75rem 1.75rem;
+  flex-direction: column;
+  background: color-mix(in srgb, var(--p-surface-950) 46%, transparent);
   color: #ffffff;
   text-align: center;
 }
 
 .mrd-home__hero-badge {
-  display: inline-block;
-  margin-bottom: 1rem;
-  border: 1px solid color-mix(in srgb, #ffffff 18%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.15rem;
+  border: 1px solid rgb(255 255 255 / 0.22);
   border-radius: 999px;
-  background: color-mix(in srgb, #ffffff 12%, transparent);
-  padding: 0.45rem 0.85rem;
+  background: rgb(255 255 255 / 0.12);
+  padding: 0.4rem 0.75rem;
   font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.mrd-home__hero-badge i {
   font-size: 0.875rem;
 }
 
 .mrd-home__hero h1 {
   margin: 0;
-  font-weight: 700;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+  font-weight: 750;
+  font-size: clamp(2.5rem, 4vw, 3.35rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
 }
 
 .mrd-home__hero p {
   margin: 1rem auto 0;
-  max-width: 700px;
-  color: color-mix(in srgb, #ffffff 88%, transparent);
-  font-size: 1.05rem;
-  line-height: 1.7;
+  max-width: 34rem;
+  color: rgb(255 255 255 / 0.82);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .mrd-home__hero-stats {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2.5rem;
+  gap: clamp(1.75rem, 4vw, 3rem);
   margin-top: 2rem;
 }
 
 .mrd-home__hero-stats div {
   display: flex;
+  min-width: 4.25rem;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .mrd-home__hero-stats strong {
   font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: -0.04em;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: -0.025em;
 }
 
 .mrd-home__hero-stats span {
-  color: color-mix(in srgb, #ffffff 82%, transparent);
-  font-size: 0.9rem;
+  color: rgb(255 255 255 / 0.7);
+  font-size: 0.75rem;
 }
 
-/* ── SECTION ────────────────────────────────────────────────────────────── */
+/* ── SEZIONI ──────────────────────────────────────────────────────────── */
 
 .mrd-home__section {
+  width: 100%;
+  max-width: 72rem;
   margin-inline: auto;
-  padding: 3.5rem 1.5rem 0;
-  max-width: 1200px;
+  padding: 3rem 1.5rem 0;
 }
 
 .mrd-home__section:last-child {
@@ -98,210 +111,195 @@
 }
 
 .mrd-home__section-head {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .mrd-home__section-head h2 {
   margin: 0;
-  color: var(--p-surface-900);
+  color: var(--p-text-color);
   font-weight: 700;
-  font-size: 1.75rem;
-  line-height: 1.15;
-  letter-spacing: -0.04em;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 .mrd-home__section-head p {
-  margin: 0.5rem 0 0;
-  color: var(--p-surface-500);
-  font-size: 0.95rem;
+  margin: 0.45rem 0 0;
+  color: var(--p-text-muted-color);
+  font-size: 0.875rem;
 }
 
-/* ── CARD REGION SOLO HOME ────────────────────────────────────────────── */
+/* ── REGIONI ──────────────────────────────────────────────────────────── */
+
+.mrd-home__regions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
 
 :host ::ng-deep .mrd-home__regions-grid app-card-region .region-card {
-  border-radius: 0.875rem;
-
-  aspect-ratio: 16 / 9;
-
   min-height: 0;
+  border-radius: 0.875rem;
+  aspect-ratio: 16 / 9;
 }
 
 :host ::ng-deep .mrd-home__regions-grid app-card-region .region-card::after {
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.56)),
-    linear-gradient(90deg, rgb(0 0 0 / 0.36), transparent 72%);
+    linear-gradient(180deg, rgb(0 0 0 / 0.02), rgb(0 0 0 / 0.58)),
+    linear-gradient(90deg, rgb(0 0 0 / 0.34), transparent 72%);
 }
 
 :host ::ng-deep .mrd-home__regions-grid app-card-region .region-content {
   align-items: end;
-
   gap: 0.75rem;
-
-  padding: 0 1.25rem 1rem;
+  padding: 0 1.15rem 0.9rem;
 }
 
 :host ::ng-deep .mrd-home__regions-grid app-card-region h4 {
   font-size: 1rem;
-
   line-height: 1.05;
 }
 
 :host ::ng-deep .mrd-home__regions-grid app-card-region p {
   margin-top: 0.25rem;
-
-  font-size: 0.78rem;
-
+  font-size: 0.75rem;
   line-height: 1.2;
+  -webkit-line-clamp: 1;
 }
 
 :host ::ng-deep .mrd-home__regions-grid app-card-region .places-badge.p-tag {
-  border-radius: 0.35rem;
-
-  padding: 0.28rem 0.45rem;
-
-  color: var(--p-primary-color, #7c3aed);
-
-  font-weight: 700;
-
-  font-size: 0.72rem;
-
+  border-radius: var(--p-border-radius-sm);
+  padding: 0.3rem 0.45rem;
+  color: var(--p-primary-color);
+  font-weight: 650;
+  font-size: 0.68rem;
   line-height: 1;
-}
-
-/* ── GRID ────────────────────────────────────────────────────────────── */
-
-.mrd-home__regions-grid {
-  display: grid;
-
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-
-  gap: 1.25rem;
-}
-
-/* CARD CONTENT SOLO in HOME */
-
-:host ::ng-deep .mrd-home__content-grid {
-  display: grid;
-
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-
-  gap: 1.25rem;
-
-  grid-auto-rows: 1fr;
-}
-
-:host ::ng-deep .mrd-home__content-grid app-card-content-component {
-  display: flex;
-
-  height: 100%;
-}
-
-:host ::ng-deep .mrd-home__content-grid .card-container {
-  height: 100%;
-
-  width: 100%;
-
-  display: flex;
-}
-
-:host ::ng-deep .mrd-home__content-grid .p-card {
-  height: 100%;
-
-  width: 100%;
-
-  display: flex;
-
-  flex-direction: column;
-}
-
-:host ::ng-deep .mrd-home__content-grid .p-card-body {
-  display: flex;
-
-  flex-direction: column;
-
-  flex: 1;
-}
-
-:host ::ng-deep .mrd-home__content-grid .p-card-content {
-  flex: 1;
-}
-
-:host ::ng-deep .mrd-home__content-grid .p-card-footer {
-  margin-top: auto;
 }
 
 .mrd-home__section-action {
   display: flex;
-
   justify-content: center;
-
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
 }
-
-/* ── BUTTON ────────────────────────────────────────────────────────────── */
 
 .mrd-home__ghost-link {
   display: inline-flex;
-
   align-items: center;
-
   gap: 0.45rem;
   transition:
     color 180ms ease,
     border-color 180ms ease,
     background 180ms ease;
-  border: 1px solid var(--p-surface-300);
-  border-radius: 999px;
-  padding: 0.8rem 1.15rem;
-  color: var(--p-surface-700);
+  border: 1px solid var(--p-content-border-color);
+  border-radius: var(--p-border-radius-md);
+  background: var(--p-content-background);
+  padding: 0.65rem 1rem;
+  color: var(--p-text-color);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   text-decoration: none;
-
-  &:hover {
-    border-color: color-mix(in srgb, var(--p-primary-color) 35%, var(--p-surface-300));
-
-    background: color-mix(in srgb, var(--p-primary-color) 6%, transparent);
-    color: var(--p-primary-color);
-  }
 }
 
-/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+.mrd-home__ghost-link:hover,
+.mrd-home__ghost-link:focus-visible {
+  border-color: color-mix(in srgb, var(--p-primary-color) 38%, var(--p-content-border-color));
+  background: var(--p-highlight-background);
+  color: var(--p-primary-color);
+  outline: none;
+}
 
-@media (max-width: 1024px) {
+.mrd-home__ghost-link:focus-visible {
+  box-shadow: var(--p-focus-ring-shadow);
+}
+
+.mrd-home__ghost-link i {
+  font-size: 0.9rem;
+}
+
+/* ── CONTENUTI ────────────────────────────────────────────────────────── */
+
+.mrd-home__content-grid {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 0.2rem 0.1rem 0.9rem;
+  scroll-padding-inline: 0.1rem;
+  scroll-snap-type: inline proximity;
+  scrollbar-width: none;
+}
+
+.mrd-home__content-grid::-webkit-scrollbar {
+  display: none;
+}
+
+:host ::ng-deep .mrd-home__content-grid app-card-content-component {
+  display: block;
+  height: auto;
+  flex: 0 0 16rem;
+  scroll-snap-align: start;
+}
+
+:host ::ng-deep .mrd-home__content-grid .card-container,
+:host ::ng-deep .mrd-home__content-grid .content-card.p-card {
+  height: 100%;
+}
+
+:host ::ng-deep .mrd-home__content-grid .content-image {
+  aspect-ratio: 6 / 5;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
   .mrd-home__regions-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  :host ::ng-deep .mrd-home__content-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  :host ::ng-deep .mrd-home__content-grid app-card-content-component {
+    flex-basis: min(42vw, 17rem);
   }
 }
 
 @media (max-width: 640px) {
   .mrd-home__hero {
-    padding: 3rem 1rem;
-    min-height: 360px;
+    min-height: 390px;
+  }
+
+  .mrd-home__hero-overlay {
+    width: 100%;
+    padding: 2.5rem 1rem;
   }
 
   .mrd-home__hero h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
 
   .mrd-home__hero p {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
+  }
+
+  .mrd-home__hero-stats {
+    gap: 1.25rem;
   }
 
   .mrd-home__section {
     padding: 2.5rem 1rem 0;
   }
 
-  .mrd-home__regions-grid,
-  :host ::ng-deep .mrd-home__content-grid {
+  .mrd-home__regions-grid {
     grid-template-columns: 1fr;
   }
 
-  .mrd-home__hero-stats {
-    gap: 1.5rem;
+  :host ::ng-deep .mrd-home__content-grid app-card-content-component {
+    flex-basis: min(82vw, 17rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mrd-home__ghost-link {
+    transition: none;
   }
 }

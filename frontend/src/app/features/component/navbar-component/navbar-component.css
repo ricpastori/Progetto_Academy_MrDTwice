@@ -44,43 +44,54 @@
   color: var(--p-surface-900);
 }
 
-/* ── Desktop nav ─────────────────────────────────────────────────────────────── */
-.mrd-navbar__nav {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+/* ── Navigazione desktop PrimeNG ────────────────────────────────────────────── */
+.mrd-navbar__tabs {
+  align-self: stretch;
   margin-left: 0.5rem;
 }
 
-.mrd-navbar__link {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  border-radius: var(--p-border-radius-md, 6px);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--p-surface-500);
-  text-decoration: none;
-  transition:
-    color 180ms ease,
-    background 180ms ease;
-
-  &:hover {
-    color: var(--p-surface-900);
-    background: color-mix(in srgb, var(--p-primary-color) 8%, transparent);
-  }
-
-  &.is-active {
-    color: var(--p-primary-color);
-    font-weight: 600;
-  }
+:host ::ng-deep .mrd-navbar__tabs.p-tabs,
+:host ::ng-deep .mrd-navbar__tabs .p-tablist,
+:host ::ng-deep .mrd-navbar__tabs .p-tablist-content,
+:host ::ng-deep .mrd-navbar__tabs .p-tablist-tab-list {
+  height: 100%;
+  background: transparent;
 }
 
-/* ── Icons Settings ──────────────────────────────────────────────────────────── */
-.ph {
-  color: #7e22ce;
-  font-size: 1.3rem;
+:host ::ng-deep .mrd-navbar__tabs .p-tablist-tab-list {
+  align-items: stretch;
+  gap: 0.25rem;
+  border: 0;
+}
+
+:host ::ng-deep .mrd-navbar__tabs .p-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: 0;
+  padding: 0 0.75rem;
+  color: var(--p-text-muted-color);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+:host ::ng-deep .mrd-navbar__tabs .p-tab:hover {
+  color: var(--p-text-color);
+}
+
+:host ::ng-deep .mrd-navbar__tabs .p-tab[data-p-active='true'] {
+  color: var(--p-primary-color);
+  font-weight: 600;
+}
+
+:host ::ng-deep .mrd-navbar__tabs .p-tablist-active-bar {
+  height: 2px;
+  background: var(--p-primary-color);
+}
+
+:host ::ng-deep .mrd-navbar__tabs .p-tab .ph {
+  color: currentcolor;
+  font-size: 1rem;
 }
 
 /* ── CTA — aspetto e spaziatura interna sono gestiti da PrimeNG ─────────────── */
@@ -163,7 +174,7 @@
 
 /* ── MediaQuery (mobile) ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .mrd-navbar__nav,
+  .mrd-navbar__tabs,
   .mrd-navbar__actions {
     display: none;
   }

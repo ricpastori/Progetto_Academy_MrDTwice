@@ -11,36 +11,17 @@
       <span class="mrd-navbar__brand-name">Mr D Twice</span>
     </a>
 
-    <!-- Desktop Nav Links -->
-    <nav class="mrd-navbar__nav" aria-label="Navigazione principale">
-      <a
-        routerLink="/"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="mrd-navbar__link"
-      >
-        <i class="ph ph-house" aria-hidden="true"></i>
-        Home
-      </a>
-      <a
-        routerLink="/regioni"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="mrd-navbar__link"
-      >
-        <i class="ph ph-map-pin" aria-hidden="true"></i>
-        Regioni
-      </a>
-      <a
-        routerLink="/chi-siamo"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="mrd-navbar__link"
-      >
-        <i class="ph ph-info" aria-hidden="true"></i>
-        Chi siamo
-      </a>
-    </nav>
+    <!-- Navigazione desktop PrimeNG -->
+    <p-tabs class="mrd-navbar__tabs" [value]="activeTab()" [showNavigators]="false">
+      <p-tablist aria-label="Navigazione principale">
+        @for (item of navigationItems; track item.route) {
+          <p-tab [value]="item.route" [routerLink]="item.route">
+            <i [class]="item.icon" aria-hidden="true"></i>
+            <span>{{ item.label }}</span>
+          </p-tab>
+        }
+      </p-tablist>
+    </p-tabs>
 
     <!-- ── Mobile Settings ──────────────────────────────────────────────────────────── -->
 
@@ -85,24 +66,4 @@
       + Aggiungi
     </button>
   </div>
-  <!-- <a routerLink="/aggiungi" (click)="menuOpen = false" class="mrd-navbar__mobile-cta"
-      >+ Aggiungi</a
-    >
-  </div> -->
-
-  <!-- <p-dialog
-    header="Aggiungi un Luogo"
-    [(visible)]="isModalVisible"
-    [modal]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [style]="{ width: '45rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-  >
-    <p style="margin-top: 0; margin-bottom: 1.5rem; color: #6b7280; font-size: 0.9rem">
-      Condividi un posto con la community
-    </p>
-
-    <app-add-place-form></app-add-place-form>
-  </p-dialog> -->
 </header>
