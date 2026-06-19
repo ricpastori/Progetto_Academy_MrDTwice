@@ -203,7 +203,7 @@ FROM (
     ORDER BY region_id, created_at DESC
 ) AS latest
 ORDER BY created_at DESC
-LIMIT 5;
+LIMIT 10;
       `,
     );
 
@@ -234,7 +234,8 @@ async function getMostLikedContentByRegion() {
     dislikes,
     created_at
 FROM public.content
-ORDER BY region_id, likes DESC;
+ORDER BY region_id, likes DESC
+LIMIT 10;
 
       `,
     );
