@@ -8,11 +8,19 @@ const apiService = require('../services/ApiService');
 
 // GET /api/regions
 // Restituisce l'elenco completo delle regioni.
-router.get(`/api/regions`, async (req, res) => {
+router.get(`/api/region`, async (req, res) => {
   try {
-    const regions = await apiService.getRegions();
+    let region;
 
-    res.status(200).json(regions);
+    const { regionId } = req.query;
+
+    if (regionId) {
+      region = await apiService.getRegionById(regionId);
+    } else {
+      region = await apiService.getRegions();
+    }
+
+    res.status(200).json(region);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -20,7 +28,7 @@ router.get(`/api/regions`, async (req, res) => {
 
 // GET /api/regions/contents-count
 // Restituisce per ogni regione il numero di contenuti collegati.
-router.get('/api/regions/contents-count', async (req, res) => {
+router.get('/api/region/contents-count', async (req, res) => {
   const { regionId } = req.query;
 
   const content = await apiService.getContentsCountByRegion(regionId);
@@ -30,7 +38,7 @@ router.get('/api/regions/contents-count', async (req, res) => {
 
 // GET /api/tags
 // Restituisce tutti i tag usati per classificare i contenuti.
-router.get(`/api/tags`, async (req, res) => {
+router.get(`/api/tag`, async (req, res) => {
   try {
     const tags = await apiService.getTags();
 
@@ -90,7 +98,7 @@ router.get('/api/content/by-tag/top-liked-by-region', async (req, res) => {
 
 // GET /api/sub-tags
 // Restituisce tutti i sotto-tag disponibili.
-router.get(`/api/sub-tags`, async (req, res) => {
+router.get(`/api/sub-tag`, async (req, res) => {
   try {
     const subTags = await apiService.getSubTags();
 

@@ -19,7 +19,7 @@ export interface RegionContentsCount {
 })
 export class RegionService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/regions';
+  private apiUrl = 'http://localhost:8080/api/region';
 
   private readonly _regions = signal<Region[]>([]);
   readonly regions = this._regions.asReadonly();
