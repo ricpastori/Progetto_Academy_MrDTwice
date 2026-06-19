@@ -36,6 +36,16 @@ export class ContentService {
   }
 
 
+  getContentById(id: string) {
+    return this.http.get<Content>(`${this.apiUrl}/${id}`).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore recupero content'));
+      })
+    );
+  }
+
+
   getContentByRegion(regionId: string) {
 
     const params = new HttpParams()

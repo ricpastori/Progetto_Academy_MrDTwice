@@ -76,6 +76,25 @@ async function getContents() {
   }
 }
 
+// Recupera un singolo contenuto tramite id.
+async function getContentById(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT *
+      FROM content
+      WHERE id = $1
+    `,
+      [id],
+    );
+
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 // Conta quanti contenuti sono associati a ogni regione.
 // Il LEFT JOIN mantiene nel risultato anche le regioni senza contenuti.
 async function getContentsCountByRegion() {
@@ -287,6 +306,7 @@ module.exports = {
   getRegionById,
   getTags,
   getContents,
+  getContentById,
   getSubTags,
   getContentsByRegion,
   getContentsCountByRegion,
