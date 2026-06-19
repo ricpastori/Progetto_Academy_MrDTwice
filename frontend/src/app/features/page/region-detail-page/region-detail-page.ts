@@ -1,19 +1,34 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { MenuItem } from 'primeng/api';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { ButtonModule } from 'primeng/button';
+import { MessageModule } from 'primeng/message';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TagModule } from 'primeng/tag';
 
 import { RegionService, Region } from '../../../services/region-service';
 import { TagService } from '../../../services/tag-service';
 import { ContentService, Content } from '../../../services/content-service';
 import { SubTagService } from '../../../services/sub-tag-service';
 
-import { CardRegion } from '../../component/card-region/card-region';
 import { CardContentComponent } from '../../component/card-content-component/card-content-component';
-import { NgClass } from '@angular/common';
+import { DetailsCover } from '../../component/details-cover/details-cover';
 
 @Component({
   selector: 'app-region-detail-page',
   standalone: true,
-  imports: [CardRegion, CardContentComponent, NgClass],
+  imports: [
+    RouterLink,
+    BreadcrumbModule,
+    ButtonModule,
+    MessageModule,
+    SkeletonModule,
+    TagModule,
+    CardContentComponent,
+    DetailsCover,
+  ],
   templateUrl: './region-detail-page.html',
   styleUrls: ['./region-detail-page.css'],
 })
@@ -42,6 +57,22 @@ export class RegionDetailPage implements OnInit {
 
   isLoading = signal<boolean>(true);
 
+  breadcrumbItems = computed<MenuItem[]>(() => [
+    { label: 'Italia', routerLink: '/regioni' },
+    { label: this.currentRegion()?.name ?? 'Regione' },
+  ]);
+
+  categoryIcons = [
+    'ph ph-bank',
+    'ph ph-cooking-pot',
+    'ph ph-castle-turret',
+    'ph ph-tree',
+  ] as const;
+
+  categorySeverities = [undefined, 'warn', 'info', 'success'] as const;
+
+  pageLoading = computed(() => this.isLoading() || this.regionService.loading());
+
   contentsByCategory = computed(() => {
     const contents = this.regionContents();
 
@@ -63,6 +94,22 @@ export class RegionDetailPage implements OnInit {
 
     return map;
   });
+
+  constructor() {
+    effect(() => {
+      const regionId = this.selectedRegionId();
+
+      if (!regionId) return;
+
+      const region = this.regionService
+        .regions()
+        .find((item) => String(item.id) === regionId);
+
+      if (region) {
+        this.currentRegion.set(region);
+      }
+    });
+  }
 
   ngOnInit() {
     // carica dati globali
@@ -122,6 +169,18 @@ export class RegionDetailPage implements OnInit {
         tag_id: '',
       }
     );
+  }
+
+  getRegionImage(regionName: string) {
+    const slug = regionName
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    return `/images/origin/regions/${slug}.jpg`;
   }
 
   onTagClick(tagId: string) {

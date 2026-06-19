@@ -1,65 +1,117 @@
-<div class="page-container">
-  <header class="hero-section app-shell-full-bleed">
-    @if (currentRegion(); as regionData) {
-      <app-card-region [region]="regionData" [placesCount]="regionContents().length" />
-    } @else if (isLoading()) {
-      <div class="loading-placeholder">Caricamento dettagli regione...</div>
-    } @else {
-      <div class="error-placeholder">Regione non trovata</div>
+<main class="region-detail-page">
+  <p-breadcrumb styleClass="region-detail-breadcrumb" [model]="breadcrumbItems()">
+    <ng-template #separator>
+      <span class="breadcrumb-separator" aria-hidden="true">/</span>
+    </ng-template>
+  </p-breadcrumb>
+
+  @if (pageLoading()) {
+    <section class="region-detail-loading" aria-label="Caricamento dettaglio regione">
+      <p-skeleton styleClass="cover-skeleton" />
+
+      <div class="category-skeletons">
+        @for (_ of [1, 2, 3, 4]; track $index) {
+          <p-skeleton width="8rem" height="2rem" borderRadius="999px" />
+        }
+      </div>
+
+      <p-skeleton width="12rem" height="1.5rem" />
+      <div class="card-skeletons">
+        @for (_ of [1, 2, 3]; track $index) {
+          <p-skeleton width="16rem" height="22rem" borderRadius="0.75rem" />
+        }
+      </div>
+    </section>
+  } @else if (currentRegion(); as region) {
+    <app-details-cover
+      class="region-cover"
+      [src]="getRegionImage(region.name)"
+      [alt]="region.name"
+      [title]="region.name"
+      [subtitle]="region.description"
+      loading="eager"
+      fetchPriority="high"
+    />
+
+    @if (tags().length) {
+      <section class="available-categories" aria-labelledby="available-categories-title">
+        <h2 id="available-categories-title">Categorie</h2>
+
+        <div class="category-tags">
+          @for (tag of tags(); track tag.id; let i = $index) {
+            <a
+              class="category-tag-link"
+              [routerLink]="['/regioni/regione-dettaglio/regione-tags']"
+              [queryParams]="{ regionId: selectedRegionId(), tagId: tag.id }"
+              [attr.aria-label]="'Apri la categoria ' + tag.name"
+            >
+              <p-tag
+                [value]="tag.name + ' ' + getCountForTag(tag.id)"
+                [icon]="categoryIcons[i]"
+                [severity]="categorySeverities[i] ?? 'secondary'"
+                [rounded]="true"
+              />
+            </a>
+          }
+        </div>
+      </section>
     }
-  </header>
 
-  <main class="categories-section">
-    <!-- BADGE TAG -->
+    @if (!regionContents().length) {
+      <p-message
+        severity="info"
+        [closable]="false"
+        text="Non ci sono ancora luoghi pubblicati per questa regione."
+      />
+    } @else {
+      <div class="category-sections">
+        @for (tag of tags(); track tag.id; let i = $index) {
+          @if (getCountForTag(tag.id) > 0) {
+            <section class="category-section" [attr.aria-labelledby]="'category-' + tag.id">
+              <header class="category-header">
+                <div class="category-heading">
+                  <i [class]="categoryIcons[i]" aria-hidden="true"></i>
+                  <h2 [id]="'category-' + tag.id">{{ tag.name }}</h2>
+                  <span>
+                    {{ getCountForTag(tag.id) }}
+                    {{ getCountForTag(tag.id) === 1 ? 'luogo' : 'luoghi' }}
+                  </span>
+                </div>
 
-    <div class="tags-container">
-      @for (tag of tags(); track tag.id; let i = $index) {
-        <span class="subtag-badge" [ngClass]="'subtag-badge-' + (i + 1)">
-          {{ tag.name }}
-        </span>
-      }
-    </div>
-
-    <div class="categories-list">
-      @for (tag of tags(); track tag.id) {
-        <section class="category-row">
-          <div class="category-header">
-            <div class="category-name">
-              <h4>
-                {{ tag.name }}
-              </h4>
-
-              <span>
-                {{ getCountForTag(tag.id) }}
-                luoghi
-              </span>
-            </div>
-
-            <div class="category-actions">
-              @if (getCountForTag(tag.id) > 0) {
-                <button class="arrow-link" type="button" (click)="onTagClick(tag.id)">
-                  Vedi tutti →
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="cards-container">
-            @for (item of getContentsForTag(tag.id); track item.id) {
-              <div class="scroll-item">
-                <app-card-content-component
-                  [content]="item"
-                  [subTag]="getSubTagById(item.sub_tag_id)"
+                <p-button
+                  label="Vedi tutti"
+                  icon="ph ph-arrow-right"
+                  iconPos="right"
+                  [text]="true"
+                  size="small"
+                  (onClick)="onTagClick(tag.id)"
                 />
+              </header>
+
+              <div class="category-cards">
+                @for (item of getContentsForTag(tag.id); track item.id) {
+                  <app-card-content-component
+                    [content]="item"
+                    [subTag]="getSubTagById(item.sub_tag_id)"
+                  />
+                }
               </div>
-            } @empty {
-              <div class="empty-category-box">Nessun luogo presente</div>
-            }
-          </div>
-        </section>
-      } @empty {
-        <div class="empty-category-box">Nessuna categoria disponibile</div>
-      }
+            </section>
+          }
+        }
+      </div>
+    }
+  } @else {
+    <div class="region-detail-error">
+      <p-message
+        severity="error"
+        [closable]="false"
+        text="Regione non trovata."
+      />
+      <a pButton routerLink="/regioni">
+        <i pButtonIcon class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span pButtonLabel>Torna alle regioni</span>
+      </a>
     </div>
-  </main>
-</div>
+  }
+</main>

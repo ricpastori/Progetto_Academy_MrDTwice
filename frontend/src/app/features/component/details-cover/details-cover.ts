@@ -23,7 +23,6 @@ export class DetailsCover {
   // title e subtitle sono opzionali: la loro presenza attiva la variante con contenuto sovrapposto.
   readonly title = input<string | null>(null);
   readonly subtitle = input<string | null>(null);
-  readonly subtitleIcon = input('ph ph-map-pin');
 
   // Questi input espongono solo le opzioni immagine utili alla cover, mantenendo qui l'API semplice.
   readonly size = input<DetailsCoverImageSize>('full');
@@ -37,7 +36,6 @@ export class DetailsCover {
   // I computed ripuliscono i testi una volta sola e tengono il template libero da controlli ripetuti.
   protected readonly displayTitle = computed(() => this.title()?.trim() ?? '');
   protected readonly displaySubtitle = computed(() => this.subtitle()?.trim() ?? '');
-  protected readonly displaySubtitleIcon = computed(() => this.subtitleIcon().trim());
   protected readonly hasTextContent = computed(
     () => Boolean(this.displayTitle()) || Boolean(this.displaySubtitle()),
   );

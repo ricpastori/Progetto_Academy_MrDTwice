@@ -1,303 +1,197 @@
-@import '../../../../styles.css';
-
 :host {
   display: block;
+  min-width: 0;
 }
 
-/* CONTENITORE PAGINA */
-
-.page-container {
-  min-height: 100vh;
-
-  background: var(--p-surface-50);
-
-  padding: 2rem 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2rem;
+.region-detail-page {
+  display: grid;
+  gap: 1.5rem;
+  min-height: 100%;
+  padding: 1.5rem 0 5rem;
+  color: var(--p-text-color);
 }
 
-/* ==========================
-   HERO REGION
-========================== */
-
-.hero-section {
-  display: flex;
-
-  justify-content: center;
-}
-
-:host ::ng-deep app-card-region {
-  width: 100%;
-}
-
-/* CARD REGION SOLO QUI */
-
-:host ::ng-deep app-card-region .region-card {
-  aspect-ratio: 20 / 6;
-
-  border-radius: 1rem;
-}
-
-:host ::ng-deep app-card-region .region-content {
-  padding: 0 1.5rem 1rem;
-}
-
-:host ::ng-deep app-card-region h4 {
-  font-size: 1.35rem;
-}
-
-:host ::ng-deep app-card-region p {
-  font-size: 0.85rem;
-}
-
-/* ==========================
-   CATEGORIE
-========================== */
-
-.categories-section {
-  width: 100%;
-}
-
-.categories-list {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2.5rem;
-}
-
-.category-row {
+:host ::ng-deep .region-detail-breadcrumb.p-breadcrumb {
+  border: 0;
   background: transparent;
+  padding: 0;
 }
 
-.category-header {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 1rem;
+:host ::ng-deep .region-detail-breadcrumb .p-breadcrumb-item-link {
+  color: var(--p-primary-color);
+  font-size: 0.8rem;
 }
 
-.category-name {
-  display: flex;
-
-  align-items: center;
-
-  gap: 0.6rem;
-}
-
-.category-name h4 {
-  margin: 0;
-
-  font-size: 1.25rem;
-
-  color: #111827;
-
+:host ::ng-deep .region-detail-breadcrumb .p-breadcrumb-item:last-child .p-breadcrumb-item-link {
+  color: var(--p-text-color);
   font-weight: 600;
 }
 
-.category-name span {
-  color: #9ca3af;
-
-  font-size: 0.85rem;
+.breadcrumb-separator {
+  color: var(--p-text-muted-color);
+  font-size: 0.75rem;
 }
 
-/* BUTTON */
-
-:host .arrow-link {
-  border: none;
-
-  background: transparent;
-
-  padding: 0;
-
-  color: #8b5cf6;
-
-  font-size: 0.85rem;
-
-  font-weight: 500;
-
-  cursor: pointer;
+.region-cover {
+  --details-cover-height: clamp(17rem, 28vw, 20rem);
 }
 
-:host .arrow-link:hover {
-  text-decoration: underline;
+.available-categories {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.25rem;
 }
 
-/* ==========================
-   CARD CONTENT SCROLL
-========================== */
+.available-categories h2 {
+  margin: 0;
+  color: var(--p-text-muted-color);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
 
-.cards-container {
+.category-tags,
+.category-skeletons,
+.card-skeletons {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
 
+.category-tag-link {
+  display: inline-flex;
+  border-radius: var(--p-tag-rounded-border-radius);
+  transition: transform 150ms ease;
+}
+
+.category-tag-link:hover {
+  transform: translateY(-1px);
+}
+
+.category-tag-link:focus-visible {
+  outline: var(--p-focus-ring-width) var(--p-focus-ring-style) var(--p-focus-ring-color);
+  outline-offset: var(--p-focus-ring-offset);
+}
+
+:host ::ng-deep .category-tags .p-tag {
+  gap: 0.35rem;
+  padding-inline: 0.8rem;
+}
+
+.category-sections {
+  display: grid;
+  gap: 2.75rem;
+  margin-top: 0.5rem;
+}
+
+.category-section {
+  min-width: 0;
+}
+
+.category-header,
+.category-heading {
+  display: flex;
+  align-items: center;
+}
+
+.category-header {
+  justify-content: space-between;
   gap: 1rem;
+  margin-bottom: 1rem;
+}
 
+.category-heading {
+  min-width: 0;
+  gap: 0.55rem;
+}
+
+.category-heading > i {
+  flex: 0 0 auto;
+  color: var(--p-primary-color);
+  font-size: 1.1rem;
+}
+
+.category-heading h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.category-heading span {
+  color: var(--p-text-muted-color);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.category-cards {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
   overflow-x: auto;
-
-  padding-bottom: 0.8rem;
+  overscroll-behavior-inline: contain;
+  padding: 0.15rem 0.1rem 0.9rem;
+  scroll-padding-inline: 0.1rem;
+  scroll-snap-type: inline proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--p-surface-300) transparent;
 }
 
-.cards-container::-webkit-scrollbar {
-  height: 5px;
+.category-cards app-card-content-component {
+  display: block;
+  height: auto;
+  flex: 0 0 16rem;
+  scroll-snap-align: start;
 }
 
-.cards-container::-webkit-scrollbar-thumb {
-  background: #ddd;
-
-  border-radius: 10px;
-}
-
-.scroll-item {
-  flex: 0 0 220px;
-
-  display: flex;
-}
-
-.scroll-item app-card-content-component {
-  width: 100%;
-}
-
-/* ==========================
-   CARD HEIGHT FIX
-========================== */
-
-:host ::ng-deep .scroll-item .p-card {
+:host ::ng-deep .category-cards .card-container,
+:host ::ng-deep .category-cards .content-card.p-card {
   height: 100%;
-
-  display: flex;
-
-  flex-direction: column;
 }
 
-:host ::ng-deep .scroll-item .p-card-body {
-  display: flex;
-
-  flex-direction: column;
-
-  flex: 1;
+:host ::ng-deep .category-cards .content-image {
+  aspect-ratio: 6 / 5;
 }
 
-:host ::ng-deep .scroll-item .p-card-footer {
-  margin-top: auto;
+.region-detail-loading {
+  display: grid;
+  gap: 1.5rem;
 }
 
-/* ==========================
-   EMPTY
-========================== */
-
-.empty-category-box {
+:host ::ng-deep .cover-skeleton.p-skeleton {
   width: 100%;
+  height: clamp(17rem, 28vw, 20rem);
+  border-radius: var(--p-card-border-radius);
+}
 
-  padding: 2rem;
-
-  background: #f9fafb;
-
-  border-radius: 12px;
-
-  color: #9ca3af;
-
+.region-detail-error {
+  display: grid;
+  min-height: 24rem;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
   text-align: center;
 }
 
-/* ==========================
-   TAG BADGE
-========================== */
-
-:host .tags-container {
-  width: 100%;
-
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 1rem;
-
-  padding: 0.5rem 0;
-}
-
-:host .subtag-badge {
-  flex: 1;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 0.5rem 0.8rem;
-
-  border-radius: 999px;
-
-  font-size: 0.75rem;
-
-  font-weight: 500;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-/* COLORI TAG */
-
-:host ::ng-deep .subtag-badge-1 {
-  background: #f0d7f6;
-
-  color: #c86ddf;
-}
-
-:host ::ng-deep .subtag-badge-2 {
-  background: #d9f4e8;
-
-  color: #32b87a;
-}
-
-:host ::ng-deep .subtag-badge-3 {
-  background: #dceeff;
-
-  color: #4a90e2;
-}
-
-:host ::ng-deep .subtag-badge-4 {
-  background: #ffe8d6;
-
-  color: #f28c38;
-}
-
-/* ==========================
-   RESPONSIVE
-========================== */
-
-@media (max-width: 768px) {
-  .page-container {
-    padding: 1.5rem 0;
+@media (max-width: 640px) {
+  .region-detail-page {
+    gap: 1.25rem;
+    padding: 1rem 0 3.5rem;
   }
 
-  :host ::ng-deep app-card-region {
-    width: 100%;
+  .region-cover {
+    --details-cover-height: clamp(14rem, 58vw, 18rem);
   }
 
-  :host ::ng-deep app-card-region .region-card {
-    aspect-ratio: 16 / 8;
+  .category-header {
+    align-items: flex-start;
   }
 
-  .scroll-item {
-    flex: 0 0 260px;
+  .category-heading {
+    flex-wrap: wrap;
   }
 
-  .tags-container {
-    overflow-x: auto;
-  }
-
-  .subtag-badge {
-    min-width: 120px;
+  .category-cards app-card-content-component {
+    flex-basis: min(82vw, 17rem);
   }
 }
