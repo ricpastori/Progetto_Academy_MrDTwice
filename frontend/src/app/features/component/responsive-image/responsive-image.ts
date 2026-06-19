@@ -12,7 +12,7 @@ const imageExtensionPattern = /\.(?:jpe?g|png|webp)$/i;
 const imageRoot = '/images/';
 const originRoot = '/images/origin/';
 const generatedRoot = '/images/generated/';
-// Must match scripts/optimize-images.mjs.
+// Deve rimanere allineato a scripts/optimize-images.mjs.
 const generatedWidths = [320, 480, 768, 1024, 1440, 1920] as const;
 const sizePresets = {
   xs: '320px',
@@ -29,11 +29,11 @@ const sizePresets = {
   styleUrl: './responsive-image.css',
 })
 export class ResponsiveImage {
-  // src accetta sia path completi sia nomi relativi dentro /images.
+  // src accetta sia percorsi completi sia nomi relativi dentro /images.
   // Esempi validi: "/images/origin/regions/toscana.jpg", "images/regions/toscana.jpg", "regions/toscana.jpg".
   readonly src = input<string | null>(null);
   readonly alt = input('');
-  // size sceglie quanto spazio l'immagine dovrebbe occupare: il componente lo traduce in sizes.
+  // size sceglie quanto spazio l'immagine dovrebbe occupare: il componente lo traduce nell'attributo sizes.
   readonly size = input<ResponsiveImageSize>('full');
   readonly loading = input<ImageLoading>('lazy');
   readonly decoding = input<ImageDecoding>('async');
@@ -100,7 +100,7 @@ function normalizePublicImagePath(src: string | null | undefined): string | null
     return `${originRoot}${value.slice(imageRoot.length)}`;
   }
 
-  // Accept both "regions/toscana.jpg" and "images/regions/toscana.jpg".
+  // Accetta sia "regions/toscana.jpg" sia "images/regions/toscana.jpg".
   return value.startsWith('images/')
     ? `${originRoot}${value.slice('images/'.length)}`
     : `${originRoot}${value}`;

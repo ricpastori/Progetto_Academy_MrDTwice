@@ -9,22 +9,25 @@ import { ImageConverter } from 'wasm-image-optimization';
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(dirname, '..');
 const imageRoot = path.join(projectRoot, 'public', 'images');
-// Le immagini originali committate vivono qui; generated è derivata e ignorata da Git.
+// Le immagini originali committate vivono qui; la cartella "generated" è derivata e ignorata da Git.
 const originRoot = path.join(imageRoot, 'origin');
 const outputRoot = path.join(imageRoot, 'generated');
 
+// Lo script lavora solo su raster: SVG e favicon restano così come sono.
 const sourceExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp']);
-// Keep this list in sync with ResponsiveImage: the component builds srcset URLs from it.
+// Tieni questa lista allineata a ResponsiveImage: il componente costruisce il srcset da qui.
 const widths = [320, 480, 768, 1024, 1440, 1920];
+// Valori semplici e fissi: se servono preset diversi, meglio aggiungerli qui in modo esplicito.
 const quality = 82;
 const speed = 6;
 const force = process.argv.includes('--force');
 
 async function main() {
-  // Partiamo solo da origin: così non rielaboriamo generated e non creiamo cartelle duplicate.
+  // Partiamo solo da "origin": così non rielaboriamo "generated" e non creiamo cartelle duplicate.
   const sources = await collectSourceImages(originRoot);
 
   if (force) {
+    // Utile quando cambiano qualità, larghezze o algoritmo: riparte da zero.
     await fs.rm(outputRoot, { recursive: true, force: true });
   }
 
@@ -35,9 +38,11 @@ async function main() {
   let skippedCount = 0;
 
   for (const sourcePath of sources) {
+    // Il percorso relativo mantiene la stessa struttura di "origin" dentro "generated".
+    // Es: "origin/about/hero.jpg" diventa "generated/about/hero-1024w.webp".
     const sourceRelative = toPosix(path.relative(originRoot, sourcePath));
     const image = await fs.readFile(sourcePath);
-    // A metadata-only pass gives us the original ratio before writing every variant.
+    // Passaggio solo metadati: ci serve il rapporto originale prima di scrivere ogni variante.
     const probe = await converter.optimizeImage({ image, format: 'none' });
     const originalWidth = probe.originalWidth || probe.width;
     const originalHeight = probe.originalHeight || probe.height;
@@ -51,17 +56,18 @@ async function main() {
     const sourceStats = await fs.stat(sourcePath);
 
     for (const width of widths) {
+      // Creiamo sempre le stesse larghezze: il componente può costruire il srcset senza manifest.
       const outputRelative = getOutputRelativePath(sourceRelative, width);
       const outputPath = path.join(imageRoot, outputRelative);
 
-      // Normal runs only refresh stale variants; --force rebuilds the whole folder.
+      // Le esecuzioni normali aggiornano solo varianti vecchie; --force ricrea tutta la cartella.
       if (!force && !(await shouldRegenerate(sourceStats, outputPath))) {
         skippedCount += 1;
         continue;
       }
 
       const height = Math.round((originalHeight / originalWidth) * width);
-      // Height is calculated from the original ratio, so fill does not distort the image.
+      // L'altezza deriva dal rapporto originale, quindi "fill" non distorce l'immagine.
       const result = await converter.optimizeImage({
         image,
         width,
@@ -73,6 +79,7 @@ async function main() {
         animation: probe.originalAnimation,
       });
 
+      // La creazione ricorsiva permette di aggiungere sottocartelle in "origin" senza aggiornare lo script.
       await fs.mkdir(path.dirname(outputPath), { recursive: true });
       await fs.writeFile(outputPath, result.data);
 
@@ -86,7 +93,7 @@ async function main() {
 function getOutputRelativePath(sourceRelative, width) {
   const directory = path.posix.dirname(sourceRelative);
   const filename = path.posix.basename(sourceRelative, path.posix.extname(sourceRelative));
-  // Example: regions/toscana.jpg -> generated/regions/toscana-768w.webp
+  // Esempio: "regions/toscana.jpg" diventa "generated/regions/toscana-768w.webp".
   const outputFilename = `${filename}-${width}w.webp`;
 
   return directory === '.'
@@ -98,8 +105,10 @@ async function shouldRegenerate(sourceStats, outputPath) {
   try {
     const outputStats = await fs.stat(outputPath);
 
+    // Se la sorgente è più nuova del file generato, rigeneriamo solo quella variante.
     return outputStats.mtimeMs < sourceStats.mtimeMs;
   } catch (error) {
+    // File generato mancante: prima generazione o variante eliminata manualmente.
     if (error?.code === 'ENOENT') {
       return true;
     }
@@ -116,6 +125,7 @@ async function collectSourceImages(directory) {
     const absolutePath = path.join(directory, entry.name);
 
     if (entry.isDirectory()) {
+      // Ricorsivo per supportare liberamente sottocartelle come "about", "regions", ecc.
       files.push(...(await collectSourceImages(absolutePath)));
 
       continue;
