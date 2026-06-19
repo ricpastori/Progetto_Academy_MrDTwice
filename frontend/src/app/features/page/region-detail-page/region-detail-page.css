@@ -37,7 +37,7 @@ app-card-region {
 
   width:100%;
 
- 
+
 
 }
 
@@ -230,9 +230,9 @@ padding-top: 0.3rem;
 .scroll-item {
 
 
-  flex:0 0 300px;
+  flex:0 0 220px;
 
-  height:420px;
+  height:100%;
 
 }
 
