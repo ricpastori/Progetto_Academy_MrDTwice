@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run images:optimize && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "images:optimize:force": "node scripts/optimize-images.mjs --force",
     "format": "prettier --write src",
     "format:check": "prettier --check src"
   },
@@ -44,6 +46,7 @@
     "prettier": "^3.8.4",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.59.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "wasm-image-optimization": "^2.0.9"
   }
 }
