@@ -68,7 +68,7 @@ export class AboutPage {
   protected readonly team: readonly TeamMember[] = [
     {
       avatarUrl: '/images/about/avatar_davide_braghi.png',
-      name: 'Davide Draghi',
+      name: 'Davide Braghi',
       role: 'Co-founder & Explorer',
       githubUrl: 'https://github.com/Dade1991',
       linkedinUrl: 'https://www.linkedin.com/in/davide-braghi-1991-pc/',
