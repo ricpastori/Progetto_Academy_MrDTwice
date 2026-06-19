@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
 
+// Pool di connessioni PostgreSQL usato da tutte le funzioni del service.
+// I valori arrivano dalle variabili d'ambiente configurate per il backend.
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -9,7 +11,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-//GET REGIONS
+// Recupera tutte le regioni dal database, ordinate alfabeticamente per nome.
 async function getRegions() {
   try {
     const { rows } = await pool.query(`
@@ -25,7 +27,7 @@ async function getRegions() {
   }
 }
 
-//GET TAGS
+// Recupera tutti i tag disponibili per classificare i contenuti.
 async function getTags() {
   try {
     const { rows } = await pool.query(`
@@ -40,7 +42,7 @@ async function getTags() {
   }
 }
 
-//GET CONTENT
+// Recupera tutti i contenuti senza applicare filtri su regione o tag.
 async function getContents() {
   try {
     const { rows } = await pool.query(`
@@ -55,7 +57,29 @@ async function getContents() {
   }
 }
 
-//GET CONTENT BY REGION_ID
+// Conta quanti contenuti sono associati a ogni regione.
+// Il LEFT JOIN mantiene nel risultato anche le regioni senza contenuti.
+async function getContentsCountByRegion() {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT regions.id,
+        COALESCE(COUNT(content.id), 0)::int AS count
+      FROM public.regions
+      LEFT JOIN public.content ON content.region_id = regions.id
+      GROUP BY regions.id, regions.name;
+      `,
+    );
+
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+// Recupera i contenuti appartenenti a una singola regione.
+// regionId viene passato come parametro SQL per evitare query costruite a stringa.
 async function getContentsByRegion(regionId) {
   try {
     const { rows } = await pool.query(
@@ -74,7 +98,7 @@ async function getContentsByRegion(regionId) {
   }
 }
 
-//GET CONTENT BY REGION_ID AND TAG_ID
+// Recupera i contenuti filtrando contemporaneamente per regione e tag.
 async function getContentsByRegionAndTag(regionId, tagId) {
   try {
     const { rows } = await pool.query(
@@ -93,14 +117,14 @@ async function getContentsByRegionAndTag(regionId, tagId) {
   }
 }
 
-//GET SUB_TAG
+// Recupera tutti i sotto-tag disponibili.
 async function getSubTags() {
   try {
     const { rows } = await pool.query(
       `
       SELECT *
       FROM sub_tags
-  `
+  `,
     );
 
     return rows;
@@ -110,7 +134,8 @@ async function getSubTags() {
   }
 }
 
-//IL CONTENT PIU' RECENTE PER REGIONE
+// Per ogni regione restituisce il contenuto più recente associato al tag indicato.
+// DISTINCT ON sceglie una sola riga per region_id dopo l'ordinamento per data.
 async function getLatestContentByRegionByTag(tagId) {
   try {
     const { rows } = await pool.query(
@@ -133,7 +158,8 @@ async function getLatestContentByRegionByTag(tagId) {
   }
 }
 
-//IL CONTENT CON PIU' LIKES PER REGIONE
+// Per ogni regione restituisce il contenuto con più like associato al tag indicato.
+// DISTINCT ON sceglie una sola riga per region_id dopo l'ordinamento per like.
 async function getMostLikedContentByRegionByTag(tagId) {
   try {
     const { rows } = await pool.query(
@@ -157,7 +183,7 @@ ORDER BY region_id, likes desc;
   }
 }
 
-//POST CONTENT
+// Inserisce un nuovo contenuto nel database e restituisce la riga appena creata.
 async function createContent(data) {
   try {
     const { region_id, tag_id, sub_tag_id, city, place, description, image_url } = data;
@@ -192,7 +218,7 @@ async function createContent(data) {
   }
 }
 
-//POST LIKE DISLIKE CONTENT
+// Incrementa di 1 il numero di like del contenuto indicato.
 async function addLike(id) {
   try {
     const { rows } = await pool.query(
@@ -214,6 +240,7 @@ async function addLike(id) {
   }
 }
 
+// Incrementa di 1 il numero di dislike del contenuto indicato.
 async function addDislike(id) {
   try {
     const { rows } = await pool.query(
@@ -235,16 +262,18 @@ async function addDislike(id) {
   }
 }
 
+// Esporta tutte le operazioni usate dalle routes API.
 module.exports = {
   getRegions,
   getTags,
   getContents,
   getSubTags,
   getContentsByRegion,
+  getContentsCountByRegion,
   getContentsByRegionAndTag,
   getLatestContentByRegionByTag,
   getMostLikedContentByRegionByTag,
   createContent,
   addLike,
-  addDislike
+  addDislike,
 };

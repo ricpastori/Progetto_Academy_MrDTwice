@@ -35,6 +35,8 @@ export class HomePage implements OnInit {
 
   protected loadHomePageData(): void {
     this.regionService.getRegions();
+    // Carica il numero di contenuti per regione usato dalle card.
+    this.regionService.getRegionsContentsCount();
     this.subTagService.getSubTags();
     this.tagService.getTags();
 
@@ -68,22 +70,8 @@ export class HomePage implements OnInit {
   }
 
   protected getPlacesCount(region: Region): number {
-    const countSource = region as Region & {
-      placesCount?: number;
-      places_count?: number;
-      contentCount?: number;
-      content_count?: number;
-    };
-
-    const count = Number(
-      countSource.placesCount ??
-        countSource.places_count ??
-        countSource.contentCount ??
-        countSource.content_count ??
-        0,
-    );
-
-    return Number.isFinite(count) ? count : 0;
+    // Il service gestisce il fallback a 0 se il conteggio non è disponibile.
+    return this.regionService.getRegionContentsCount(region.id);
   }
 
   protected getRegionCity(region: Region): string {
