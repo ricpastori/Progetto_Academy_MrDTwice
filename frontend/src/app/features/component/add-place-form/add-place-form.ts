@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Moduli PrimeNG
-import { InputTextModule } from 'primeng/inputtext';
-// import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
-// import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { EditorModule } from 'primeng/editor';
 
 // Servizi
 import { ContentService } from '../../../services/content-service';
 import { ImageUploadService } from '../../../services/image-upload.service';
 import { RegionService } from '../../../services/region-service';
 import { TagService } from '../../../services/tag-service';
-import { SubTagService, SubTag } from '../../../services/sub-tag-service';
+import { SubTagService } from '../../../services/sub-tag-service';
 
 @Component({
   selector: 'app-add-place-form',
@@ -23,9 +23,11 @@ import { SubTagService, SubTag } from '../../../services/sub-tag-service';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
-    // DropdownModule,
-    // InputTextareaModule,
+    CascadeSelectModule,
+    EditorModule,
   ],
+  providers: [ContentService, ImageUploadService, RegionService, TagService, SubTagService],
+
   templateUrl: './add-place-form.html',
   styleUrls: ['./add-place-form.css'],
 })
@@ -43,6 +45,15 @@ export class AddPlaceFormComponent implements OnInit {
   public selectedFile = signal<File | null>(null);
   public imagePreview = signal<string | null>(null);
 
+  public categorieList = [
+    { id: 'natura', name: 'Natura' },
+    { id: 'storia_monumenti', name: 'Storia & Monumenti' },
+    { id: 'arte_cultura', name: 'Arte & Cultura' },
+    { id: 'food_wine', name: 'Food & Wine' },
+    { id: 'esperienze', name: 'Esperienze' },
+    { id: 'vita_locale', name: 'Vita Locale' },
+  ];
+
   ngOnInit(): void {
     this.placeForm = this.fb.group({
       tag_id: [null, Validators.required],
@@ -56,21 +67,10 @@ export class AddPlaceFormComponent implements OnInit {
     // Inizializzazione dei dati dai servizi
     this.regionService.getRegions();
     this.tagService.getTags();
-    this.subTagService.getSubTags();
-  }
-
-  // Funzione per estrarre e filtrare le sottocategorie in base al tag selezionato
-  getFilteredSubTags(): SubTag[] {
-    const selectedTagId = this.placeForm?.get('tag_id')?.value;
-    if (!selectedTagId) return [];
-
-    // Legge il Signal del servizio in sola lettura e lo filtra
-    return this.subTagService.subTags().filter((subTag) => subTag.tag_id === selectedTagId);
   }
 
   selectCategory(tagId: string): void {
-    this.placeForm.patchValue({ tag_id: tagId, sub_tag_id: null });
-    this.placeForm.get('sub_tag_id')?.enable();
+    this.placeForm.patchValue({ tag_id: tagId });
   }
 
   onFileSelected(event: Event): void {
@@ -101,7 +101,6 @@ export class AddPlaceFormComponent implements OnInit {
 
     try {
       this.isSubmitting.set(true);
-
       const file = this.selectedFile()!;
       const publicImageUrl = await this.imageUploadService.uploadImage(file);
 
