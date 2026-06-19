@@ -1,15 +1,29 @@
 <form [formGroup]="placeForm" (ngSubmit)="onSubmit()" class="add-place-form">
-  <div class="category-selection">
-    @for (cat of tagService.tags(); track cat.id) {
-      <button
-        type="button"
-        (click)="selectCategory(cat.id)"
-        [class.active-category]="placeForm.get('tag_id')?.value === cat.id"
-        class="btn-category"
-      >
-        {{ cat.name }}
-      </button>
-    }
+  <div class="form-group">
+    <label for="placeId">Titolo <span class="required-asterisk">*</span></label>
+    <input
+      pInputText
+      id="placeId"
+      formControlName="place"
+      placeholder="es. Fontana di Trevi"
+      class="w-full"
+    />
+  </div>
+
+  <div class="form-group">
+    <span class="form-label-title">Categoria <span class="required-asterisk">*</span></span>
+    <div class="category-selection">
+      @for (cat of tagService.tags(); track cat.id) {
+        <button
+          type="button"
+          (click)="selectCategory(cat.id)"
+          [class.active-category]="placeForm.get('tag_id')?.value === cat.id"
+          class="btn-category"
+        >
+          {{ cat.name }}
+        </button>
+      }
+    </div>
   </div>
 
   <div class="form-group">
@@ -38,8 +52,7 @@
         optionLabel="name"
         optionValue="id"
         styleClass="w-full"
-      >
-      </p-select>
+      ></p-select>
     </div>
 
     <div class="form-group">
@@ -49,28 +62,18 @@
   </div>
 
   <div class="form-group">
-    <label for="placeId">Nome del Luogo <span class="required-asterisk">*</span></label>
-    <input
-      pInputText
-      id="placeId"
-      formControlName="place"
-      placeholder="es. Colosseo"
-      class="w-full"
-    />
-  </div>
-
-  <div class="form-group">
     <label for="descriptionId">Descrizione <span class="required-asterisk">*</span></label>
     <p-editor
       formControlName="description"
-      [style]="{ height: '180px' }"
-      placeholder="Descrivi questo luogo in dettaglio..."
+      id="descriptionId"
+      [style]="{ height: '150px' }"
+      placeholder="Descrivi questo luogo..."
     ></p-editor>
   </div>
 
   <div class="form-group">
-    <label for="hiddenFileInput"
-      >Immagine (Obbligatoria) <span class="required-asterisk">*</span></label
+    <span class="form-label-title"
+      >Immagine (Obbligatoria) <span class="required-asterisk">*</span></span
     >
     <div
       role="button"
@@ -99,26 +102,23 @@
   </div>
 
   <footer class="form-footer">
-    <button
-      pButton
-      type="button"
-      class="p-button-outlined p-button-secondary"
-      (click)="onAnnulla()"
-    >
+    <button pButton type="button" class="p-button-text p-button-secondary" (click)="onAnnulla()">
       Annulla
     </button>
+
     <button
       pButton
       type="submit"
       [disabled]="placeForm.invalid || !selectedFile() || isSubmitting()"
       class="btn-submit"
     >
-      @if (!isSubmitting()) {
-        <i class="pi pi-plus" aria-hidden="true"></i>
-      } @else {
+      @if (isSubmitting()) {
         <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+        <span>Salvataggio...</span>
+      } @else {
+        <i class="pi pi-plus" aria-hidden="true"></i>
+        <span>Aggiungi</span>
       }
-      <span>{{ isSubmitting() ? 'Salvataggio...' : 'Aggiungi' }}</span>
     </button>
   </footer>
 </form>
