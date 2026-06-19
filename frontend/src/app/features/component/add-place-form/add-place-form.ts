@@ -1,12 +1,13 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Moduli PrimeNG
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { Select } from 'primeng/select';
 import { EditorModule } from 'primeng/editor';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 // Servizi
 import { ContentService } from '../../../services/content-service';
@@ -18,16 +19,8 @@ import { SubTagService } from '../../../services/sub-tag-service';
 @Component({
   selector: 'app-add-place-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    ButtonModule,
-    CascadeSelectModule,
-    EditorModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, Select, EditorModule],
   providers: [ContentService, ImageUploadService, RegionService, TagService, SubTagService],
-
   templateUrl: './add-place-form.html',
   styleUrls: ['./add-place-form.css'],
 })
@@ -35,6 +28,9 @@ export class AddPlaceFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private contentService = inject(ContentService);
   private imageUploadService = inject(ImageUploadService);
+
+  // Riferimento per chiudere il modale PrimeNG
+  private dialogRef = inject(DynamicDialogRef);
 
   public regionService = inject(RegionService);
   public tagService = inject(TagService);
@@ -45,14 +41,15 @@ export class AddPlaceFormComponent implements OnInit {
   public selectedFile = signal<File | null>(null);
   public imagePreview = signal<string | null>(null);
 
-  public categorieList = [
-    { id: 'natura', name: 'Natura' },
-    { id: 'storia_monumenti', name: 'Storia & Monumenti' },
-    { id: 'arte_cultura', name: 'Arte & Cultura' },
-    { id: 'food_wine', name: 'Food & Wine' },
-    { id: 'esperienze', name: 'Esperienze' },
-    { id: 'vita_locale', name: 'Vita Locale' },
-  ];
+  // Signal per tracciare la categoria selezionata dall'utente
+  public selectedTagId = signal<string | null>(null);
+
+  // SIGNAL COMPUTATO: Filtra automaticamente i sub-tag in base alla categoria selezionata
+  public filteredSubTags = computed(() => {
+    const tagId = this.selectedTagId();
+    if (!tagId) return [];
+    return this.subTagService.subTags().filter((sub) => sub.tag_id === tagId);
+  });
 
   ngOnInit(): void {
     this.placeForm = this.fb.group({
@@ -64,13 +61,22 @@ export class AddPlaceFormComponent implements OnInit {
       description: ['', Validators.required],
     });
 
-    // Inizializzazione dei dati dai servizi
+    // Inizializzazione di tutti i dati dai servizi
     this.regionService.getRegions();
     this.tagService.getTags();
+    this.subTagService.getSubTags();
   }
 
   selectCategory(tagId: string): void {
-    this.placeForm.patchValue({ tag_id: tagId });
+    this.selectedTagId.set(tagId);
+
+    // Aggiorna il form, resetta l'eventuale sotto-categoria precedente e abilita il campo
+    this.placeForm.patchValue({ tag_id: tagId, sub_tag_id: null });
+    this.placeForm.get('sub_tag_id')?.enable();
+  }
+
+  onAnnulla(): void {
+    this.dialogRef.close(null); // Chiude il modale senza passare dati
   }
 
   onFileSelected(event: Event): void {
@@ -107,18 +113,15 @@ export class AddPlaceFormComponent implements OnInit {
       if (!publicImageUrl) throw new Error('Upload immagine fallito.');
 
       const payload = {
-        ...this.placeForm.value,
+        ...this.placeForm.getRawValue(),
         image_url: publicImageUrl,
       };
 
       this.contentService.createContent(payload).subscribe({
-        next: () => {
+        next: (response) => {
           alert('Luogo aggiunto con successo al database!');
-          this.placeForm.reset();
-          this.selectedFile.set(null);
-          this.imagePreview.set(null);
-          this.placeForm.get('sub_tag_id')?.disable();
           this.isSubmitting.set(false);
+          this.dialogRef.close(response);
         },
         error: (err: unknown) => {
           console.error(err);

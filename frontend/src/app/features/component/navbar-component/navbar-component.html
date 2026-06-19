@@ -46,8 +46,7 @@
 
     <!-- CTA Button — usa p-button direttamente, il tema Aura applica i token primary -->
     <div class="mrd-navbar__actions">
-      <!-- <p-button label="+ Aggiungi" routerLink="/aggiungi" size="small" /> -->
-      <p-button label="+ Aggiungi" (onClick)="showModal()" size="small"></p-button>
+      <p-button label="+ Aggiungi" (onClick)="apriModaleNuovoLuogo()" size="small"></p-button>
     </div>
 
     <!-- Mobile hamburger -->
@@ -77,12 +76,21 @@
     <a routerLink="/chi-siamo" (click)="menuOpen = false" class="mrd-navbar__mobile-link"
       >Chi siamo</a
     >
-    <a routerLink="/aggiungi" (click)="menuOpen = false" class="mrd-navbar__mobile-cta"
+
+    <button
+      (click)="apriModaleNuovoLuogo(); menuOpen = false"
+      class="mrd-navbar__mobile-cta"
+      style="border: none; text-align: left; cursor: pointer"
+    >
+      + Aggiungi
+    </button>
+  </div>
+  <!-- <a routerLink="/aggiungi" (click)="menuOpen = false" class="mrd-navbar__mobile-cta"
       >+ Aggiungi</a
     >
-  </div>
+  </div> -->
 
-  <p-dialog
+  <!-- <p-dialog
     header="Aggiungi un Luogo"
     [(visible)]="isModalVisible"
     [modal]="true"
@@ -96,5 +104,5 @@
     </p>
 
     <app-add-place-form></app-add-place-form>
-  </p-dialog>
+  </p-dialog> -->
 </header>
