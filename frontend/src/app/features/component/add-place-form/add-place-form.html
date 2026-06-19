@@ -1,4 +1,9 @@
-<form [formGroup]="placeForm" (ngSubmit)="onSubmit()" class="add-place-form">
+<form
+  [formGroup]="placeForm"
+  (ngSubmit)="onSubmit()"
+  class="add-place-form"
+  [hidden]="submissionState() !== 'form'"
+>
   <div class="form-group">
     <label for="placeId">Titolo <span class="required-asterisk">*</span></label>
     <input
@@ -6,8 +11,12 @@
       id="placeId"
       formControlName="place"
       placeholder="es. Fontana di Trevi"
+      [maxlength]="titleMaxLength"
       [fluid]="true"
     />
+    <small class="field-counter">
+      {{ placeForm.get('place')?.value?.length ?? 0 }}/{{ titleMaxLength }}
+    </small>
   </div>
 
   <div class="form-group">
@@ -107,6 +116,7 @@
       id="descriptionId"
       [style]="{ height: '150px' }"
       placeholder="Descrivi questo luogo..."
+      (onTextChange)="onDescriptionTextChange($event)"
     >
       <ng-template #header>
         <span class="ql-formats">
@@ -172,6 +182,12 @@
         </span>
       </ng-template>
     </p-editor>
+    <small
+      class="field-counter"
+      [class.field-counter--invalid]="descriptionLength() > descriptionMaxLength"
+    >
+      {{ descriptionLength() }}/{{ descriptionMaxLength }}
+    </small>
   </div>
 
   <div class="form-group">
@@ -182,12 +198,12 @@
       name="image"
       accept="image/jpeg,image/png,image/webp"
       [multiple]="false"
-      [maxFileSize]="10000000"
+      [maxFileSize]="maxImageFileSize"
       [fileLimit]="1"
       [showUploadButton]="false"
       [showCancelButton]="false"
       invalidFileSizeMessageSummary="File troppo grande"
-      invalidFileSizeMessageDetail="La dimensione massima consentita è 10 MB."
+      invalidFileSizeMessageDetail="La dimensione massima consentita è 5 MB."
       invalidFileTypeMessageSummary="Formato non supportato"
       invalidFileTypeMessageDetail="Sono accettati file JPG, PNG e WEBP."
       styleClass="image-uploader"
@@ -235,7 +251,7 @@
               <span class="upload-cta">Clicca o trascina qui</span>
             }
 
-            <span class="upload-hint">JPG, PNG, WEBP — max 10 MB</span>
+            <span class="upload-hint">JPG, PNG, WEBP — max 5 MB</span>
           </button>
 
           @if (files?.length) {
@@ -277,3 +293,55 @@
     ></p-button>
   </footer>
 </form>
+
+@switch (submissionState()) {
+  @case ('submitting') {
+    <section class="submission-feedback" aria-live="polite" aria-busy="true">
+      <p-progress-spinner
+        strokeWidth="4"
+        [style]="{ width: '3rem', height: '3rem' }"
+        ariaLabel="Caricamento in corso"
+      />
+
+      <div>
+        <h2>Stiamo aggiungendo il luogo</h2>
+        <p>Caricamento dell’immagine e salvataggio dei dati in corso…</p>
+      </div>
+    </section>
+  }
+
+  @case ('success') {
+    <section class="submission-feedback" aria-live="polite">
+      <p-message severity="success" [closable]="false" styleClass="submission-message">
+        <div class="submission-message__content">
+          <strong>Luogo aggiunto con successo</strong>
+          <span>Il contenuto è stato pubblicato correttamente.</span>
+        </div>
+      </p-message>
+
+      <p>
+        Verrai reindirizzato alla pagina del luogo tra
+        <strong>{{ redirectCountdown() }}</strong>
+        {{ redirectCountdown() === 1 ? 'secondo' : 'secondi' }}.
+      </p>
+    </section>
+  }
+
+  @case ('error') {
+    <section class="submission-feedback" aria-live="assertive">
+      <p-message severity="error" [closable]="false" styleClass="submission-message">
+        <div class="submission-message__content">
+          <strong>Qualcosa è andato storto</strong>
+          <span>{{ submissionError() }}</span>
+        </div>
+      </p-message>
+
+      <p-button
+        type="button"
+        label="Riprova"
+        icon="ph ph-arrow-counter-clockwise"
+        (onClick)="retrySubmission()"
+      />
+    </section>
+  }
+}
