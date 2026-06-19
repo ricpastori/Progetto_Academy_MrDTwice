@@ -5,33 +5,48 @@
     } @else if (isLoading()) {
       <div class="loading-placeholder">Caricamento dettagli regione...</div>
     } @else {
-      <div class="error-placeholder">Regione non trovata o ID errato.</div>
+      <div class="error-placeholder">Regione non trovata</div>
     }
   </header>
 
   <main class="categories-section">
-    <h3>Esplora le categorie</h3>
+    <!-- BADGE TAG -->
+
+    <div class="tags-container">
+      @for (tag of tags(); track tag.id; let i = $index) {
+        <span class="subtag-badge" [ngClass]="'subtag-badge-' + (i + 1)">
+          {{ tag.name }}
+        </span>
+      }
+    </div>
 
     <div class="categories-list">
       @for (tag of tags(); track tag.id) {
-        <div class="category-row">
-          <div
-            class="category-header"
-            role="button"
-            tabindex="0"
-            (click)="onTagClick(tag.id)"
-            (keyup.enter)="onTagClick(tag.id)"
-          >
-            <h4>
-              {{ tag.name }}
-            </h4>
+        <section class="category-row">
+          <div class="category-header">
+            <div class="category-name">
+              <h4>
+                {{ tag.name }}
+              </h4>
 
-            <span class="arrow-link">
-              Vedi tutti ({{ getContentsForTag(tag.id).length }}) &rarr;
-            </span>
+              <span >
+                {{ getCountForTag(tag.id) }}
+                luoghi
+              </span>
+            </div>
+
+            <div class="category-actions">
+
+
+              @if (getCountForTag(tag.id) > 0) {
+                <button class="arrow-link" type="button" (click)="onTagClick(tag.id)">
+                  Vedi tutti →
+                </button>
+              }
+            </div>
           </div>
 
-          <div class="horizontal-scroll-container">
+          <div class="cards-container">
             @for (item of getContentsForTag(tag.id); track item.id) {
               <div class="scroll-item">
                 <app-card-content-component
@@ -40,12 +55,12 @@
                 />
               </div>
             } @empty {
-              <div class="empty-category-box">
-                Nessun luogo presente in questa categoria per la regione corrente.
-              </div>
+              <div class="empty-category-box">Nessun luogo presente</div>
             }
           </div>
-        </div>
+        </section>
+      } @empty {
+        <div class="empty-category-box">Nessuna categoria disponibile</div>
       }
     </div>
   </main>
