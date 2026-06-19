@@ -1,20 +1,31 @@
-<div class="card-container">
-  <p-card [style]="{ overflow: 'hidden' }">
+<article class="card-container">
+  <p-card styleClass="content-card">
     <ng-template #header>
-      <div class="content-title">
-
-          <span>
-            <i class="ph ph-map-pin"></i>
-
-            {{ content().city }}
-          </span>
-
-        <span class="date-info">
-          <i class="ph ph-calendar"></i>
-          {{ formatDate(content().created_at) }}
+      <div class="content-meta">
+        <span class="content-location">
+          <i class="ph ph-map-pin" aria-hidden="true"></i>
+          <span>{{ content().city }}</span>
         </span>
+
+        <time class="date-info" [attr.datetime]="content().created_at">
+          {{ formatDate(content().created_at) }}
+        </time>
       </div>
-      <img class="w-full" [src]="content().image_url" [alt]="content().place" />
+
+      <div class="content-image">
+        @if (imageUrl(); as image) {
+          <img [src]="image" [alt]="content().place" loading="lazy" />
+        } @else {
+          <div
+            class="content-image-placeholder"
+            [ngClass]="'content-image-placeholder-' + subTag().tag_id"
+            role="img"
+            [attr.aria-label]="'Immagine non disponibile per ' + content().place"
+          >
+            <i class="ph" [ngClass]="categoryIcon()" aria-hidden="true"></i>
+          </div>
+        }
+      </div>
     </ng-template>
 
     <ng-template #title>
@@ -22,32 +33,50 @@
         <span class="subtag-badge" [ngClass]="'subtag-badge-' + subTag().tag_id">
           {{ subTag().name }}
         </span>
-        <span>{{ content().place }} </span>
+
+        <h3>{{ content().place }}</h3>
       </div>
     </ng-template>
 
     <ng-template #subtitle>
-<p class="description" [innerHTML]="content().description">
-
-    </p>
+      <div class="description" [innerHTML]="content().description"></div>
     </ng-template>
 
-
-
     <ng-template #footer>
-      <div class="reaction">
-        <button class="reaction-btn" (click)="addLike()">
-          <i class="ph ph-heart" [class.like-animation]="likeAnimation()"></i>
+      <div class="reaction" aria-label="Valutazioni del contenuto">
+        <button
+          type="button"
+          class="reaction-btn"
+          [attr.aria-label]="'Metti mi piace a ' + content().place"
+          (click)="addLike()"
+        >
+          <i class="ph ph-heart" [class.like-animation]="likeAnimation()" aria-hidden="true"></i>
 
           {{ likes() }}
         </button>
 
-        <button class="reaction-btn" (click)="addDislike()">
-          <i class="ph ph-thumbs-down" [class.dislike-animation]="dislikeAnimation()"></i>
+        <button
+          type="button"
+          class="reaction-btn"
+          [attr.aria-label]="'Non mi piace ' + content().place"
+          (click)="addDislike()"
+        >
+          <i
+            class="ph ph-thumbs-down"
+            [class.dislike-animation]="dislikeAnimation()"
+            aria-hidden="true"
+          ></i>
 
           {{ dislikes() }}
         </button>
       </div>
     </ng-template>
   </p-card>
-</div>
+
+  <a
+    class="card-navigation-link"
+    [routerLink]="['/content']"
+    [queryParams]="{ id: content().id }"
+    [attr.aria-label]="'Apri la scheda di ' + content().place"
+  ></a>
+</article>
