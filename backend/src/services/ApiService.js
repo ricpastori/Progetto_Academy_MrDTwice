@@ -1,10 +1,15 @@
 const { Pool } = require('pg');
+const WebSocket = require('ws');
 const { createClient } = require('@supabase/supabase-js');
 const { v4: uuidv4 } = require('uuid');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  realtime: {
+    transport: WebSocket,
+  },
+});
 
 // Pool di connessioni PostgreSQL usato da tutte le funzioni del service.
 // I valori arrivano dalle variabili d'ambiente configurate per il backend.

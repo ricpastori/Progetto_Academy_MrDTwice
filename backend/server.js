@@ -5,7 +5,7 @@ const apiService = require('./src/services/ApiService');
 const apiRoutes = require('./src/routes/ApiRoutes');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
