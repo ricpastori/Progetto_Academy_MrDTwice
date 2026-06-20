@@ -143,8 +143,7 @@
 /* ── CONTENUTI ────────────────────────────────────────────────────────── */
 
 .mrd-home__content-grid {
-  display: flex;
-  width: 100%;
+   display: flex;
   align-items: stretch;
   gap: 1rem;
   overflow-x: auto;
@@ -152,7 +151,8 @@
   padding: 0.5rem 0.35rem 0.9rem;
   scroll-padding-inline: 0.35rem;
   scroll-snap-type: inline proximity;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--p-surface-300) transparent;
 }
 
 .mrd-home__content-grid::-webkit-scrollbar {

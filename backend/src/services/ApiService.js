@@ -185,24 +185,8 @@ async function getLatestContentByRegion() {
     const { rows } = await pool.query(
       `
       SELECT *
-FROM (
-    SELECT DISTINCT ON (region_id)
-        id,
-        region_id,
-        tag_id,
-        sub_tag_id,
-        city,
-        place,
-        image_url,
-        description,
-        likes,
-        dislikes,
-        created_at
     FROM public.content
-    WHERE tag_id = 1
-    ORDER BY region_id, created_at DESC
-) AS latest
-ORDER BY created_at DESC
+    ORDER BY created_at DESC
 LIMIT 10;
       `,
     );
@@ -221,20 +205,9 @@ async function getMostLikedContentByRegion() {
   try {
     const { rows } = await pool.query(
       `
-      SELECT DISTINCT ON (region_id)
-    id,
-    region_id,
-    tag_id,
-    sub_tag_id,
-    city,
-    place,
-    image_url,
-    description,
-    likes,
-    dislikes,
-    created_at
+      SELECT *
 FROM public.content
-ORDER BY region_id, likes DESC
+ORDER BY likes DESC
 LIMIT 10;
 
       `,

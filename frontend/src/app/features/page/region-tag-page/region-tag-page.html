@@ -80,7 +80,9 @@
     <section class="results" aria-label="Luoghi trovati">
       <div class="cards">
         @for (item of filteredContent(); track item.id) {
-          <app-card-content-component [content]="item" [subTag]="getSubTag(item.sub_tag_id)" />
+          <app-card-content-component [content]="item" [subTag]="getSubTag(item.sub_tag_id)"
+          [regionId]="selectedRegionId()"
+  [tagId]="selectedTagId()"/>
         } @empty {
           <div class="empty-state">
             <span aria-hidden="true"><i class="ph ph-magnifying-glass"></i></span>

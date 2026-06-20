@@ -1,8 +1,10 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
 import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
+
 import { ContentService, Content } from '../../../services/content-service';
 import { SubTag } from '../../../services/sub-tag-service';
 
@@ -19,6 +21,11 @@ export class CardContentComponent implements OnInit {
 
   subTag = input.required<SubTag>();
 
+  // nuovi input per breadcrumb
+  regionId = input<string | null>(null);
+
+  tagId = input<string | null>(null);
+
   likes = signal(0);
 
   dislikes = signal(0);
@@ -31,11 +38,13 @@ export class CardContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.likes.set(this.content().likes ?? 0);
+
     this.dislikes.set(this.content().dislikes ?? 0);
   }
 
   addLike(): void {
     this.reactionAnnouncement.set('');
+
     this.likeAnimation.set(true);
 
     setTimeout(() => {
@@ -45,10 +54,12 @@ export class CardContentComponent implements OnInit {
     this.contentService.addLike(this.content().id).subscribe({
       next: (updated) => {
         this.likes.set(updated.likes);
+
         this.reactionAnnouncement.set(
           `Mi piace aggiunto a ${this.content().place}. Totale mi piace: ${updated.likes}.`,
         );
       },
+
       error: () => {
         this.reactionAnnouncement.set(
           `Non è stato possibile aggiungere il mi piace a ${this.content().place}.`,
@@ -59,6 +70,7 @@ export class CardContentComponent implements OnInit {
 
   addDislike(): void {
     this.reactionAnnouncement.set('');
+
     this.dislikeAnimation.set(true);
 
     setTimeout(() => {
@@ -68,10 +80,12 @@ export class CardContentComponent implements OnInit {
     this.contentService.addDislike(this.content().id).subscribe({
       next: (updated) => {
         this.dislikes.set(updated.dislikes);
+
         this.reactionAnnouncement.set(
           `Non mi piace aggiunto a ${this.content().place}. Totale non mi piace: ${updated.dislikes}.`,
         );
       },
+
       error: () => {
         this.reactionAnnouncement.set(
           `Non è stato possibile aggiungere il non mi piace a ${this.content().place}.`,
@@ -90,12 +104,16 @@ export class CardContentComponent implements OnInit {
     switch (String(this.subTag().tag_id)) {
       case '1':
         return 'ph-palette';
+
       case '2':
         return 'ph-fork-knife';
+
       case '3':
         return 'ph-leaf';
+
       case '4':
         return 'ph-bank';
+
       default:
         return 'ph-image';
     }
@@ -110,7 +128,9 @@ export class CardContentComponent implements OnInit {
 
     return parsed.toLocaleDateString('it-IT', {
       day: '2-digit',
+
       month: '2-digit',
+
       year: 'numeric',
     });
   }

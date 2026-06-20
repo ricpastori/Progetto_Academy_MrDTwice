@@ -1,5 +1,5 @@
 <article class="card-container">
-  <p-card styleClass="content-card">
+  <p-card class="content-card">
     <ng-template #header>
       <div class="content-meta">
         <span class="content-location">
@@ -89,6 +89,10 @@
     class="card-navigation-link"
     [routerLink]="['/content']"
     [queryParams]="{ id: content().id }"
+    [state]="{
+      regionId: regionId(),
+      tagId: tagId(),
+    }"
     [attr.aria-label]="'Apri la scheda di ' + content().place"
     [pTooltip]="'Apri ' + content().place"
     tooltipPosition="top"

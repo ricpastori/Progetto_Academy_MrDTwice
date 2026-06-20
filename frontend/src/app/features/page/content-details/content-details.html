@@ -12,7 +12,7 @@
     } @else if (content(); as contentData) {
       <p-breadcrumb styleClass="content-details__breadcrumb" [model]="breadcrumbItems()" />
 
-      <p-card styleClass="content-details__location-card">
+      <p-card class="content-details__location-card">
         <div class="content-details__location">
           <span>
             <i class="ph ph-map-pin" aria-hidden="true"></i>
@@ -33,13 +33,13 @@
         fetchPriority="high"
       />
 
-      <p-card styleClass="content-details__hero-card">
+      <p-card class="content-details__hero-card">
         <div class="content-details__hero-grid">
           <div class="content-details__heading">
             <h1>{{ contentData.place }}</h1>
 
             <p-tag
-              styleClass="content-details__tag"
+              class="content-details__tag"
               [value]="subTagName(contentData)"
               [rounded]="true"
             />
@@ -55,9 +55,15 @@
               [attr.aria-label]="'Mi piace. Totale: ' + contentData.likes"
               pTooltip="Mi piace"
               tooltipPosition="top"
+              (click)="addLike()"
             >
-              <i pButtonIcon class="ph ph-heart" aria-hidden="true"></i>
-              <span pButtonLabel>{{ contentData.likes }}</span>
+              <i
+  pButtonIcon
+  class="ph ph-heart"
+  [ngClass]="{ 'like-animation': likeAnimation() }"
+  aria-hidden="true"
+></i>
+              <span pButtonLabel>{{ likes() }}</span>
             </button>
 
             <button
@@ -69,15 +75,21 @@
               [attr.aria-label]="'Non mi piace. Totale: ' + contentData.dislikes"
               pTooltip="Non mi piace"
               tooltipPosition="top"
+              (click)="addDislike()"
             >
-              <i pButtonIcon class="ph ph-thumbs-down" aria-hidden="true"></i>
-              <span pButtonLabel>{{ contentData.dislikes }}</span>
+              <i
+  pButtonIcon
+  class="ph ph-thumbs-down"
+  [ngClass]="{ 'dislike-animation': dislikeAnimation() }"
+  aria-hidden="true"
+></i>
+              <span pButtonLabel>{{ dislikes() }}</span>
             </button>
           </div>
         </div>
       </p-card>
 
-      <p-card styleClass="content-details__section-card">
+      <p-card class="content-details__section-card">
         <section class="content-details__section" aria-labelledby="content-details-description">
           <h2 id="content-details-description">Descrizione</h2>
 
@@ -85,7 +97,7 @@
         </section>
       </p-card>
 
-      <p-card styleClass="content-details__section-card">
+      <p-card class="content-details__section-card">
         <section class="content-details__section" aria-labelledby="content-details-metadata">
           <h2 id="content-details-metadata">Dettagli</h2>
 
@@ -101,7 +113,7 @@
             </div>
 
             <div>
-              <dt>Citta</dt>
+              <dt>Citta'</dt>
               <dd>{{ contentData.city }}</dd>
             </div>
 
@@ -123,7 +135,7 @@
       </p-card>
     } @else {
       <p-message
-        styleClass="content-details__message"
+        class="content-details__message"
         severity="warn"
         variant="outlined"
         icon="ph ph-warning"
