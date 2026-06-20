@@ -1,7 +1,8 @@
 <section class="content-details">
   <div class="content-details__shell">
     @if (isLoading()) {
-      <div class="content-details__skeleton" aria-label="Caricamento dettaglio contenuto">
+      <div class="content-details__skeleton" role="status" aria-live="polite" aria-busy="true">
+        <span class="visually-hidden">Caricamento del dettaglio del contenuto in corso.</span>
         <p-skeleton width="18rem" height="1rem" />
         <p-skeleton height="2.875rem" borderRadius="0.75rem" />
         <p-skeleton height="20rem" borderRadius="0.75rem" />
@@ -44,14 +45,14 @@
             />
           </div>
 
-          <div class="content-details__actions" aria-label="Azioni sul contenuto">
+          <div class="content-details__actions" role="group" aria-label="Azioni sul contenuto">
             <button
               pButton
               type="button"
               class="content-details__reaction"
               severity="secondary"
               [outlined]="true"
-              aria-label="Mi piace"
+              [attr.aria-label]="'Mi piace. Totale: ' + contentData.likes"
               pTooltip="Mi piace"
               tooltipPosition="top"
             >
@@ -65,7 +66,7 @@
               class="content-details__reaction"
               severity="secondary"
               [outlined]="true"
-              aria-label="Non mi piace"
+              [attr.aria-label]="'Non mi piace. Totale: ' + contentData.dislikes"
               pTooltip="Non mi piace"
               tooltipPosition="top"
             >

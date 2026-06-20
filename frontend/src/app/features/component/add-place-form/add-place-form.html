@@ -11,17 +11,30 @@
       id="placeId"
       formControlName="place"
       placeholder="es. Fontana di Trevi"
+      required
       [maxlength]="titleMaxLength"
       [fluid]="true"
+      aria-describedby="titleCounter titleError"
+      [attr.aria-invalid]="isFieldInvalid('place') ? 'true' : null"
     />
-    <small class="field-counter">
+    <small id="titleCounter" class="field-counter">
       {{ placeForm.get('place')?.value?.length ?? 0 }}/{{ titleMaxLength }}
     </small>
+    @if (isFieldInvalid('place')) {
+      <small id="titleError" class="field-error" aria-live="polite">
+        @if (placeForm.get('place')?.hasError('required')) {
+          Inserisci il titolo del luogo.
+        } @else {
+          Il titolo non può superare {{ titleMaxLength }} caratteri.
+        }
+      </small>
+    }
   </div>
 
   <div class="form-group">
     <span id="categoryLabel" class="form-label-title">
       Categoria <span class="required-asterisk">*</span>
+      <span class="visually-hidden">(obbligatoria)</span>
     </span>
 
     <div class="category-selection">
@@ -31,7 +44,10 @@
         optionValue="id"
         formControlName="tag_id"
         [allowEmpty]="false"
+        [invalid]="isFieldInvalid('tag_id')"
         ariaLabelledBy="categoryLabel"
+        aria-describedby="categoryError"
+        [attr.aria-invalid]="isFieldInvalid('tag_id') ? 'true' : 'false'"
         styleClass="category-option"
         (onChange)="selectCategory($event.value)"
       >
@@ -66,14 +82,30 @@
         </ng-template>
       </p-selectbutton>
     </div>
+    @if (isFieldInvalid('tag_id')) {
+      <small id="categoryError" class="field-error" aria-live="polite">
+        Seleziona una categoria.
+      </small>
+    }
   </div>
 
   <div class="form-group">
-    <label for="subCategoryId"> Sotto-categoria <span class="required-asterisk">*</span> </label>
+    <label id="subCategoryLabel" for="subCategoryId">
+      Sotto-categoria <span class="required-asterisk">*</span>
+    </label>
     <p-select
       inputId="subCategoryId"
       [options]="filteredSubTags()"
       formControlName="sub_tag_id"
+      [required]="true"
+      [invalid]="isFieldInvalid('sub_tag_id')"
+      ariaLabelledBy="subCategoryLabel"
+      [pt]="{
+        label: {
+          'aria-describedby': 'subCategoryError',
+          'aria-invalid': isFieldInvalid('sub_tag_id') ? 'true' : 'false',
+        },
+      }"
       [placeholder]="
         selectedTagId() ? 'Seleziona una sotto-categoria' : 'Scegli prima una categoria'
       "
@@ -84,15 +116,31 @@
       panelStyleClass="add-place-select-overlay"
       [overlayOptions]="{ autoZIndex: true, baseZIndex: 4000 }"
     ></p-select>
+    @if (isFieldInvalid('sub_tag_id')) {
+      <small id="subCategoryError" class="field-error" aria-live="polite">
+        Seleziona una sotto-categoria.
+      </small>
+    }
   </div>
 
   <div class="form-row-grid-2">
     <div class="form-group">
-      <label for="regionId">Regione <span class="required-asterisk">*</span></label>
+      <label id="regionLabel" for="regionId">
+        Regione <span class="required-asterisk">*</span>
+      </label>
       <p-select
         inputId="regionId"
         [options]="regionService.regions()"
         formControlName="region_id"
+        [required]="true"
+        [invalid]="isFieldInvalid('region_id')"
+        ariaLabelledBy="regionLabel"
+        [pt]="{
+          label: {
+            'aria-describedby': 'regionError',
+            'aria-invalid': isFieldInvalid('region_id') ? 'true' : 'false',
+          },
+        }"
         placeholder="Seleziona regione"
         optionLabel="name"
         optionValue="id"
@@ -101,22 +149,44 @@
         panelStyleClass="add-place-select-overlay"
         [overlayOptions]="{ autoZIndex: true, baseZIndex: 4000 }"
       ></p-select>
+      @if (isFieldInvalid('region_id')) {
+        <small id="regionError" class="field-error" aria-live="polite">
+          Seleziona una regione.
+        </small>
+      }
     </div>
 
     <div class="form-group">
       <label for="cityId">Città <span class="required-asterisk">*</span></label>
-      <input pInputText id="cityId" formControlName="city" placeholder="es. Roma" [fluid]="true" />
+      <input
+        pInputText
+        id="cityId"
+        formControlName="city"
+        placeholder="es. Roma"
+        required
+        [fluid]="true"
+        aria-describedby="cityError"
+        [attr.aria-invalid]="isFieldInvalid('city') ? 'true' : null"
+      />
+      @if (isFieldInvalid('city')) {
+        <small id="cityError" class="field-error" aria-live="polite"> Inserisci la città. </small>
+      }
     </div>
   </div>
 
   <div class="form-group">
-    <label for="descriptionId">Descrizione <span class="required-asterisk">*</span></label>
+    <label id="descriptionLabel" for="descriptionId">
+      Descrizione <span class="required-asterisk">*</span>
+    </label>
     <p-editor
       formControlName="description"
-      id="descriptionId"
+      [required]="true"
+      [invalid]="isFieldInvalid('description')"
       [style]="{ height: '150px' }"
       placeholder="Descrivi questo luogo..."
+      (onInit)="onEditorInit($event)"
       (onTextChange)="onDescriptionTextChange($event)"
+      (onBlur)="onEditorBlur()"
     >
       <ng-template #header>
         <span class="ql-formats">
@@ -183,15 +253,28 @@
       </ng-template>
     </p-editor>
     <small
+      id="descriptionCounter"
       class="field-counter"
       [class.field-counter--invalid]="descriptionLength() > descriptionMaxLength"
     >
       {{ descriptionLength() }}/{{ descriptionMaxLength }}
     </small>
+    @if (isFieldInvalid('description')) {
+      <small id="descriptionError" class="field-error" aria-live="polite">
+        @if (placeForm.get('description')?.hasError('required')) {
+          Inserisci una descrizione.
+        } @else {
+          La descrizione non può superare {{ descriptionMaxLength }} caratteri.
+        }
+      </small>
+    }
   </div>
 
   <div class="form-group">
-    <span class="form-label-title"> Immagine <span class="required-asterisk">*</span> </span>
+    <span id="imageLabel" class="form-label-title">
+      Immagine <span class="required-asterisk">*</span>
+      <span class="visually-hidden">(obbligatoria)</span>
+    </span>
 
     <p-fileupload
       mode="advanced"
@@ -207,6 +290,14 @@
       invalidFileTypeMessageSummary="Formato non supportato"
       invalidFileTypeMessageDetail="Sono accettati file JPG, PNG e WEBP."
       styleClass="image-uploader"
+      [pt]="{
+        input: {
+          required: true,
+          'aria-required': 'true',
+          'aria-labelledby': 'imageLabel',
+          'aria-describedby': 'imageHint',
+        },
+      }"
       (onSelect)="onPrimeFileSelected($event)"
       (onRemove)="onPrimeFileRemoved($event.file)"
     >
@@ -239,6 +330,7 @@
             [attr.aria-label]="
               files?.length ? 'Immagine selezionata' : 'Scegli o trascina un’immagine'
             "
+            aria-describedby="imageHint"
             (click)="chooseCallback()"
           >
             <span class="upload-icon" aria-hidden="true">
@@ -251,7 +343,7 @@
               <span class="upload-cta">Clicca o trascina qui</span>
             }
 
-            <span class="upload-hint">JPG, PNG, WEBP — max 5 MB</span>
+            <span id="imageHint" class="upload-hint">JPG, PNG, WEBP — max 5 MB</span>
           </button>
 
           @if (files?.length) {

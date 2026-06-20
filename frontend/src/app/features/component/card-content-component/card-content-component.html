@@ -43,11 +43,13 @@
     </ng-template>
 
     <ng-template #footer>
-      <div class="reaction" aria-label="Valutazioni del contenuto">
+      <div class="reaction" role="group" aria-label="Valutazioni del contenuto">
         <button
           type="button"
           class="reaction-btn"
-          [attr.aria-label]="'Metti mi piace a ' + content().place"
+          [attr.aria-label]="
+            'Metti mi piace a ' + content().place + '. Totale mi piace: ' + likes()
+          "
           pTooltip="Mi piace"
           tooltipPosition="top"
           (click)="addLike()"
@@ -60,7 +62,9 @@
         <button
           type="button"
           class="reaction-btn"
-          [attr.aria-label]="'Non mi piace ' + content().place"
+          [attr.aria-label]="
+            'Segna come non mi piace ' + content().place + '. Totale non mi piace: ' + dislikes()
+          "
           pTooltip="Non mi piace"
           tooltipPosition="top"
           (click)="addDislike()"
@@ -73,6 +77,10 @@
 
           {{ dislikes() }}
         </button>
+
+        <span class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+          {{ reactionAnnouncement() }}
+        </span>
       </div>
     </ng-template>
   </p-card>

@@ -17,7 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { EditorModule } from 'primeng/editor';
-import type { EditorTextChangeEvent } from 'primeng/editor';
+import type { EditorInitEvent, EditorTextChangeEvent } from 'primeng/editor';
 import { FileUploadModule } from 'primeng/fileupload';
 import type { FileSelectEvent } from 'primeng/fileupload';
 import { MessageModule } from 'primeng/message';
@@ -84,6 +84,7 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
   private redirectTimer: ReturnType<typeof setInterval> | null = null;
   private uploadedFile: File | null = null;
   private uploadedImageUrl: string | null = null;
+  private editorRoot: HTMLElement | null = null;
   private destroyed = false;
 
   // Signal per tracciare la categoria selezionata dall'utente
@@ -103,10 +104,7 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
       region_id: [null, Validators.required],
       city: ['', Validators.required],
       place: ['', [Validators.required, Validators.maxLength(this.titleMaxLength)]],
-      description: [
-        '',
-        [Validators.required, richTextMaxLength(this.descriptionMaxLength)],
-      ],
+      description: ['', [Validators.required, richTextMaxLength(this.descriptionMaxLength)]],
     });
 
     // Inizializzazione di tutti i dati dai servizi
@@ -173,6 +171,21 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
 
   onDescriptionTextChange(event: EditorTextChangeEvent): void {
     this.descriptionLength.set(event.textValue.length);
+    queueMicrotask(() => this.syncEditorAccessibility());
+  }
+
+  onEditorInit(event: EditorInitEvent): void {
+    this.editorRoot = event.editor.root as HTMLElement;
+    this.syncEditorAccessibility();
+  }
+
+  onEditorBlur(): void {
+    queueMicrotask(() => this.syncEditorAccessibility());
+  }
+
+  isFieldInvalid(controlName: string): boolean {
+    const control = this.placeForm?.get(controlName);
+    return !!control && control.invalid && (control.dirty || control.touched);
   }
 
   triggerFileInput(): void {
@@ -256,6 +269,21 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
       this.dialogRef.close(createdContent);
       void this.router.navigate(['/content'], { queryParams: { id: createdContent.id } });
     }, 1000);
+  }
+
+  private syncEditorAccessibility(): void {
+    if (!this.editorRoot) return;
+
+    this.editorRoot.id = 'descriptionId';
+    this.editorRoot.setAttribute('role', 'textbox');
+    this.editorRoot.setAttribute('aria-multiline', 'true');
+    this.editorRoot.setAttribute('aria-labelledby', 'descriptionLabel');
+    this.editorRoot.setAttribute('aria-describedby', 'descriptionCounter descriptionError');
+    this.editorRoot.setAttribute('aria-required', 'true');
+    this.editorRoot.setAttribute(
+      'aria-invalid',
+      this.isFieldInvalid('description') ? 'true' : 'false',
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-<main class="regions-page">
+<div class="regions-page">
   <section class="regions-shell" aria-labelledby="regions-title">
     <header class="regions-heading">
       <h1 id="regions-title">Regioni d'Italia</h1>
@@ -17,7 +17,8 @@
         }
       </div>
     } @else if (regionService.loading()) {
-      <div class="regions-grid" aria-label="Caricamento regioni">
+      <div class="regions-grid" role="status" aria-live="polite" aria-busy="true">
+        <span class="visually-hidden">Caricamento delle regioni in corso.</span>
         @for (_ of skeletonCards; track $index) {
           <div class="region-skeleton-card">
             <p-skeleton styleClass="region-skeleton" />
@@ -39,4 +40,4 @@
       </div>
     }
   </section>
-</main>
+</div>

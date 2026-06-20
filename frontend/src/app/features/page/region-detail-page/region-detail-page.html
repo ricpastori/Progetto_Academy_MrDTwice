@@ -1,4 +1,4 @@
-<main class="region-detail-page">
+<div class="region-detail-page">
   <p-breadcrumb styleClass="region-detail-breadcrumb" [model]="breadcrumbItems()">
     <ng-template #separator>
       <span class="breadcrumb-separator" aria-hidden="true">/</span>
@@ -6,7 +6,8 @@
   </p-breadcrumb>
 
   @if (pageLoading()) {
-    <section class="region-detail-loading" aria-label="Caricamento dettaglio regione">
+    <section class="region-detail-loading" role="status" aria-live="polite" aria-busy="true">
+      <span class="visually-hidden">Caricamento del dettaglio della regione in corso.</span>
       <p-skeleton styleClass="cover-skeleton" />
 
       <div class="category-skeletons">
@@ -103,15 +104,11 @@
     }
   } @else {
     <div class="region-detail-error">
-      <p-message
-        severity="error"
-        [closable]="false"
-        text="Regione non trovata."
-      />
+      <p-message severity="error" [closable]="false" text="Regione non trovata." />
       <a pButton routerLink="/regioni">
         <i pButtonIcon class="ph ph-arrow-left" aria-hidden="true"></i>
         <span pButtonLabel>Torna alle regioni</span>
       </a>
     </div>
   }
-</main>
+</div>

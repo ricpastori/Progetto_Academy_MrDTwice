@@ -1,4 +1,4 @@
-<main class="about-page">
+<div class="about-page">
   <!-- Hero autonomo: header e footer restano fuori dal componente come richiesto. -->
   <section class="about-hero app-shell-full-bleed" aria-labelledby="about-title">
     <div class="hero-copy">
@@ -97,7 +97,7 @@
               />
               <h3>{{ member.name }}</h3>
               <p>{{ member.role }}</p>
-              <div class="social-actions" aria-label="Profili social">
+              <div class="social-actions" role="group" aria-label="Profili social">
                 <a
                   pButton
                   [href]="member.githubUrl"
@@ -133,4 +133,4 @@
       </div>
     </section>
   </div>
-</main>
+</div>

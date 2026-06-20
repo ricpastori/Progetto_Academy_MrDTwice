@@ -149,8 +149,8 @@
   gap: 1rem;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  padding: 0.2rem 0.1rem 0.9rem;
-  scroll-padding-inline: 0.1rem;
+  padding: 0.5rem 0.35rem 0.9rem;
+  scroll-padding-inline: 0.35rem;
   scroll-snap-type: inline proximity;
   scrollbar-width: none;
 }

@@ -1,5 +1,12 @@
+<p class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+  {{ pageAnnouncement() }}
+</p>
+
 <main
+  #mainContent
+  id="main-content"
   class="app-shell"
+  tabindex="-1"
   [class.app-shell--fluid]="config().layout === 'fluid'"
   [class.app-shell--surface]="config().tone === 'surface'"
   [class.app-shell--muted]="config().tone === 'muted'"

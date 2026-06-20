@@ -27,12 +27,15 @@ export class CardContentComponent implements OnInit {
 
   dislikeAnimation = signal(false);
 
+  reactionAnnouncement = signal('');
+
   ngOnInit(): void {
     this.likes.set(this.content().likes ?? 0);
     this.dislikes.set(this.content().dislikes ?? 0);
   }
 
   addLike(): void {
+    this.reactionAnnouncement.set('');
     this.likeAnimation.set(true);
 
     setTimeout(() => {
@@ -42,11 +45,20 @@ export class CardContentComponent implements OnInit {
     this.contentService.addLike(this.content().id).subscribe({
       next: (updated) => {
         this.likes.set(updated.likes);
+        this.reactionAnnouncement.set(
+          `Mi piace aggiunto a ${this.content().place}. Totale mi piace: ${updated.likes}.`,
+        );
+      },
+      error: () => {
+        this.reactionAnnouncement.set(
+          `Non è stato possibile aggiungere il mi piace a ${this.content().place}.`,
+        );
       },
     });
   }
 
   addDislike(): void {
+    this.reactionAnnouncement.set('');
     this.dislikeAnimation.set(true);
 
     setTimeout(() => {
@@ -56,6 +68,14 @@ export class CardContentComponent implements OnInit {
     this.contentService.addDislike(this.content().id).subscribe({
       next: (updated) => {
         this.dislikes.set(updated.dislikes);
+        this.reactionAnnouncement.set(
+          `Non mi piace aggiunto a ${this.content().place}. Totale non mi piace: ${updated.dislikes}.`,
+        );
+      },
+      error: () => {
+        this.reactionAnnouncement.set(
+          `Non è stato possibile aggiungere il non mi piace a ${this.content().place}.`,
+        );
       },
     });
   }

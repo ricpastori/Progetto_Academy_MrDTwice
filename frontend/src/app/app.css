@@ -8,3 +8,28 @@ app-shell {
   display: flex;
   flex: 1;
 }
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  transform: translateY(calc(-100% - 1rem));
+  z-index: 1100;
+  opacity: 0;
+  border-radius: var(--p-button-border-radius);
+  background: var(--p-primary-color);
+  padding: 0.625rem 1rem;
+  color: var(--p-primary-contrast-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    opacity 150ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  opacity: 1;
+  outline: var(--p-focus-ring-width) var(--p-focus-ring-style) var(--p-focus-ring-color);
+  outline-offset: var(--p-focus-ring-offset);
+}

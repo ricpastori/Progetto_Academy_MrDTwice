@@ -11,36 +11,43 @@ export const routes: Routes = [
   {
     path: '',
     component: HomePage,
+    title: 'Mr D Twice | Scopri i luoghi più belli d’Italia',
     data: { appShell: { tone: 'soft' } },
   },
   {
     path: 'chi-siamo',
     component: AboutPage,
+    title: 'Chi siamo | Mr D Twice',
     data: { appShell: { tone: 'surface' } },
   },
   {
     path: 'regioni',
     component: RegionsPage,
+    title: 'Regioni d’Italia | Mr D Twice',
     data: { appShell: { tone: 'soft' } },
   },
   {
     path: 'regioni/regione-dettaglio',
     component: RegionDetailPage,
+    title: 'Dettaglio regione | Mr D Twice',
     data: { appShell: { tone: 'soft' } },
   },
   {
     path: 'regioni/regione-dettaglio/regione-tags',
     component: RegionTagPage,
+    title: 'Luoghi della regione | Mr D Twice',
     data: { appShell: { layout: 'fluid', tone: 'soft' } },
   },
   {
     path: 'content',
     component: ContentDetails,
+    title: 'Dettaglio luogo | Mr D Twice',
     data: { appShell: { tone: 'muted' } },
   },
   {
     path: '**',
     component: NotFoundPage,
+    title: 'Pagina non trovata | Mr D Twice',
     data: { appShell: { tone: 'surface' } },
   },
 ];
