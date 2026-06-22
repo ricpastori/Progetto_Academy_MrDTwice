@@ -814,33 +814,44 @@
           </div>
           <h2>Prima il perché.<br />Poi il codice.</h2>
           <p class="lead">
-            Nei primi due giorni abbiamo lavorato tutti insieme: problema,
-            utenti, flussi, architettura informativa, mockup e scelta dello
-            stack. Solo dopo abbiamo diviso i focus.
+            Nei primi due giorni abbiamo lavorato tutti insieme, prima di
+            dividerci per competenza: senza un linguaggio comune, quattro
+            persone rischiano di costruire quattro prodotti diversi. Abbiamo
+            discusso il problema da risolvere, gli utenti coinvolti, i flussi
+            principali, l’architettura informativa, i primi mockup e la
+            scelta dello stack. Solo dopo ci siamo divisi i focus.
           </p>
           <div class="timeline" aria-label="Prime attività condivise del team">
             <div class="timeline-step">
               <h3>Problema</h3>
               <p class="compact muted">
-                Come rendere semplice la scoperta di luoghi interessanti.
+                Le informazioni di viaggio sono sparse tra guide, social e
+                recensioni. Volevamo capire come ridurre questo attrito con
+                un solo punto di accesso.
               </p>
             </div>
             <div class="timeline-step">
               <h3>Utenti</h3>
               <p class="compact muted">
-                Visitatore, contributore e persona che lascia feedback.
+                Abbiamo distinto tre profili — chi visita, chi propone un
+                nuovo luogo, chi lascia un giudizio rapido — e ogni schermata
+                doveva restare chiara per tutti e tre.
               </p>
             </div>
             <div class="timeline-step">
               <h3>Esperienza</h3>
               <p class="compact muted">
-                User flow, wireframe, mockup e tassonomia.
+                Prima di scrivere codice abbiamo disegnato i percorsi utente
+                e i wireframe, e definito la tassonomia di regioni, categorie
+                e sottocategorie su cui poggia il catalogo.
               </p>
             </div>
             <div class="timeline-step">
               <h3>Stack</h3>
               <p class="compact muted">
-                Angular, Express, PostgreSQL e Storage Supabase.
+                Angular per un frontend tipizzato, Express come livello API
+                leggero, PostgreSQL su Supabase per i dati relazionali e
+                Supabase Storage per le immagini.
               </p>
             </div>
           </div>
@@ -853,8 +864,8 @@
               <div>
                 <h3>Riccardo</h3>
                 <p class="compact muted">
-                  Integrazione, routing, design system, pagine chiave, immagini
-                  responsive e accessibilità.
+                  Disegna il filo conduttore dell’esperienza, dal design
+                  system alle pagine chiave, fino a immagini e accessibilità.
                 </p>
               </div>
             </article>
@@ -866,8 +877,8 @@
               <div>
                 <h3>Marianna</h3>
                 <p class="compact muted">
-                  Database, query, API/service, content card e pagine regione
-                  data-driven.
+                  Trasforma le tabelle del database in contenuti vivi,
+                  costruendo le API e le pagine regione che li raccontano.
                 </p>
               </div>
             </article>
@@ -879,8 +890,9 @@
               <div>
                 <h3>Davide Braghi</h3>
                 <p class="compact muted">
-                  Homepage, navbar/footer, pagina 404, stile globale, setup e
-                  presentazione.
+                  Costruisce la prima impressione del prodotto, dalla
+                  homepage alla navigazione, fino alla pagina che accoglie un
+                  errore.
                 </p>
               </div>
             </article>
@@ -892,8 +904,8 @@
               <div>
                 <h3>Davide Donnarumma</h3>
                 <p class="compact muted">
-                  Form “Aggiungi luogo”, modale, validazione e upload immagini
-                  via backend.
+                  Apre la porta al contributo degli utenti, dal form guidato
+                  all’upload delle immagini, fino alla conferma di invio.
                 </p>
               </div>
             </article>
@@ -928,32 +940,36 @@
                 <span class="metric">01</span>
                 <h3>Scoprire</h3>
                 <p class="compact muted">
-                  Home editoriale, regioni e contenuti in evidenza riducono il
-                  costo della ricerca.
+                  Chi arriva non deve già sapere cosa cerca: home editoriale,
+                  regioni e contenuti in evidenza danno un punto di partenza
+                  invece di una pagina vuota.
                 </p>
               </article>
               <article class="card card-band">
                 <span class="metric">02</span>
                 <h3>Orientarsi</h3>
                 <p class="compact muted">
-                  Categorie, città, sottotag e breadcrumb rendono leggibile il
-                  catalogo.
+                  Con centinaia di contenuti possibili, categorie, città,
+                  sottotag e breadcrumb restringono la scelta in pochi clic
+                  senza far perdere il contesto.
                 </p>
               </article>
               <article class="card card-band">
                 <span class="metric">03</span>
                 <h3>Contribuire</h3>
                 <p class="compact muted">
-                  Un form breve permette di aggiungere un luogo con immagine e
-                  metadati.
+                  Chi conosce un luogo interessante può proporlo con un form
+                  breve: nome, categoria, descrizione e una foto bastano per
+                  pubblicarlo.
                 </p>
               </article>
               <article class="card card-band">
                 <span class="metric">04</span>
                 <h3>Reagire</h3>
                 <p class="compact muted">
-                  Like e dislike offrono un feedback semplice, senza richiedere
-                  un account.
+                  Un clic su like o dislike basta per segnalare se un
+                  contenuto è utile, senza creare un account o scrivere una
+                  recensione.
                 </p>
               </article>
             </div>
@@ -977,55 +993,162 @@
               <article class="card">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin-top: 0.8rem">Tema chiaro dalla home</h3>
+                <p class="compact muted">
+                  Hero, identità visiva e CTA comunicano in pochi secondi di
+                  cosa si tratta.
+                </p>
               </article>
               <article class="card">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin-top: 0.8rem">Lista di luoghi esplorabile</h3>
+                <p class="compact muted">
+                  Il catalogo si naviga per regione e categoria, senza dover
+                  già sapere cosa cercare.
+                </p>
               </article>
               <article class="card">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin-top: 0.8rem">Ricerca e filtri</h3>
+                <p class="compact muted">
+                  Testo, città e sottotag restringono i risultati senza
+                  ricaricare l’intera pagina.
+                </p>
               </article>
               <article class="card">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin-top: 0.8rem">Dettaglio completo</h3>
+                <p class="compact muted">
+                  Ogni luogo ha una pagina con descrizione, immagine,
+                  posizione e feedback della community.
+                </p>
               </article>
               <article class="card">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin-top: 0.8rem">Inserimento luogo</h3>
+                <p class="compact muted">
+                  Un form guidato raccoglie categoria, descrizione e immagine
+                  in pochi passaggi.
+                </p>
               </article>
               <article class="card">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin-top: 0.8rem">Upload immagine</h3>
+                <p class="compact muted">
+                  Il file passa dal backend, che lo valida e lo carica su
+                  Supabase Storage.
+                </p>
               </article>
               <article class="card" style="grid-column: 1 / -1">
                 <span class="status done">Obiettivo</span>
                 <h3 style="margin: 0.8rem 0 0">
                   Feedback tramite like o dislike
                 </h3>
+                <p class="compact muted">
+                  Un clic registra il gradimento e aggiorna subito il
+                  conteggio visibile in pagina.
+                </p>
               </article>
             </div>
             <aside class="card card-band">
-              <h3>Il contributo di integrazione</h3>
-              <ul class="clean-list compact">
-                <li>
-                  Scaffold Angular 21, PrimeNG, lint, format e documentazione.
-                </li>
-                <li>
-                  Routing, HttpClient, app shell e collegamento delle API.
-                </li>
-                <li>Pagine About, Regioni e Dettaglio contenuto.</li>
-                <li>Pipeline immagini responsive, fallback e accessibilità.</li>
-              </ul>
+              <h3>Un’unica architettura full stack</h3>
+              <p class="compact muted">
+                Una sola richiesta attraversa interfaccia, logica e
+                persistenza: nessuna scorciatoia, nessun dato letto due volte
+                in modi diversi.
+              </p>
               <div class="code" style="margin-top: 1rem">
                 Angular UI → Express API → PostgreSQL<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↘
                 Supabase Storage
               </div>
               <p class="compact muted" style="margin: 1rem 0 0">
-                Valore: una base coerente dove i contributi dei quattro filoni
-                convergono senza perdere il percorso utente.
+                Valore: i quattro filoni di lavoro si incontrano nello stesso
+                flusso, senza perdere il percorso utente.
               </p>
             </aside>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="1"
+        data-title="L'integrazione che tiene insieme il prodotto"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Sotto la superficie</p>
+            <span class="speaker-label">Riccardo Pastori</span>
+          </div>
+          <h2>Quattro strati, una sola esperienza coerente.</h2>
+          <p class="lead">
+            Sul lato Angular di quel flusso, qualcuno costruisce il terreno
+            su cui poggiano le feature degli altri: uno scaffold solido, una
+            navigazione coerente, le pagine chiave e immagini che funzionano
+            su ogni schermo senza rompersi.
+          </p>
+          <div class="pipeline" aria-label="Livelli dell'integrazione frontend">
+            <article class="node">
+              <span class="status future">Setup</span>
+              <div>
+                <h3>Scaffold &amp; tooling</h3>
+                <p class="compact muted">
+                  Angular 21 generato da zero, libreria di componenti PrimeNG
+                  e regole di lint e format condivise, così ogni pagina nuova
+                  parte dagli stessi standard.
+                </p>
+              </div>
+              <code>ng new · lint · format</code>
+            </article>
+            <article class="node">
+              <span class="status future">Shell</span>
+              <div>
+                <h3>App shell</h3>
+                <p class="compact muted">
+                  Un layout che cambia larghezza e tono per pagina, ma porta
+                  il focus della tastiera e annuncia ogni cambio di rotta a
+                  chi usa uno screen reader.
+                </p>
+              </div>
+              <code>AppShell</code>
+            </article>
+            <article class="node">
+              <span class="status future">Pagine</span>
+              <div>
+                <h3>Routing chiave</h3>
+                <p class="compact muted">
+                  Le rotte che tengono insieme il catalogo: dalla home al chi
+                  siamo, dalla lista delle regioni al dettaglio di un singolo
+                  contenuto.
+                </p>
+              </div>
+              <code>app.routes.ts</code>
+            </article>
+            <article class="node">
+              <span class="status future">Immagini</span>
+              <div>
+                <h3>ResponsiveImage</h3>
+                <p class="compact muted">
+                  Un componente che genera automaticamente sei risoluzioni in
+                  WebP, gestisce il fallback quando un’immagine manca e
+                  collega un testo alternativo a ogni foto.
+                </p>
+              </div>
+              <code>ResponsiveImage</code>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: 1.4rem">
+            <div class="card compact">
+              <strong class="big">7</strong>pagine coerenti tra loro, dalla
+              home al dettaglio
+            </div>
+            <div class="card compact">
+              <strong class="big">6</strong>risoluzioni d’immagine pronte,
+              zero foto rotte su mobile
+            </div>
+            <div class="card compact">
+              <strong class="big">15</strong>punti di attenzione per chi
+              naviga con tastiera o screen reader
+            </div>
           </div>
         </div>
       </section>
@@ -1041,13 +1164,17 @@
             <h2>Il catalogo prende vita.</h2>
             <p class="lead">
               Dalla connessione al database alle pagine regione: trasformare
-              righe e query in contenuti che l’utente può davvero esplorare.
+              righe e query in contenuti che l’utente può davvero esplorare,
+              senza che la complessità del backend trapeli mai nell’interfaccia.
             </p>
             <div class="card" style="margin-top: 1.4rem; max-width: 42rem">
               <h3>Marianna Masala · focus principale</h3>
               <p class="muted">
-                Backend e database, query e API service, integrazione
-                frontend/backend, CardContent, RegionTag e RegionDetail.
+                Dalle tabelle del database alle query, fino alle API e ai
+                componenti che le trasformano in pagine — CardContent,
+                RegionTag e RegionDetail. Lo stesso impianto regge la home,
+                le pagine regione e i filtri, perché tutti leggono dalla
+                stessa fonte di verità.
               </p>
             </div>
           </div>
@@ -1076,14 +1203,19 @@
           <p class="lead">
             Express non è un semplice pass-through: separa HTTP, query e
             persistenza, lasciando al frontend il compito di presentare e
-            filtrare l’esperienza.
+            filtrare l’esperienza. Ogni livello ha una responsabilità sola,
+            così un cambiamento nel database non costringe a riscrivere le
+            pagine, e viceversa.
           </p>
           <div class="pipeline" aria-label="Flusso di lettura dei contenuti">
             <article class="node">
               <span class="status future">Frontend</span>
               <div>
                 <h3>Angular service</h3>
-                <p class="compact muted">Costruisce URL e query parameter.</p>
+                <p class="compact muted">
+                  Compone l’URL e i parametri di query in base a regione,
+                  categoria e testo scelti dall’utente.
+                </p>
               </div>
               <code>ContentService</code>
             </article>
@@ -1091,7 +1223,10 @@
               <span class="status future">HTTP</span>
               <div>
                 <h3>Express routes</h3>
-                <p class="compact muted">Gestisce parametri e status code.</p>
+                <p class="compact muted">
+                  Legge i parametri, valida l’input e risponde con lo status
+                  code corretto anche quando qualcosa va storto.
+                </p>
               </div>
               <code>ApiRoutes.js</code>
             </article>
@@ -1099,7 +1234,10 @@
               <span class="status future">Logica dati</span>
               <div>
                 <h3>API service</h3>
-                <p class="compact muted">Esegue query parametrizzate.</p>
+                <p class="compact muted">
+                  Esegue query SQL parametrizzate, separando la logica di
+                  business dall’accesso diretto al database.
+                </p>
               </div>
               <code>ApiService.js</code>
             </article>
@@ -1107,7 +1245,10 @@
               <span class="status future">Persistenza</span>
               <div>
                 <h3>Supabase</h3>
-                <p class="compact muted">PostgreSQL per dati e relazioni.</p>
+                <p class="compact muted">
+                  Postgres conserva regioni, categorie e contenuti in tabelle
+                  relazionate tra loro.
+                </p>
               </div>
               <code>regions · tags · content</code>
             </article>
@@ -1144,25 +1285,32 @@
                 <article class="card card-band">
                   <h3>regions</h3>
                   <p class="compact muted">
-                    Identità, descrizione e immagine del territorio.
+                    Ogni regione ha un nome, una descrizione editoriale e
+                    un’immagine di copertina che la rappresentano nei filtri
+                    e nelle pagine dedicate.
                   </p>
                 </article>
                 <article class="card card-band">
                   <h3>tags</h3>
                   <p class="compact muted">
-                    Categorie di alto livello per orientare la scoperta.
+                    Le categorie di primo livello, come natura o cultura,
+                    restringono il catalogo prima ancora di aprire un singolo
+                    contenuto.
                   </p>
                 </article>
                 <article class="card card-band">
                   <h3>sub_tags</h3>
                   <p class="compact muted">
-                    Specializzazioni collegate a una categoria.
+                    Ogni sottocategoria appartiene a una categoria precisa,
+                    così i filtri restano coerenti tra loro.
                   </p>
                 </article>
                 <article class="card card-band">
                   <h3>content</h3>
                   <p class="compact muted">
-                    Luogo, città, testo, immagine e feedback.
+                    La tabella più grande: luogo, città, descrizione,
+                    immagine e contatori di like e dislike di ogni contenuto
+                    pubblicato.
                   </p>
                 </article>
               </div>
@@ -1204,20 +1352,23 @@
             <div>
               <ol class="clean-list">
                 <li>
-                  <strong>Home:</strong> ultimi contenuti e luoghi più
-                  apprezzati.
+                  <strong>Home:</strong> mostra gli ultimi contenuti
+                  pubblicati e i luoghi più apprezzati, per dare un punto di
+                  partenza a chi non sa ancora cosa cercare.
                 </li>
                 <li>
-                  <strong>Regione:</strong> categorie e conteggi
-                  contestualizzano l’offerta.
+                  <strong>Regione:</strong> categorie e conteggi per ciascuna
+                  regione anticipano quanto c’è da esplorare, prima ancora di
+                  scegliere un filtro.
                 </li>
                 <li>
-                  <strong>Listing:</strong> testo, città e sottotag affinano la
-                  scelta.
+                  <strong>Listing:</strong> testo libero, città e sottotag
+                  combinati restringono la lista senza ricaricare la pagina.
                 </li>
                 <li>
-                  <strong>Card:</strong> immagine, metadati e feedback portano
-                  al dettaglio.
+                  <strong>Card:</strong> immagine, metadati essenziali e
+                  contatori di feedback invitano ad aprire il dettaglio
+                  completo del luogo.
                 </li>
               </ol>
               <div class="quote" style="margin-top: 1.2rem">
@@ -1260,9 +1411,10 @@
             <div class="card" style="margin-top: 1.4rem; max-width: 42rem">
               <h3>Davide Braghi · focus principale</h3>
               <p class="muted">
-                Homepage, navbar e footer, pagina 404, stile globale e asset,
-                setup iniziale, presentazione del progetto e sperimentazione
-                Docker.
+                Dalla homepage alla navigazione condivisa, fino alla pagina
+                che accoglie un errore: stile, asset e primo setup portano la
+                sua firma, insieme alla cura della presentazione e alle prime
+                prove con Docker.
               </p>
             </div>
           </div>
@@ -1300,29 +1452,33 @@
                 <article class="card card-band">
                   <h3>Promessa immediata</h3>
                   <p class="compact muted">
-                    Hero, identità visuale e CTA chiariscono il tema al primo
-                    sguardo.
+                    Hero, identità visiva e CTA chiariscono il tema al primo
+                    sguardo: in pochi secondi si capisce di cosa si tratta,
+                    senza dover scorrere la pagina.
                   </p>
                 </article>
                 <article class="card card-band">
                   <h3>Scelte curate</h3>
                   <p class="compact muted">
                     Regioni e contenuti in evidenza evitano una partenza “a
-                    vuoto”.
+                    vuoto”: chi non sa cosa cercare trova comunque uno spunto
+                    da cui partire.
                   </p>
                 </article>
                 <article class="card card-band">
                   <h3>Prova sociale leggera</h3>
                   <p class="compact muted">
-                    Like e attività recente mostrano cosa interessa alla
-                    community.
+                    Like e attività recente mostrano cosa interessa già alla
+                    community, senza dover leggere recensioni lunghe per
+                    fidarsi di un luogo.
                   </p>
                 </article>
                 <article class="card card-band">
                   <h3>Accesso al contributo</h3>
                   <p class="compact muted">
                     La CTA “Aggiungi luogo” resta visibile nella navigazione
-                    globale.
+                    globale, così chi vuole contribuire non deve cercarla in
+                    una pagina secondaria.
                   </p>
                 </article>
               </div>
@@ -1351,37 +1507,29 @@
               <span class="metric">A</span>
               <h3>Navbar</h3>
               <p class="compact muted">
-                Accesso costante a home, regioni, chi siamo e contributo.
+                Quattro punti di accesso — home, regioni, chi siamo,
+                aggiungi — restano sempre a un clic di distanza, con un menu
+                mobile dedicato che entra in funzione sotto i 768px di
+                larghezza.
               </p>
-              <div>
-                <span class="chip">responsive</span
-                ><span class="chip">focus</span><span class="chip">CTA</span>
-              </div>
             </article>
             <article class="card card-band">
               <span class="metric">B</span>
               <h3>App shell &amp; footer</h3>
               <p class="compact muted">
-                Larghezze, toni di pagina e link condivisi danno continuità tra
-                feature diverse.
+                Dieci link in tre colonne, dalla brand identity ai contatti,
+                identici su ogni pagina dell’app: lo stesso punto di
+                riferimento, ovunque ci si trovi nel catalogo.
               </p>
-              <div>
-                <span class="chip">layout</span
-                ><span class="chip">coerenza</span
-                ><span class="chip">brand</span>
-              </div>
             </article>
             <article class="card card-band">
               <span class="metric">C</span>
               <h3>404 utile</h3>
               <p class="compact muted">
-                Un errore diventa una scelta: tornare alla home o continuare
-                dalle regioni.
+                Due strade sempre disponibili, tornare alla home o continuare
+                dalle regioni, perché un link rotto non significhi un vicolo
+                cieco per chi naviga.
               </p>
-              <div>
-                <span class="chip">recupero</span><span class="chip">tono</span
-                ><span class="chip">fiducia</span>
-              </div>
             </article>
           </div>
           <div class="split" style="margin-top: 1.4rem; align-items: center">
@@ -1416,30 +1564,36 @@
                 <strong class="big">01</strong>
                 <h3>Componenti condivisi</h3>
                 <p class="compact muted">
-                  Navbar, footer e struttura applicativa riducono incoerenze tra
-                  pagine.
+                  Navbar, footer e struttura applicativa identici su ogni
+                  pagina riducono le incoerenze che normalmente emergono
+                  quando più persone lavorano sullo stesso frontend.
                 </p>
               </article>
               <article class="card">
                 <strong class="big">02</strong>
                 <h3>Stile e asset</h3>
                 <p class="compact muted">
-                  Logo, icone e CSS globale costruiscono un’identità ripetibile.
+                  Logo, icone e fogli di stile globali fanno sì che ogni nuova
+                  pagina parta già con un’identità riconoscibile, invece di
+                  doverla reinventare ogni volta.
                 </p>
               </article>
               <article class="card">
                 <strong class="big">03</strong>
                 <h3>Setup leggibile</h3>
                 <p class="compact muted">
-                  Guida locale e primi template facilitano il lavoro parallelo.
+                  Una guida locale e i primi template di pagina e componente
+                  hanno permesso a tutti di iniziare a lavorare in parallelo
+                  senza bloccarsi a vicenda.
                 </p>
               </article>
               <article class="card">
                 <strong class="big">04</strong>
                 <h3>Narrazione</h3>
                 <p class="compact muted">
-                  La prima presentazione ha reso visibile il percorso, non
-                  soltanto il risultato.
+                  La prima presentazione del progetto ha reso visibile il
+                  percorso fatto, non soltanto il risultato finale, ed è
+                  servita da base per questa stessa revisione.
                 </p>
               </article>
             </div>
@@ -1480,9 +1634,10 @@
             <div class="card" style="margin-top: 1.4rem; max-width: 42rem">
               <h3>Davide Donnarumma · focus principale</h3>
               <p class="muted">
-                Form e modale “Aggiungi luogo”, campi e feedback di invio,
-                upload immagini attraverso il backend e prima raccolta delle
-                evoluzioni future.
+                Dal form guidato alla modale “Aggiungi luogo”, fino al
+                feedback di invio: la sua parte rende il contributo degli
+                utenti semplice e sicuro, passando dall’upload delle immagini
+                alla prima mappa delle evoluzioni future.
               </p>
             </div>
           </div>
@@ -1524,30 +1679,40 @@
                 <div class="timeline-step">
                   <h3>Classifica</h3>
                   <p class="compact muted">
-                    Categoria, sottocategoria e regione.
+                    Categoria e sottocategoria dipendenti tra loro, più la
+                    regione, per inquadrare subito di che luogo si tratta.
                   </p>
                 </div>
                 <div class="timeline-step">
                   <h3>Localizza</h3>
-                  <p class="compact muted">Città e nome del luogo.</p>
+                  <p class="compact muted">
+                    Città e nome del luogo, i due dati che lo rendono
+                    riconoscibile e ricercabile.
+                  </p>
                 </div>
                 <div class="timeline-step">
                   <h3>Racconta</h3>
                   <p class="compact muted">
-                    Descrizione rich text con limiti leggibili.
+                    Una descrizione rich text, fino a 4.000 caratteri, per
+                    raccontare il luogo senza che il form diventi infinito.
                   </p>
                 </div>
                 <div class="timeline-step">
                   <h3>Mostra</h3>
                   <p class="compact muted">
-                    Immagine, anteprima, invio e conferma.
+                    Immagine, anteprima prima dell’invio e conferma finale,
+                    così non si pubblica nulla per sbaglio.
                   </p>
                 </div>
               </div>
               <div class="card" style="margin-top: 1.2rem">
                 <h3>Ridurre l’incertezza</h3>
                 <ul class="clean-list compact">
-                  <li>Campi obbligatori espliciti e categorie dipendenti.</li>
+                  <li>
+                    Otto campi, sei obbligatori, con categoria e
+                    sottocategoria collegate tra loro.
+                  </li>
+                  <li>Titolo entro 120 caratteri, immagine sotto i 5 MB.</li>
                   <li>
                     Stati submitting, success ed errore con possibilità di
                     retry.
@@ -1585,7 +1750,8 @@
               <div>
                 <h3>FormData</h3>
                 <p class="compact muted">
-                  File validato dal form, limite UI 5 MB.
+                  Il file scelto viene validato lato form prima dell’invio:
+                  tipo immagine e dimensione sotto i 5 MB.
                 </p>
               </div>
               <code>image</code>
@@ -1595,7 +1761,9 @@
               <div>
                 <h3>Multer</h3>
                 <p class="compact muted">
-                  Multipart in memoria, limite API 10 MiB.
+                  Multer riceve il multipart in memoria e applica un secondo
+                  limite, 10 MiB, indipendente da quello già controllato nel
+                  browser.
                 </p>
               </div>
               <code>POST /api/upload</code>
@@ -1605,7 +1773,9 @@
               <div>
                 <h3>UUID + Supabase</h3>
                 <p class="compact muted">
-                  Nome non collisionale e URL pubblica.
+                  Un nome file generato con UUID evita collisioni tra upload
+                  diversi, e Supabase Storage restituisce subito l’URL
+                  pubblica.
                 </p>
               </div>
               <code>places/:uuid</code>
@@ -1615,7 +1785,9 @@
               <div>
                 <h3>Nuovo content</h3>
                 <p class="compact muted">
-                  Metadati e image_url salvati via pg.
+                  Solo a questo punto i metadati del luogo e l’URL
+                  dell’immagine vengono scritti nel database con una query
+                  parametrizzata.
                 </p>
               </div>
               <code>POST /api/content</code>
@@ -1624,15 +1796,18 @@
           <div class="grid-3" style="margin-top: 1.4rem">
             <div class="card compact">
               <h3>Per l’utente</h3>
-              Un solo invio percepito, con feedback chiaro.
+              Un solo invio percepito, anche se sotto al cofano sono due
+              passaggi separati: upload e creazione del contenuto.
             </div>
             <div class="card compact">
               <h3>Per il team</h3>
-              Responsabilità separate e flusso diagnosticabile.
+              Responsabilità separate tra frontend, upload e database: se
+              qualcosa si rompe, è chiaro in quale passaggio cercare.
             </div>
             <div class="card compact">
               <h3>Per il prodotto</h3>
-              Una base estendibile con moderazione e controllo media.
+              Una base su cui aggiungere in futuro moderazione e controlli
+              più stringenti sui contenuti caricati.
             </div>
           </div>
         </div>
@@ -1730,33 +1905,41 @@
               <span class="phase">0</span>
               <h3>Consolidamento</h3>
               <p class="compact muted">
-                Deploy, configurazione, qualità, accessibilità e sicurezza.
+                Portare in produzione quanto già costruito: deploy,
+                configurazione d’ambiente, qualità del codice, accessibilità
+                e sicurezza di base.
               </p>
             </article>
             <article class="roadmap-step">
               <span class="phase">1</span>
               <h3>Identità e fiducia</h3>
               <p class="compact muted">
-                Account, profili, ownership e moderazione.
+                Account utente, profili pubblici, ownership dei contributi e
+                gli strumenti minimi per moderarli.
               </p>
             </article>
             <article class="roadmap-step">
               <span class="phase">2</span>
               <h3>Coinvolgimento</h3>
-              <p class="compact muted">Preferiti, wishlist, notifiche e PWA.</p>
+              <p class="compact muted">
+                Preferiti, wishlist, notifiche e un’esperienza installabile
+                come PWA, per tornare più facilmente sul catalogo.
+              </p>
             </article>
             <article class="roadmap-step">
               <span class="phase">3</span>
               <h3>Espansione</h3>
               <p class="compact muted">
-                Lingua inglese e modello geografico internazionale.
+                Una versione in lingua inglese e un modello geografico
+                pensato anche per regioni fuori dall’Italia.
               </p>
             </article>
             <article class="roadmap-step">
               <span class="phase">4</span>
               <h3>Automazione e business</h3>
               <p class="compact muted">
-                AI assistita per media ed esperienze in affiliazione.
+                Strumenti assistiti da AI per i contenuti media e un primo
+                modello di esperienze in affiliazione.
               </p>
             </article>
           </div>
@@ -1788,13 +1971,13 @@
       <button class="section-tab active" type="button" data-target="1">
         01 Riccardo
       </button>
-      <button class="section-tab" type="button" data-target="5">
+      <button class="section-tab" type="button" data-target="6">
         02 Marianna
       </button>
-      <button class="section-tab" type="button" data-target="9">
+      <button class="section-tab" type="button" data-target="10">
         03 Davide B.
       </button>
-      <button class="section-tab" type="button" data-target="13">
+      <button class="section-tab" type="button" data-target="14">
         04 Davide D.
       </button>
     </nav>
@@ -1810,7 +1993,7 @@
       >
         ←
       </button>
-      <output class="counter" id="counter" aria-live="polite">1 / 17</output>
+      <output class="counter" id="counter" aria-live="polite">1 / 18</output>
       <button
         class="nav-btn"
         id="next"
