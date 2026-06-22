@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -44,6 +45,8 @@ export class RegionDetailPage implements OnInit {
   private contentService = inject(ContentService);
 
   private subTagService = inject(SubTagService);
+
+  private documentTitle = inject(Title);
 
   tags = this.tagService.tags;
 
@@ -100,6 +103,7 @@ export class RegionDetailPage implements OnInit {
 
       if (region) {
         this.currentRegion.set(region);
+        this.documentTitle.setTitle(`${region.name} | Mr D Twice`);
       }
     });
   }

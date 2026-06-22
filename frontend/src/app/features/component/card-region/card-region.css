@@ -84,7 +84,7 @@
   min-width: 0;
 }
 
-h4,
+.region-title,
 p {
   display: -webkit-box;
   margin: 0;
@@ -94,7 +94,7 @@ p {
   -webkit-line-clamp: 2;
 }
 
-h4 {
+.region-title {
   color: #ffffff;
   font-weight: 800;
   font-size: clamp(2.25rem, 5vw, 4.25rem);
@@ -140,7 +140,7 @@ p {
   padding: 0 1.25rem 1rem;
 }
 
-:host ::ng-deep .region-card--compact h4 {
+:host ::ng-deep .region-card--compact .region-title {
   font-size: 1rem;
   line-height: 1.05;
 }

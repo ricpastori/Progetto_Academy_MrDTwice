@@ -232,13 +232,39 @@
           ></button>
         </span>
 
-        <span class="ql-formats" pTooltip="Allineamento" tooltipPosition="top">
-          <select class="ql-align" aria-label="Allineamento">
-            <option selected></option>
-            <option value="center"></option>
-            <option value="right"></option>
-            <option value="justify"></option>
-          </select>
+        <span class="ql-formats">
+          <button
+            type="button"
+            class="ql-align"
+            value=""
+            aria-label="Allinea a sinistra"
+            pTooltip="Allinea a sinistra"
+            tooltipPosition="top"
+          ></button>
+          <button
+            type="button"
+            class="ql-align"
+            value="center"
+            aria-label="Allinea al centro"
+            pTooltip="Allinea al centro"
+            tooltipPosition="top"
+          ></button>
+          <button
+            type="button"
+            class="ql-align"
+            value="right"
+            aria-label="Allinea a destra"
+            pTooltip="Allinea a destra"
+            tooltipPosition="top"
+          ></button>
+          <button
+            type="button"
+            class="ql-align"
+            value="justify"
+            aria-label="Giustifica"
+            pTooltip="Giustifica"
+            tooltipPosition="top"
+          ></button>
         </span>
 
         <span class="ql-formats">
@@ -328,7 +354,9 @@
             class="upload-dropzone"
             [disabled]="!!files?.length"
             [attr.aria-label]="
-              files?.length ? 'Immagine selezionata' : 'Scegli o trascina un’immagine'
+              files?.length
+                ? 'Immagine selezionata: ' + files[0].name
+                : 'Clicca o trascina qui per scegliere un’immagine'
             "
             aria-describedby="imageHint"
             (click)="chooseCallback()"
@@ -367,7 +395,7 @@
     </p-fileupload>
   </div>
 
-  <footer class="form-footer">
+  <div class="form-footer">
     <p-button
       type="button"
       label="Annulla"
@@ -383,7 +411,7 @@
       [loading]="isSubmitting()"
       [disabled]="placeForm.invalid || !selectedFile() || isSubmitting()"
     ></p-button>
-  </footer>
+  </div>
 </form>
 
 @switch (submissionState()) {
@@ -411,11 +439,15 @@
         </div>
       </p-message>
 
-      <p>
-        Verrai reindirizzato alla pagina del luogo tra
-        <strong>{{ redirectCountdown() }}</strong>
-        {{ redirectCountdown() === 1 ? 'secondo' : 'secondi' }}.
-      </p>
+      <p>Puoi visualizzare subito la pagina del luogo appena pubblicato.</p>
+
+      <p-button
+        type="button"
+        label="Visualizza il luogo"
+        icon="ph ph-arrow-right"
+        iconPos="right"
+        (onClick)="viewCreatedContent()"
+      />
     </section>
   }
 

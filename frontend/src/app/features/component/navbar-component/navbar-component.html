@@ -6,17 +6,23 @@
       <span class="mrd-navbar__brand-name">Mr D Twice</span>
     </a>
 
-    <!-- Navigazione desktop PrimeNG -->
-    <p-tabs class="mrd-navbar__tabs" [value]="activeTab()" [showNavigators]="false">
-      <p-tablist aria-label="Navigazione principale">
+    <!-- Navigazione desktop -->
+    <nav class="mrd-navbar__navigation" aria-label="Navigazione principale">
+      <ul class="mrd-navbar__links" role="list">
         @for (item of navigationItems; track item.route) {
-          <p-tab [value]="item.route" [routerLink]="item.route">
-            <i [class]="item.icon" aria-hidden="true"></i>
-            <span>{{ item.label }}</span>
-          </p-tab>
+          <li>
+            <a
+              class="mrd-navbar__link"
+              [routerLink]="item.route"
+              [attr.aria-current]="activeRoute() === item.route ? 'page' : null"
+            >
+              <i [class]="item.icon" aria-hidden="true"></i>
+              <span>{{ item.label }}</span>
+            </a>
+          </li>
         }
-      </p-tablist>
-    </p-tabs>
+      </ul>
+    </nav>
 
     <!-- ── Mobile Settings ──────────────────────────────────────────────────────────── -->
 
@@ -27,6 +33,7 @@
 
     <!-- Mobile hamburger -->
     <button
+      type="button"
       class="mrd-navbar__hamburger"
       (click)="toggleMenu()"
       [attr.aria-expanded]="menuOpen"
@@ -42,25 +49,29 @@
   </div>
 
   <!-- Mobile Menu -->
-  <div
+  <nav
     id="mrd-mobile-menu"
     class="mrd-navbar__mobile-menu"
     [class.is-open]="menuOpen"
-    role="navigation"
-    aria-label="Menu mobile"
+    aria-label="Navigazione mobile"
   >
-    <a routerLink="/" (click)="menuOpen = false" class="mrd-navbar__mobile-link">Home</a>
-    <a routerLink="/regioni" (click)="menuOpen = false" class="mrd-navbar__mobile-link">Regioni</a>
-    <a routerLink="/chi-siamo" (click)="menuOpen = false" class="mrd-navbar__mobile-link"
-      >Chi siamo</a
-    >
+    @for (item of navigationItems; track item.route) {
+      <a
+        class="mrd-navbar__mobile-link"
+        [routerLink]="item.route"
+        [attr.aria-current]="activeRoute() === item.route ? 'page' : null"
+        (click)="menuOpen = false"
+      >
+        {{ item.label }}
+      </a>
+    }
 
     <button
+      type="button"
       (click)="apriModaleNuovoLuogo(); menuOpen = false"
       class="mrd-navbar__mobile-cta"
-      style="border: none; text-align: left; cursor: pointer"
     >
       + Aggiungi
     </button>
-  </div>
+  </nav>
 </header>

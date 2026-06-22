@@ -42,11 +42,18 @@
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.regions-grid app-card-region,
+.regions-grid > li,
 .region-skeleton-card {
   grid-column: span 2;
+}
+
+.regions-grid app-card-region {
+  height: 100%;
 }
 
 .region-skeleton-card {
@@ -108,7 +115,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .regions-grid app-card-region,
+  .regions-grid > li,
   .region-skeleton-card {
     grid-column: auto;
   }

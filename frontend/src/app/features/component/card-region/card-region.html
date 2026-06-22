@@ -3,7 +3,7 @@
     class="region-card-link"
     [routerLink]="['/regioni/regione-dettaglio']"
     [queryParams]="{ regionId: regionId() }"
-    [attr.aria-label]="'Apri la regione ' + card().name"
+    [attr.aria-labelledby]="titleId"
     [pTooltip]="'Apri ' + card().name"
     tooltipPosition="top"
   >
@@ -14,11 +14,7 @@
 }
 
 <ng-template #regionCard>
-  <p-card
-    class="region-card"
-    [class.region-card--compact]="compact()"
-    [attr.aria-label]="isLinked() ? null : card().name"
-  >
+  <p-card class="region-card" [class.region-card--compact]="compact()">
     <ng-template #header>
       <app-responsive-image
         class="region-image"
@@ -33,7 +29,7 @@
 
     <div class="region-content">
       <div>
-        <h4>{{ card().name }}</h4>
+        <span class="region-title" [id]="titleId">{{ card().name }}</span>
         <p>{{ subtitle() }}</p>
       </div>
 

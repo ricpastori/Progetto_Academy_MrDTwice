@@ -52,7 +52,7 @@
               class="content-details__reaction"
               severity="secondary"
               [outlined]="true"
-              [attr.aria-label]="'Mi piace. Totale: ' + contentData.likes"
+              [attr.aria-label]="'Mi piace. Totale: ' + likes()"
               pTooltip="Mi piace"
               tooltipPosition="top"
               (click)="addLike()"
@@ -72,7 +72,7 @@
               class="content-details__reaction"
               severity="secondary"
               [outlined]="true"
-              [attr.aria-label]="'Non mi piace. Totale: ' + contentData.dislikes"
+              [attr.aria-label]="'Non mi piace. Totale: ' + dislikes()"
               pTooltip="Non mi piace"
               tooltipPosition="top"
               (click)="addDislike()"
@@ -85,6 +85,10 @@
               ></i>
               <span pButtonLabel>{{ dislikes() }}</span>
             </button>
+
+            <span class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+              {{ reactionAnnouncement() }}
+            </span>
           </div>
         </div>
       </p-card>
