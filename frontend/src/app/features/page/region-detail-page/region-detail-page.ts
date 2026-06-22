@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -45,6 +46,8 @@ export class RegionDetailPage implements OnInit {
 
   private subTagService = inject(SubTagService);
 
+  private documentTitle = inject(Title);
+
   tags = this.tagService.tags;
 
   subTags = this.subTagService.subTags;
@@ -62,12 +65,7 @@ export class RegionDetailPage implements OnInit {
     { label: this.currentRegion()?.name ?? 'Regione' },
   ]);
 
-  categoryIcons = [
-    'ph ph-bank',
-    'ph ph-cooking-pot',
-    'ph ph-castle-turret',
-    'ph ph-tree',
-  ] as const;
+  categoryIcons = ['ph ph-bank', 'ph ph-cooking-pot', 'ph ph-castle-turret', 'ph ph-tree'] as const;
 
   categorySeverities = [undefined, 'warn', 'info', 'success'] as const;
 
@@ -101,12 +99,11 @@ export class RegionDetailPage implements OnInit {
 
       if (!regionId) return;
 
-      const region = this.regionService
-        .regions()
-        .find((item) => String(item.id) === regionId);
+      const region = this.regionService.regions().find((item) => String(item.id) === regionId);
 
       if (region) {
         this.currentRegion.set(region);
+        this.documentTitle.setTitle(`${region.name} | Mr D Twice`);
       }
     });
   }

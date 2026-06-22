@@ -78,24 +78,18 @@ describe('AddPlaceForm', () => {
     expect(component).toBeTruthy();
   });
 
-  it('shows success and redirects to the created content after three seconds', async () => {
-    vi.useFakeTimers();
+  it('shows success and navigates only after the user requests it', async () => {
     const navigate = vi.spyOn(router, 'navigate').mockResolvedValue(true);
     fillValidForm();
 
     await component.onSubmit();
 
     expect(component.submissionState()).toBe('success');
-    expect(component.redirectCountdown()).toBe(3);
+    expect(component.createdContent()).toEqual(createdContent);
     expect(dialogRef.close).not.toHaveBeenCalled();
+    expect(navigate).not.toHaveBeenCalled();
 
-    await vi.advanceTimersByTimeAsync(1000);
-    expect(component.redirectCountdown()).toBe(2);
-
-    await vi.advanceTimersByTimeAsync(1000);
-    expect(component.redirectCountdown()).toBe(1);
-
-    await vi.advanceTimersByTimeAsync(1000);
+    component.viewCreatedContent();
 
     expect(dialogRef.close).toHaveBeenCalledWith(createdContent);
     expect(navigate).toHaveBeenCalledWith(['/content'], {
@@ -122,12 +116,30 @@ describe('AddPlaceForm', () => {
 
   it('enforces title and rich-text description limits', () => {
     component.placeForm.patchValue({
-      place: 'a'.repeat(401),
-      description: `<p>${'a'.repeat(3001)}</p>`,
+      place: 'a'.repeat(component.titleMaxLength + 1),
+      description: `<p>${'a'.repeat(component.descriptionMaxLength + 1)}</p>`,
     });
 
     expect(component.placeForm.get('place')?.hasError('maxlength')).toBe(true);
     expect(component.placeForm.get('description')?.hasError('maxlength')).toBe(true);
+  });
+
+  it('provides named alignment controls and an upload name containing the visible label', () => {
+    const element = fixture.nativeElement as HTMLElement;
+    const alignmentButtons = Array.from(
+      element.querySelectorAll<HTMLButtonElement>('button.ql-align'),
+    );
+    const uploadButton = element.querySelector<HTMLButtonElement>('.upload-dropzone');
+
+    expect(alignmentButtons).toHaveLength(4);
+    expect(alignmentButtons.map((button) => button.getAttribute('aria-label'))).toEqual([
+      'Allinea a sinistra',
+      'Allinea al centro',
+      'Allinea a destra',
+      'Giustifica',
+    ]);
+    expect(element.querySelector('.ql-picker')).toBeNull();
+    expect(uploadButton?.getAttribute('aria-label')).toContain('Clicca o trascina qui');
   });
 
   function fillValidForm(): void {

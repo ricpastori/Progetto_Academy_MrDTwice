@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -44,6 +45,8 @@ export class ContentDetails implements OnInit {
   private readonly tagService = inject(TagService);
 
   private readonly subTagService = inject(SubTagService);
+
+  private readonly documentTitle = inject(Title);
 
   protected readonly content = signal<Content | null>(null);
 
@@ -117,6 +120,8 @@ export class ContentDetails implements OnInit {
 
   private setContent(content: Content): void {
     this.content.set(content);
+
+    this.documentTitle.setTitle(`${content.place} | Mr D Twice`);
 
     this.likes.set(content.likes ?? 0);
 
@@ -254,6 +259,7 @@ export class ContentDetails implements OnInit {
   }
 
   addLike(): void {
+    this.reactionAnnouncement.set('');
     this.likeAnimation.set(true);
 
     setTimeout(() => {
@@ -263,11 +269,20 @@ export class ContentDetails implements OnInit {
     this.contentService.addLike(this.content()!.id).subscribe({
       next: (updated) => {
         this.likes.set(updated.likes);
+        this.reactionAnnouncement.set(
+          `Mi piace aggiunto a ${this.content()!.place}. Totale mi piace: ${updated.likes}.`,
+        );
+      },
+      error: () => {
+        this.reactionAnnouncement.set(
+          `Non è stato possibile aggiungere il mi piace a ${this.content()!.place}.`,
+        );
       },
     });
   }
 
   addDislike(): void {
+    this.reactionAnnouncement.set('');
     this.dislikeAnimation.set(true);
 
     setTimeout(() => {
@@ -277,6 +292,14 @@ export class ContentDetails implements OnInit {
     this.contentService.addDislike(this.content()!.id).subscribe({
       next: (updated) => {
         this.dislikes.set(updated.dislikes);
+        this.reactionAnnouncement.set(
+          `Non mi piace aggiunto a ${this.content()!.place}. Totale non mi piace: ${updated.dislikes}.`,
+        );
+      },
+      error: () => {
+        this.reactionAnnouncement.set(
+          `Non è stato possibile aggiungere il non mi piace a ${this.content()!.place}.`,
+        );
       },
     });
   }

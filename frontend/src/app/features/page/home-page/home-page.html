@@ -43,17 +43,19 @@
       <p>Scegli una regione e inizia la scoperta</p>
     </div>
 
-    <div class="mrd-home__regions-grid">
+    <ul class="mrd-home__regions-grid" role="list">
       @for (region of featuredRegions(); track region.id) {
-        <app-card-region
-          [region]="region"
-          [city]="getRegionCity(region)"
-          [placesCount]="getPlacesCount(region)"
-          [compact]="true"
-          [linkToDetails]="true"
-        />
+        <li>
+          <app-card-region
+            [region]="region"
+            [city]="getRegionCity(region)"
+            [placesCount]="getPlacesCount(region)"
+            [compact]="true"
+            [linkToDetails]="true"
+          />
+        </li>
       }
-    </div>
+    </ul>
 
     <div class="mrd-home__section-action">
       <a pButton routerLink="/regioni" [outlined]="true" size="small">

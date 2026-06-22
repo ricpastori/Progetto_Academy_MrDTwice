@@ -52,17 +52,17 @@
               class="content-details__reaction"
               severity="secondary"
               [outlined]="true"
-              [attr.aria-label]="'Mi piace. Totale: ' + contentData.likes"
+              [attr.aria-label]="'Mi piace. Totale: ' + likes()"
               pTooltip="Mi piace"
               tooltipPosition="top"
               (click)="addLike()"
             >
               <i
-  pButtonIcon
-  class="ph ph-heart"
-  [ngClass]="{ 'like-animation': likeAnimation() }"
-  aria-hidden="true"
-></i>
+                pButtonIcon
+                class="ph ph-heart"
+                [ngClass]="{ 'like-animation': likeAnimation() }"
+                aria-hidden="true"
+              ></i>
               <span pButtonLabel>{{ likes() }}</span>
             </button>
 
@@ -72,19 +72,23 @@
               class="content-details__reaction"
               severity="secondary"
               [outlined]="true"
-              [attr.aria-label]="'Non mi piace. Totale: ' + contentData.dislikes"
+              [attr.aria-label]="'Non mi piace. Totale: ' + dislikes()"
               pTooltip="Non mi piace"
               tooltipPosition="top"
               (click)="addDislike()"
             >
               <i
-  pButtonIcon
-  class="ph ph-thumbs-down"
-  [ngClass]="{ 'dislike-animation': dislikeAnimation() }"
-  aria-hidden="true"
-></i>
+                pButtonIcon
+                class="ph ph-thumbs-down"
+                [ngClass]="{ 'dislike-animation': dislikeAnimation() }"
+                aria-hidden="true"
+              ></i>
               <span pButtonLabel>{{ dislikes() }}</span>
             </button>
+
+            <span class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+              {{ reactionAnnouncement() }}
+            </span>
           </div>
         </div>
       </p-card>

@@ -132,6 +132,9 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .mrd-home__section-action {
@@ -143,7 +146,7 @@
 /* ── CONTENUTI ────────────────────────────────────────────────────────── */
 
 .mrd-home__content-grid {
-   display: flex;
+  display: flex;
   align-items: stretch;
   gap: 1rem;
   overflow-x: auto;

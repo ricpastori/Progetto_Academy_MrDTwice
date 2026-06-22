@@ -72,7 +72,7 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
   public submissionState = signal<SubmissionState>('form');
   public submissionError = signal('');
   public isSubmitting = computed(() => this.submissionState() === 'submitting');
-  public redirectCountdown = signal(3);
+  public createdContent = signal<Content | null>(null);
   public descriptionLength = signal(0);
   public selectedFile = signal<File | null>(null);
   public imagePreview = signal<string | null>(null);
@@ -81,7 +81,6 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
   public readonly descriptionMaxLength = 4000;
   public readonly maxImageFileSize = 5_000_000;
 
-  private redirectTimer: ReturnType<typeof setInterval> | null = null;
   private uploadedFile: File | null = null;
   private uploadedImageUrl: string | null = null;
   private editorRoot: HTMLElement | null = null;
@@ -115,10 +114,6 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed = true;
-
-    if (this.redirectTimer) {
-      clearInterval(this.redirectTimer);
-    }
   }
 
   selectCategory(tagId: string): void {
@@ -169,6 +164,15 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
     this.submissionState.set('form');
   }
 
+  viewCreatedContent(): void {
+    const content = this.createdContent();
+
+    if (!content) return;
+
+    this.dialogRef.close(content);
+    void this.router.navigate(['/content'], { queryParams: { id: content.id } });
+  }
+
   onDescriptionTextChange(event: EditorTextChangeEvent): void {
     this.descriptionLength.set(event.textValue.length);
     queueMicrotask(() => this.syncEditorAccessibility());
@@ -208,6 +212,7 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
     }
 
     this.submissionError.set('');
+    this.createdContent.set(null);
     this.submissionState.set('submitting');
 
     try {
@@ -239,7 +244,7 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
       if (this.destroyed) return;
 
       this.submissionState.set('success');
-      this.startRedirectCountdown(createdContent);
+      this.createdContent.set(createdContent);
     } catch (error) {
       if (this.destroyed) return;
 
@@ -251,24 +256,6 @@ export class AddPlaceFormComponent implements OnInit, OnDestroy {
       );
       this.submissionState.set('error');
     }
-  }
-
-  private startRedirectCountdown(createdContent: Content): void {
-    this.redirectCountdown.set(3);
-    this.redirectTimer = setInterval(() => {
-      const nextValue = this.redirectCountdown() - 1;
-      this.redirectCountdown.set(nextValue);
-
-      if (nextValue > 0) return;
-
-      if (this.redirectTimer) {
-        clearInterval(this.redirectTimer);
-        this.redirectTimer = null;
-      }
-
-      this.dialogRef.close(createdContent);
-      void this.router.navigate(['/content'], { queryParams: { id: createdContent.id } });
-    }, 1000);
   }
 
   private syncEditorAccessibility(): void {

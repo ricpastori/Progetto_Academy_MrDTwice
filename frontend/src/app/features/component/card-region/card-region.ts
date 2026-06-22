@@ -17,6 +17,7 @@ const REGION_PLACEHOLDER = {
 
 const REGION_IMAGE_DIR = '/images/origin/regions';
 const REGION_IMAGE_EXTENSION = 'jpg';
+let regionCardInstanceId = 0;
 
 @Component({
   selector: 'app-card-region',
@@ -31,6 +32,7 @@ export class CardRegion {
   readonly placesCount = input<number | null>(0);
   readonly compact = input(false);
   readonly linkToDetails = input(false);
+  protected readonly titleId = `region-card-title-${++regionCardInstanceId}`;
 
   protected readonly regionId = computed(() => this.region()?.id ?? null);
   protected readonly isLinked = computed(() => this.linkToDetails() && this.regionId() !== null);

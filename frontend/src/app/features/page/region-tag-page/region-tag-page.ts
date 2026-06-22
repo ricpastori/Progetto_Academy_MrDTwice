@@ -1,6 +1,7 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -39,6 +40,7 @@ export class RegionTagPage implements OnInit {
   private readonly regionService = inject(RegionService);
   private readonly subTagService = inject(SubTagService);
   private readonly tagService = inject(TagService);
+  private readonly documentTitle = inject(Title);
 
   protected readonly content = signal<Content[]>([]);
   protected readonly subTags = this.subTagService.subTags;
@@ -56,6 +58,21 @@ export class RegionTagPage implements OnInit {
     { label: 'Più apprezzati', value: 'liked' },
     { label: 'Recenti', value: 'recent' },
   ] as const;
+
+  constructor() {
+    effect(() => {
+      const region = this.regionService
+        .regions()
+        .find((item) => String(item.id) === String(this.selectedRegionId()));
+      const tag = this.tagService
+        .tags()
+        .find((item) => String(item.id) === String(this.selectedTagId()));
+
+      if (region && tag) {
+        this.documentTitle.setTitle(`${tag.name} in ${region.name} | Mr D Twice`);
+      }
+    });
+  }
 
   protected readonly filteredSubTags = computed(() => {
     const tagId = this.selectedTagId();

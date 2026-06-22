@@ -1,40 +1,40 @@
 :host {
   display: block;
-  min-height: calc(100vh - 60px);
   background: linear-gradient(
     180deg var(--p-surface-0) 0% color-mix(in srgb, var(--p-primary-color) 3%, #ffffff) 100%
   );
+  min-height: calc(100vh - 60px);
 }
 
 .mrd-not-found {
-  min-height: calc(100vh - 60px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 3rem 0 4rem;
+  min-height: calc(100vh - 60px);
 }
 
 /* ── 404 HTTP Code ───────────────────────────────────────────────────────────── */
 .mrd-not-found__container {
+  margin-inline: auto;
   width: 100%;
   max-width: 860px;
-  margin-inline: auto;
   text-align: center;
 }
 
 .mrd-not-found__code-wrap {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 2rem;
 }
 
 .mrd-not-found__digit {
-  font-size: clamp(5rem, 14vw, 9rem);
+  color: var(--p-surface-400);
   font-weight: 700;
+  font-size: clamp(5rem, 14vw, 9rem);
   line-height: 1;
-  color: color-mix(in srgb, var(--p-surface-400) 28%, #ffffff);
   letter-spacing: -0.04em;
 }
 
@@ -47,36 +47,36 @@
 
 .mrd-not-found__http-message {
   margin: 0 0 0.75rem;
-  font-size: 0.85rem;
+  color: var(--p-primary-color);
   font-weight: 700;
+  font-size: 0.85rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--p-primary-color);
 }
 
 .mrd-not-found__title {
   margin: 0;
+  margin: 15px auto;
+  color: var(--p-surface-900);
+  font-weight: 700;
   font-size: clamp(2rem, 4vw, 2.5rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
-  font-weight: 700;
-  color: var(--p-surface-900);
-  margin: 15px auto;
 }
 
 .mrd-not-found__description {
   margin: 1.25rem 0 0;
   max-width: 450px;
+  color: var(--p-surface-600);
   font-size: 1rem;
   line-height: 1.8;
-  color: var(--p-surface-600);
 }
 
 /* ── Divider ────────────────────────────────────────────────────────────────── */
 :host ::ng-deep .mrd-not-found__divider.p-divider {
+  margin: 2.2rem auto;
   width: 100%;
   max-width: 360px;
-  margin: 2.2rem auto;
 }
 
 :host ::ng-deep .mrd-not-found__divider .p-divider-content {
@@ -84,26 +84,26 @@
 }
 
 .not-found__logo-img {
+  display: block;
   width: 28px;
   height: 28px;
-  display: block;
 }
 
 .mrd-not-found__question {
   margin: 0 0 1.25rem;
-  font-size: 0.85rem;
+  color: var(--p-surface-700);
   font-weight: 800;
+  font-size: 0.85rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--p-surface-700);
 }
 
 .mrd-not-found__actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.875rem;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.875rem;
 }
 
 /* ── Icons Settings ──────────────────────────────────────────────────────────── */
@@ -114,8 +114,8 @@
 /* ── MediaQuery (mobile) ─────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .mrd-not-found {
-    padding: 2.5rem 0 3rem;
     align-items: flex-start;
+    padding: 2.5rem 0 3rem;
   }
 
   .mrd-not-found__code-wrap {
@@ -133,8 +133,8 @@
   }
 
   .mrd-not-found__actions {
-    width: 100%;
     flex-direction: column;
+    width: 100%;
   }
 
   .mrd-not-found__actions .p-button {

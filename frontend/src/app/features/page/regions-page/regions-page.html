@@ -6,16 +6,18 @@
     </header>
 
     @if (regions().length > 0) {
-      <div class="regions-grid">
+      <ul class="regions-grid" role="list">
         @for (region of regions(); track region.id) {
-          <app-card-region
-            [region]="region"
-            [placesCount]="getPlacesCount(region)"
-            [compact]="true"
-            [linkToDetails]="true"
-          />
+          <li>
+            <app-card-region
+              [region]="region"
+              [placesCount]="getPlacesCount(region)"
+              [compact]="true"
+              [linkToDetails]="true"
+            />
+          </li>
         }
-      </div>
+      </ul>
     } @else if (regionService.loading()) {
       <div class="regions-grid" role="status" aria-live="polite" aria-busy="true">
         <span class="visually-hidden">Caricamento delle regioni in corso.</span>

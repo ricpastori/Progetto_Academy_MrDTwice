@@ -1,5 +1,5 @@
-import { NgClass } from '@angular/common';
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { DOCUMENT, NgClass } from '@angular/common';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CardModule } from 'primeng/card';
@@ -16,6 +16,7 @@ import { SubTag } from '../../../services/sub-tag-service';
 })
 export class CardContentComponent implements OnInit {
   private contentService = inject(ContentService);
+  private readonly document = inject(DOCUMENT);
 
   content = input.required<Content>();
 
@@ -35,6 +36,8 @@ export class CardContentComponent implements OnInit {
   dislikeAnimation = signal(false);
 
   reactionAnnouncement = signal('');
+
+  readonly descriptionPreview = computed(() => this.toPlainText(this.content().description));
 
   ngOnInit(): void {
     this.likes.set(this.content().likes ?? 0);
@@ -133,5 +136,18 @@ export class CardContentComponent implements OnInit {
 
       year: 'numeric',
     });
+  }
+
+  private toPlainText(value: string): string {
+    const withoutMarkup = value
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<\/p\s*>/gi, ' ')
+      .replace(/<\/li\s*>/gi, ' ')
+      .replace(/<[^>]+>/g, '');
+    const decoder = this.document.createElement('textarea');
+
+    decoder.innerHTML = withoutMarkup;
+
+    return decoder.value.replace(/\s+/g, ' ').trim();
   }
 }
