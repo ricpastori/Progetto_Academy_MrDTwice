@@ -1,6 +1,6 @@
 # 07 - Deployment
 
-[<- Style guide](style-guide.md) | [Indice docs](README.md) | [Torna al README principale ->](../README.md)
+[<- Style guide](style-guide.md) | [Indice docs](README.md) | [Prossimo: Roadmap evolutiva ->](roadmap.md)
 
 Questa guida raccoglie le decisioni e la checklist per pubblicare l'MVP. I provider
 definitivi possono cambiare, ma i controlli restano gli stessi.
@@ -104,3 +104,9 @@ Demo/Figma:
 - [Setup locale](setup-guide.md)
 - [Stack tecnico](technical-stack.md)
 - [Flusso backend e API](BE-schema-of-complete-flux.md)
+- [Roadmap evolutiva](roadmap.md)
+
+## Prossima lettura
+
+Continua con la [Roadmap evolutiva](roadmap.md) per vedere come consolidamento,
+account, community ed espansione dipendono dalla pubblicazione dell'MVP.

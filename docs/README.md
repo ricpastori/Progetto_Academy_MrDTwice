@@ -16,6 +16,7 @@ un capitolo, collegato al precedente, al successivo e all'indice.
    endpoint e responsabilita'.
 6. [Style guide](style-guide.md) - per mantenere coerente il codice.
 7. [Deployment](deployment-guide.md) - per preparare pubblicazione e demo.
+8. [Roadmap evolutiva](roadmap.md) - per ordinare le iniziative successive all'MVP.
 
 ## Mappa documentazione
 
@@ -29,6 +30,7 @@ flowchart LR
   Setup --> Backend["05 Backend/API"]
   Backend --> Style["06 Style guide"]
   Style --> Deploy["07 Deployment"]
+  Deploy --> Roadmap["08 Roadmap evolutiva"]
 ```
 
 ## Risorse visive
@@ -50,9 +52,11 @@ File disponibili:
 
 ## Stato e manutenzione
 
-- La documentazione distingue sempre tra stato attuale e target MVP.
+- La documentazione distingue tra stato attuale, scope MVP ed evoluzioni future.
 - Quando cambia una route, aggiorna prima [Architettura informativa](information-architecture.md)
   e poi [Flusso backend e API](BE-schema-of-complete-flux.md).
 - Quando cambia uno script, una dipendenza o un servizio, aggiorna
   [Stack tecnico](technical-stack.md) e [Setup locale](setup-guide.md).
 - Quando cambia una regola di naming o qualita', aggiorna [Style guide](style-guide.md).
+- Quando un'iniziativa futura cambia priorita', dipendenze o perimetro, aggiorna la
+  [Roadmap evolutiva](roadmap.md); assegnazioni e scadenze restano nella board.

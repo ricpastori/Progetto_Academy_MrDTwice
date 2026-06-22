@@ -51,6 +51,9 @@ Fuori dalla prima versione:
 - Algoritmi di raccomandazione.
 - Test automatizzati.
 
+Questi elementi non sono promesse di rilascio: le possibili evoluzioni, il loro
+ordine e le dipendenze sono raccolti nella [Roadmap evolutiva](roadmap.md).
+
 ## Criteri di successo
 
 L'MVP e' consegnabile quando un utente puo':

@@ -5,7 +5,7 @@
 <h1 align="center">MrDTwice</h1>
 
 <p align="center">
-  <strong>Scopri, condividi, vota e recensisci luoghi interessanti da visitare.</strong>
+  <strong>Scopri, condividi e vota luoghi interessanti da visitare.</strong>
 </p>
 
 <p align="center">
@@ -57,6 +57,7 @@ tra loro.
 - [Flusso backend e API](docs/BE-schema-of-complete-flux.md)
 - [Style guide](docs/style-guide.md)
 - [Guida deployment](docs/deployment-guide.md)
+- [Roadmap evolutiva](docs/roadmap.md)
 - [README frontend](frontend/README.md)
 
 ## Percorsi rapidi
@@ -66,6 +67,7 @@ Per capire il progetto:
 1. Parti dal [Concept](docs/concept.md).
 2. Prosegui con [Architettura informativa e flussi](docs/information-architecture.md).
 3. Consulta i [mockup](docs/mockups/) quando devi confrontare pagine e UI.
+4. Leggi la [Roadmap evolutiva](docs/roadmap.md) per distinguere MVP e sviluppi futuri.
 
 Per lavorare al codice:
 
