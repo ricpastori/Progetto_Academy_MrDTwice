@@ -1,0 +1,1904 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Presentazione finale di MrDTwice: obiettivi, contributi del team, architettura e roadmap."
+    />
+    <title>MrDTwice — Presentazione finale</title>
+    <style>
+      :root {
+        --ink: #181525;
+        --ink-soft: #494258;
+        --paper: #fbfaf7;
+        --paper-soft: #f1eee8;
+        --line: rgba(24, 21, 37, 0.14);
+        --violet: #7251d6;
+        --violet-soft: #e8e0ff;
+        --amber: #d77a25;
+        --amber-soft: #ffe8ce;
+        --teal: #147d73;
+        --teal-soft: #d8f4ef;
+        --rose: #ad4660;
+        --rose-soft: #f8dce3;
+        --green: #26734d;
+        --green-soft: #dff2e7;
+        --shadow: 0 24px 70px rgba(20, 15, 34, 0.13);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      button,
+      a {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--amber);
+        outline-offset: 3px;
+      }
+
+      .progress-track {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 50;
+        height: 5px;
+        background: rgba(24, 21, 37, 0.08);
+      }
+
+      .progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, var(--violet), var(--amber));
+        transition: width 260ms ease;
+      }
+
+      .deck {
+        position: relative;
+        height: 100dvh;
+      }
+
+      .slide {
+        --section-color: var(--violet);
+        position: absolute;
+        inset: 0;
+        display: none;
+        overflow-y: auto;
+        padding: clamp(2.3rem, 4vw, 4.3rem) clamp(1.5rem, 6vw, 6.5rem) 5.2rem;
+        background:
+          radial-gradient(
+            circle at 90% 10%,
+            color-mix(in srgb, var(--section-color) 18%, transparent),
+            transparent 28%
+          ),
+          linear-gradient(
+            135deg,
+            #fff 0%,
+            var(--paper) 55%,
+            var(--paper-soft) 100%
+          );
+      }
+
+      .slide::before {
+        content: "";
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 8px;
+        background: var(--section-color);
+      }
+
+      .slide.active {
+        display: block;
+        animation: slide-in 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+      }
+
+      .slide.compact-slide {
+        padding-top: 2.5rem;
+      }
+
+      .slide.compact-slide h2 {
+        font-size: clamp(2.3rem, 4.7vw, 4.7rem);
+      }
+
+      .slide[data-section="2"] {
+        --section-color: var(--teal);
+      }
+
+      .slide[data-section="3"] {
+        --section-color: var(--amber);
+      }
+
+      .slide[data-section="4"] {
+        --section-color: var(--rose);
+      }
+
+      @keyframes slide-in {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .slide-inner {
+        width: min(1380px, 100%);
+        min-height: calc(100dvh - 10rem);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .slide-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: clamp(1rem, 2vw, 2rem);
+      }
+
+      .eyebrow,
+      .speaker-label,
+      .chip,
+      .status {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        border-radius: 999px;
+        font-size: clamp(0.68rem, 0.85vw, 0.82rem);
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        gap: 0.55rem;
+        color: var(--section-color);
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 2.2rem;
+        height: 3px;
+        border-radius: 999px;
+        background: currentColor;
+      }
+
+      .speaker-label {
+        padding: 0.5rem 0.75rem;
+        background: color-mix(in srgb, var(--section-color) 13%, white);
+        color: var(--section-color);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      h1,
+      h2,
+      .display {
+        font-family: Georgia, "Times New Roman", serif;
+        letter-spacing: -0.045em;
+      }
+
+      h1 {
+        max-width: 13ch;
+        margin-bottom: 1.3rem;
+        font-size: clamp(3.5rem, 8.3vw, 8.2rem);
+        line-height: 0.88;
+      }
+
+      h2 {
+        max-width: 17ch;
+        margin-bottom: 1.1rem;
+        font-size: clamp(2.6rem, 5.5vw, 5.5rem);
+        line-height: 0.95;
+      }
+
+      h3 {
+        margin-bottom: 0.55rem;
+        font-size: clamp(1rem, 1.5vw, 1.35rem);
+        line-height: 1.15;
+      }
+
+      .lead {
+        max-width: 60ch;
+        color: var(--ink-soft);
+        font-size: clamp(1.05rem, 1.65vw, 1.45rem);
+        line-height: 1.52;
+      }
+
+      .compact {
+        font-size: clamp(0.82rem, 1.05vw, 1rem);
+        line-height: 1.48;
+      }
+
+      .muted {
+        color: var(--ink-soft);
+      }
+
+      .accent {
+        color: var(--section-color);
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .split {
+        display: grid;
+        gap: clamp(0.9rem, 1.8vw, 1.6rem);
+      }
+
+      .grid-2,
+      .split {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .split.wide-left {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+
+      .split.wide-right {
+        grid-template-columns: 0.82fr 1.18fr;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .card {
+        position: relative;
+        padding: clamp(1rem, 1.8vw, 1.55rem);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 1.25rem;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 10px 35px rgba(24, 21, 37, 0.06);
+      }
+
+      .card strong.big,
+      .metric {
+        display: block;
+        margin-bottom: 0.4rem;
+        color: var(--section-color);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 4vw, 4rem);
+        line-height: 0.95;
+      }
+
+      .card p:last-child,
+      .card ul:last-child {
+        margin-bottom: 0;
+      }
+
+      .card-band {
+        border-top: 5px solid var(--section-color);
+      }
+
+      .quote {
+        padding: clamp(1.3rem, 2.8vw, 2.4rem);
+        border-left: 6px solid var(--section-color);
+        border-radius: 0 1.2rem 1.2rem 0;
+        background: color-mix(in srgb, var(--section-color) 9%, white);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.45rem, 2.5vw, 2.35rem);
+        line-height: 1.18;
+      }
+
+      .chip {
+        margin: 0.15rem 0.25rem 0.15rem 0;
+        padding: 0.42rem 0.64rem;
+        background: var(--paper-soft);
+        color: var(--ink-soft);
+        letter-spacing: 0.04em;
+        text-transform: none;
+      }
+
+      .clean-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .clean-list li {
+        position: relative;
+        margin: 0.65rem 0;
+        padding-left: 1.3rem;
+        color: var(--ink-soft);
+        line-height: 1.45;
+      }
+
+      .clean-list li::before {
+        content: "";
+        position: absolute;
+        top: 0.62em;
+        left: 0;
+        width: 0.48rem;
+        height: 0.48rem;
+        border-radius: 50%;
+        background: var(--section-color);
+      }
+
+      .mockup {
+        position: relative;
+        padding: 0.55rem;
+        overflow: hidden;
+        border: 1px solid rgba(24, 21, 37, 0.18);
+        border-radius: 1.35rem;
+        background: #23202d;
+        box-shadow: var(--shadow);
+      }
+
+      .mockup::before {
+        content: "●  ●  ●";
+        display: block;
+        height: 1.35rem;
+        padding-left: 0.4rem;
+        color: #b4adbe;
+        font-size: 0.58rem;
+        letter-spacing: 0.2em;
+      }
+
+      .mockup img {
+        display: block;
+        width: 100%;
+        max-height: min(55dvh, 520px);
+        object-fit: cover;
+        object-position: top;
+        border-radius: 0.8rem;
+        background: #fff;
+      }
+
+      .mockup.contain img {
+        object-fit: contain;
+      }
+
+      .mockup.short img {
+        max-height: 220px;
+      }
+
+      .portrait {
+        width: clamp(6.5rem, 11vw, 10rem);
+        aspect-ratio: 1;
+        object-fit: cover;
+        border: 5px solid white;
+        border-radius: 50%;
+        box-shadow: var(--shadow);
+      }
+
+      .role-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.9rem;
+        align-items: center;
+      }
+
+      .role-card img {
+        width: 3.7rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        object-fit: cover;
+        background: var(--paper-soft);
+      }
+
+      .role-card p {
+        margin: 0;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0;
+        margin-top: 1.5rem;
+      }
+
+      .timeline-step {
+        position: relative;
+        padding: 2.3rem 1rem 0;
+        border-top: 3px solid var(--line);
+      }
+
+      .timeline-step::before {
+        content: "";
+        position: absolute;
+        top: -0.55rem;
+        left: 1rem;
+        width: 1rem;
+        height: 1rem;
+        border: 3px solid white;
+        border-radius: 50%;
+        background: var(--section-color);
+        box-shadow: 0 0 0 1px var(--section-color);
+      }
+
+      .pipeline {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 1.8rem;
+      }
+
+      .pipeline .node {
+        position: relative;
+        display: flex;
+        min-height: 9rem;
+        padding: 1.2rem;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid var(--line);
+        border-radius: 1.2rem;
+        background: white;
+      }
+
+      .pipeline .node:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        top: 50%;
+        right: -1.55rem;
+        color: var(--section-color);
+        font-size: 1.6rem;
+        font-weight: 900;
+        transform: translateY(-50%);
+      }
+
+      .code {
+        padding: 1rem 1.1rem;
+        overflow-wrap: anywhere;
+        border-radius: 0.9rem;
+        background: var(--ink);
+        color: #f7f2ff;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: clamp(0.7rem, 0.9vw, 0.86rem);
+        line-height: 1.55;
+      }
+
+      .status {
+        padding: 0.38rem 0.58rem;
+        letter-spacing: 0.05em;
+      }
+
+      .status.done {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .status.partial {
+        background: var(--amber-soft);
+        color: #9a5114;
+      }
+
+      .status.future {
+        background: var(--violet-soft);
+        color: #5032a8;
+      }
+
+      .score-column {
+        display: flex;
+        min-height: 22rem;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .score-item {
+        padding: 0.85rem 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-soft);
+        font-size: clamp(0.78rem, 1vw, 0.96rem);
+        line-height: 1.38;
+      }
+
+      .roadmap-line {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.65rem;
+        margin-top: 1.2rem;
+      }
+
+      .roadmap-step {
+        min-height: 11.2rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 1rem;
+        background: white;
+      }
+
+      .roadmap-step .phase {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: var(--section-color);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2.1rem;
+      }
+
+      .section-cover {
+        background:
+          linear-gradient(
+            110deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(255, 255, 255, 0.76)
+          ),
+          radial-gradient(
+            circle at 85% 15%,
+            var(--section-color),
+            transparent 42%
+          );
+      }
+
+      .section-cover .slide-inner {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: clamp(2rem, 7vw, 8rem);
+      }
+
+      .section-number {
+        color: color-mix(in srgb, var(--section-color) 20%, transparent);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(9rem, 22vw, 22rem);
+        font-weight: 700;
+        line-height: 0.7;
+      }
+
+      .cover-logo {
+        width: clamp(5rem, 9vw, 8rem);
+        margin-bottom: 1.2rem;
+      }
+
+      .section-tabs {
+        position: fixed;
+        z-index: 45;
+        bottom: 1.1rem;
+        left: 50%;
+        display: flex;
+        gap: 0.4rem;
+        padding: 0.38rem;
+        border: 1px solid rgba(24, 21, 37, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 10px 30px rgba(24, 21, 37, 0.1);
+        backdrop-filter: blur(14px);
+        transform: translateX(-50%);
+      }
+
+      .section-tab {
+        border: 0;
+        border-radius: 999px;
+        padding: 0.48rem 0.7rem;
+        background: transparent;
+        color: var(--ink-soft);
+        cursor: pointer;
+        font-size: 0.73rem;
+        font-weight: 750;
+      }
+
+      .section-tab.active {
+        background: var(--ink);
+        color: white;
+      }
+
+      .nav-controls {
+        position: fixed;
+        z-index: 46;
+        right: 1.4rem;
+        bottom: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+
+      .nav-btn {
+        display: grid;
+        width: 2.55rem;
+        height: 2.55rem;
+        place-items: center;
+        border: 1px solid rgba(24, 21, 37, 0.18);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--ink);
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(24, 21, 37, 0.1);
+      }
+
+      .counter {
+        min-width: 3.5rem;
+        color: var(--ink-soft);
+        font-size: 0.78rem;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+      }
+
+      .hint {
+        position: fixed;
+        z-index: 44;
+        bottom: 1.5rem;
+        left: 1.6rem;
+        color: var(--ink-soft);
+        font-size: 0.72rem;
+      }
+
+      @media (max-width: 980px) {
+        body {
+          overflow: auto;
+        }
+
+        .grid-4,
+        .roadmap-line {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-3,
+        .pipeline {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-2,
+        .split,
+        .split.wide-left,
+        .split.wide-right,
+        .section-cover .slide-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .pipeline .node:not(:last-child)::after {
+          content: "↓";
+          top: auto;
+          right: 50%;
+          bottom: -1.55rem;
+          transform: translateX(50%);
+        }
+
+        .timeline {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .section-number,
+        .hint,
+        .section-tabs {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      @media print {
+        body {
+          overflow: visible;
+        }
+
+        .progress-track,
+        .section-tabs,
+        .nav-controls,
+        .hint {
+          display: none !important;
+        }
+
+        .deck {
+          height: auto;
+        }
+
+        .slide,
+        .slide.active {
+          position: relative;
+          display: block !important;
+          min-height: 100vh;
+          break-after: page;
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <main class="deck" id="deck">
+      <section class="slide active" data-section="1" data-title="MrDTwice">
+        <div class="slide-inner">
+          <div class="split wide-left" style="align-items: center">
+            <div>
+              <img
+                class="cover-logo"
+                src="../logo.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              <p class="eyebrow">Final project · Academy</p>
+              <h1>
+                Scoprire luoghi.<br /><span class="accent">Insieme.</span>
+              </h1>
+              <p class="lead">
+                MrDTwice trasforma un catalogo di destinazioni in una guida
+                community-driven: esplorare, filtrare, contribuire e lasciare un
+                segnale di gradimento.
+              </p>
+              <div aria-label="Tecnologie principali">
+                <span class="chip">Angular 21</span>
+                <span class="chip">Express 5</span>
+                <span class="chip">Supabase PostgreSQL</span>
+                <span class="chip">Supabase Storage</span>
+              </div>
+            </div>
+            <figure class="mockup" style="transform: rotate(1.3deg)">
+              <img
+                src="../mockups/homepage.png"
+                alt="Mockup della homepage di MrDTwice"
+              />
+            </figure>
+          </div>
+          <div class="grid-4" style="margin-top: 1.6rem">
+            <div class="card compact">
+              <strong>Riccardo Pastori</strong><br /><span class="muted"
+                >Product, UX &amp; integration</span
+              >
+            </div>
+            <div class="card compact">
+              <strong>Marianna Masala</strong><br /><span class="muted"
+                >Data, API &amp; discovery</span
+              >
+            </div>
+            <div class="card compact">
+              <strong>Davide Braghi</strong><br /><span class="muted"
+                >Experience shell &amp; homepage</span
+              >
+            </div>
+            <div class="card compact">
+              <strong>Davide Donnarumma</strong><br /><span class="muted"
+                >Contribution flow &amp; upload</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="1"
+        data-title="Una fondazione condivisa"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">01 · Visione e fondazioni</p>
+            <span class="speaker-label">Riccardo Pastori</span>
+          </div>
+          <h2>Prima il perché.<br />Poi il codice.</h2>
+          <p class="lead">
+            Nei primi due giorni abbiamo lavorato tutti insieme: problema,
+            utenti, flussi, architettura informativa, mockup e scelta dello
+            stack. Solo dopo abbiamo diviso i focus.
+          </p>
+          <div class="timeline" aria-label="Prime attività condivise del team">
+            <div class="timeline-step">
+              <h3>Problema</h3>
+              <p class="compact muted">
+                Come rendere semplice la scoperta di luoghi interessanti.
+              </p>
+            </div>
+            <div class="timeline-step">
+              <h3>Utenti</h3>
+              <p class="compact muted">
+                Visitatore, contributore e persona che lascia feedback.
+              </p>
+            </div>
+            <div class="timeline-step">
+              <h3>Esperienza</h3>
+              <p class="compact muted">
+                User flow, wireframe, mockup e tassonomia.
+              </p>
+            </div>
+            <div class="timeline-step">
+              <h3>Stack</h3>
+              <p class="compact muted">
+                Angular, Express, PostgreSQL e Storage Supabase.
+              </p>
+            </div>
+          </div>
+          <div class="grid-4" style="margin-top: 1.6rem">
+            <article class="card role-card">
+              <img
+                src="../../frontend/public/images/origin/about/avatar_riccardo_pastori.png"
+                alt=""
+              />
+              <div>
+                <h3>Riccardo</h3>
+                <p class="compact muted">
+                  Integrazione, routing, design system, pagine chiave, immagini
+                  responsive e accessibilità.
+                </p>
+              </div>
+            </article>
+            <article class="card role-card">
+              <img
+                src="../../frontend/public/images/origin/about/avatar_marianna_masala.png"
+                alt=""
+              />
+              <div>
+                <h3>Marianna</h3>
+                <p class="compact muted">
+                  Database, query, API/service, content card e pagine regione
+                  data-driven.
+                </p>
+              </div>
+            </article>
+            <article class="card role-card">
+              <img
+                src="../../frontend/public/images/origin/about/avatar_davide_braghi.png"
+                alt=""
+              />
+              <div>
+                <h3>Davide Braghi</h3>
+                <p class="compact muted">
+                  Homepage, navbar/footer, pagina 404, stile globale, setup e
+                  presentazione.
+                </p>
+              </div>
+            </article>
+            <article class="card role-card">
+              <img
+                src="../../frontend/public/images/origin/about/avatar_davide_donnarumma.png"
+                alt=""
+              />
+              <div>
+                <h3>Davide Donnarumma</h3>
+                <p class="compact muted">
+                  Form “Aggiungi luogo”, modale, validazione e upload immagini
+                  via backend.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="1"
+        data-title="Problema e proposta di valore"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Il pitch</p>
+            <span class="speaker-label">Riccardo Pastori</span>
+          </div>
+          <div class="split wide-right" style="align-items: center">
+            <div>
+              <h2>Dal “dove andiamo?” a una scelta informata.</h2>
+              <p class="lead">
+                Le informazioni di viaggio sono frammentate. MrDTwice propone un
+                punto d’accesso visuale, pubblico e immediato, organizzato per
+                territorio e interesse.
+              </p>
+              <div class="quote">
+                “Pochi passaggi per scoprire, capire e contribuire.”
+              </div>
+            </div>
+            <div class="grid-2">
+              <article class="card card-band">
+                <span class="metric">01</span>
+                <h3>Scoprire</h3>
+                <p class="compact muted">
+                  Home editoriale, regioni e contenuti in evidenza riducono il
+                  costo della ricerca.
+                </p>
+              </article>
+              <article class="card card-band">
+                <span class="metric">02</span>
+                <h3>Orientarsi</h3>
+                <p class="compact muted">
+                  Categorie, città, sottotag e breadcrumb rendono leggibile il
+                  catalogo.
+                </p>
+              </article>
+              <article class="card card-band">
+                <span class="metric">03</span>
+                <h3>Contribuire</h3>
+                <p class="compact muted">
+                  Un form breve permette di aggiungere un luogo con immagine e
+                  metadati.
+                </p>
+              </article>
+              <article class="card card-band">
+                <span class="metric">04</span>
+                <h3>Reagire</h3>
+                <p class="compact muted">
+                  Like e dislike offrono un feedback semplice, senza richiedere
+                  un account.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide compact-slide"
+        data-section="1"
+        data-title="Obiettivi e architettura dell'MVP"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Dal concept al sistema</p>
+            <span class="speaker-label">Riccardo Pastori</span>
+          </div>
+          <h2>Sette obiettivi, un unico flusso full stack.</h2>
+          <div class="split wide-left">
+            <div class="grid-2">
+              <article class="card">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin-top: 0.8rem">Tema chiaro dalla home</h3>
+              </article>
+              <article class="card">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin-top: 0.8rem">Lista di luoghi esplorabile</h3>
+              </article>
+              <article class="card">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin-top: 0.8rem">Ricerca e filtri</h3>
+              </article>
+              <article class="card">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin-top: 0.8rem">Dettaglio completo</h3>
+              </article>
+              <article class="card">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin-top: 0.8rem">Inserimento luogo</h3>
+              </article>
+              <article class="card">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin-top: 0.8rem">Upload immagine</h3>
+              </article>
+              <article class="card" style="grid-column: 1 / -1">
+                <span class="status done">Obiettivo</span>
+                <h3 style="margin: 0.8rem 0 0">
+                  Feedback tramite like o dislike
+                </h3>
+              </article>
+            </div>
+            <aside class="card card-band">
+              <h3>Il contributo di integrazione</h3>
+              <ul class="clean-list compact">
+                <li>
+                  Scaffold Angular 21, PrimeNG, lint, format e documentazione.
+                </li>
+                <li>
+                  Routing, HttpClient, app shell e collegamento delle API.
+                </li>
+                <li>Pagine About, Regioni e Dettaglio contenuto.</li>
+                <li>Pipeline immagini responsive, fallback e accessibilità.</li>
+              </ul>
+              <div class="code" style="margin-top: 1rem">
+                Angular UI → Express API → PostgreSQL<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↘
+                Supabase Storage
+              </div>
+              <p class="compact muted" style="margin: 1rem 0 0">
+                Valore: una base coerente dove i contributi dei quattro filoni
+                convergono senza perdere il percorso utente.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide section-cover"
+        data-section="2"
+        data-title="Dati e discovery"
+      >
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">02 · Dati e discovery</p>
+            <h2>Il catalogo prende vita.</h2>
+            <p class="lead">
+              Dalla connessione al database alle pagine regione: trasformare
+              righe e query in contenuti che l’utente può davvero esplorare.
+            </p>
+            <div class="card" style="margin-top: 1.4rem; max-width: 42rem">
+              <h3>Marianna Masala · focus principale</h3>
+              <p class="muted">
+                Backend e database, query e API service, integrazione
+                frontend/backend, CardContent, RegionTag e RegionDetail.
+              </p>
+            </div>
+          </div>
+          <div>
+            <img
+              class="portrait"
+              src="../../frontend/public/images/origin/about/avatar_marianna_masala.png"
+              alt="Ritratto di Marianna Masala"
+            />
+            <div class="section-number" aria-hidden="true">02</div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="2"
+        data-title="Architettura dei dati"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Una richiesta, quattro responsabilità</p>
+            <span class="speaker-label">Marianna Masala</span>
+          </div>
+          <h2>Dalla pagina al dato, senza scorciatoie.</h2>
+          <p class="lead">
+            Express non è un semplice pass-through: separa HTTP, query e
+            persistenza, lasciando al frontend il compito di presentare e
+            filtrare l’esperienza.
+          </p>
+          <div class="pipeline" aria-label="Flusso di lettura dei contenuti">
+            <article class="node">
+              <span class="status future">Frontend</span>
+              <div>
+                <h3>Angular service</h3>
+                <p class="compact muted">Costruisce URL e query parameter.</p>
+              </div>
+              <code>ContentService</code>
+            </article>
+            <article class="node">
+              <span class="status future">HTTP</span>
+              <div>
+                <h3>Express routes</h3>
+                <p class="compact muted">Gestisce parametri e status code.</p>
+              </div>
+              <code>ApiRoutes.js</code>
+            </article>
+            <article class="node">
+              <span class="status future">Logica dati</span>
+              <div>
+                <h3>API service</h3>
+                <p class="compact muted">Esegue query parametrizzate.</p>
+              </div>
+              <code>ApiService.js</code>
+            </article>
+            <article class="node">
+              <span class="status future">Persistenza</span>
+              <div>
+                <h3>Supabase</h3>
+                <p class="compact muted">PostgreSQL per dati e relazioni.</p>
+              </div>
+              <code>regions · tags · content</code>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: 1.4rem">
+            <div class="card compact">
+              <strong class="big">20</strong>regioni ordinabili e navigabili
+            </div>
+            <div class="card compact">
+              <strong class="big">4</strong>entità di dominio principali
+            </div>
+            <div class="card compact">
+              <strong class="big">12</strong>route handler per lettura,
+              creazione, feedback e upload
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="2"
+        data-title="API e modello di dominio"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Contratto tecnico</p>
+            <span class="speaker-label">Marianna Masala</span>
+          </div>
+          <div class="split wide-left" style="align-items: center">
+            <div>
+              <h2>Un modello piccolo, ma leggibile.</h2>
+              <div class="grid-2">
+                <article class="card card-band">
+                  <h3>regions</h3>
+                  <p class="compact muted">
+                    Identità, descrizione e immagine del territorio.
+                  </p>
+                </article>
+                <article class="card card-band">
+                  <h3>tags</h3>
+                  <p class="compact muted">
+                    Categorie di alto livello per orientare la scoperta.
+                  </p>
+                </article>
+                <article class="card card-band">
+                  <h3>sub_tags</h3>
+                  <p class="compact muted">
+                    Specializzazioni collegate a una categoria.
+                  </p>
+                </article>
+                <article class="card card-band">
+                  <h3>content</h3>
+                  <p class="compact muted">
+                    Luogo, città, testo, immagine e feedback.
+                  </p>
+                </article>
+              </div>
+            </div>
+            <div>
+              <div class="code">
+                GET /api/region<br />GET /api/region/contents-count<br /><br />GET
+                /api/content?regionId=:id<br />GET
+                /api/content?regionId=:id&amp;tagId=:id<br /><br />GET
+                /api/content/latest-by-region<br />GET
+                /api/content/top-liked-by-region<br /><br />POST
+                /api/content/like?id=:id
+              </div>
+              <div class="card" style="margin-top: 1rem">
+                <h3>Traduzione per stakeholder</h3>
+                <p class="compact muted">
+                  Lo stesso catalogo alimenta home, pagine regionali, filtri e
+                  dettaglio: meno duplicazioni, più possibilità di estendere il
+                  prodotto.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="2"
+        data-title="Discovery data-driven"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Dal dato alla decisione</p>
+            <span class="speaker-label">Marianna Masala</span>
+          </div>
+          <h2>La discovery cambia forma, non sorgente.</h2>
+          <div class="split wide-right">
+            <div>
+              <ol class="clean-list">
+                <li>
+                  <strong>Home:</strong> ultimi contenuti e luoghi più
+                  apprezzati.
+                </li>
+                <li>
+                  <strong>Regione:</strong> categorie e conteggi
+                  contestualizzano l’offerta.
+                </li>
+                <li>
+                  <strong>Listing:</strong> testo, città e sottotag affinano la
+                  scelta.
+                </li>
+                <li>
+                  <strong>Card:</strong> immagine, metadati e feedback portano
+                  al dettaglio.
+                </li>
+              </ol>
+              <div class="quote" style="margin-top: 1.2rem">
+                Il valore non è “avere dati”: è portarli nel punto giusto del
+                viaggio.
+              </div>
+            </div>
+            <div class="grid-2">
+              <figure class="mockup">
+                <img
+                  src="../mockups/region_details.png"
+                  alt="Mockup del dettaglio regione"
+                />
+              </figure>
+              <figure class="mockup">
+                <img
+                  src="../mockups/regions+tag.png"
+                  alt="Mockup del listing filtrato per regione e categoria"
+                />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide section-cover"
+        data-section="3"
+        data-title="Esperienza e orientamento"
+      >
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">03 · Esperienza e orientamento</p>
+            <h2>Una guida deve prima saper guidare.</h2>
+            <p class="lead">
+              Homepage, navigazione e stati di errore danno al catalogo una voce
+              riconoscibile e mantengono l’utente orientato dall’ingresso alla
+              destinazione.
+            </p>
+            <div class="card" style="margin-top: 1.4rem; max-width: 42rem">
+              <h3>Davide Braghi · focus principale</h3>
+              <p class="muted">
+                Homepage, navbar e footer, pagina 404, stile globale e asset,
+                setup iniziale, presentazione del progetto e sperimentazione
+                Docker.
+              </p>
+            </div>
+          </div>
+          <div>
+            <img
+              class="portrait"
+              src="../../frontend/public/images/origin/about/avatar_davide_braghi.png"
+              alt="Ritratto di Davide Braghi"
+            />
+            <div class="section-number" aria-hidden="true">03</div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="3"
+        data-title="La homepage come vetrina"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">La vetrina del prodotto</p>
+            <span class="speaker-label">Davide Braghi</span>
+          </div>
+          <div class="split wide-left" style="align-items: center">
+            <figure class="mockup">
+              <img
+                src="../mockups/homepage.png"
+                alt="Homepage di MrDTwice con hero e contenuti in evidenza"
+              />
+            </figure>
+            <div>
+              <h2>La home non elenca: invita a partire.</h2>
+              <div class="grid-2">
+                <article class="card card-band">
+                  <h3>Promessa immediata</h3>
+                  <p class="compact muted">
+                    Hero, identità visuale e CTA chiariscono il tema al primo
+                    sguardo.
+                  </p>
+                </article>
+                <article class="card card-band">
+                  <h3>Scelte curate</h3>
+                  <p class="compact muted">
+                    Regioni e contenuti in evidenza evitano una partenza “a
+                    vuoto”.
+                  </p>
+                </article>
+                <article class="card card-band">
+                  <h3>Prova sociale leggera</h3>
+                  <p class="compact muted">
+                    Like e attività recente mostrano cosa interessa alla
+                    community.
+                  </p>
+                </article>
+                <article class="card card-band">
+                  <h3>Accesso al contributo</h3>
+                  <p class="compact muted">
+                    La CTA “Aggiungi luogo” resta visibile nella navigazione
+                    globale.
+                  </p>
+                </article>
+              </div>
+              <p class="lead" style="margin-top: 1.2rem">
+                Per uno stakeholder, è il punto in cui valore, tono e catalogo
+                diventano una sola storia.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="3"
+        data-title="Un viaggio sempre orientato"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Experience shell</p>
+            <span class="speaker-label">Davide Braghi</span>
+          </div>
+          <h2>Ogni stato fa parte dell’esperienza.</h2>
+          <div class="grid-3">
+            <article class="card card-band">
+              <span class="metric">A</span>
+              <h3>Navbar</h3>
+              <p class="compact muted">
+                Accesso costante a home, regioni, chi siamo e contributo.
+              </p>
+              <div>
+                <span class="chip">responsive</span
+                ><span class="chip">focus</span><span class="chip">CTA</span>
+              </div>
+            </article>
+            <article class="card card-band">
+              <span class="metric">B</span>
+              <h3>App shell &amp; footer</h3>
+              <p class="compact muted">
+                Larghezze, toni di pagina e link condivisi danno continuità tra
+                feature diverse.
+              </p>
+              <div>
+                <span class="chip">layout</span
+                ><span class="chip">coerenza</span
+                ><span class="chip">brand</span>
+              </div>
+            </article>
+            <article class="card card-band">
+              <span class="metric">C</span>
+              <h3>404 utile</h3>
+              <p class="compact muted">
+                Un errore diventa una scelta: tornare alla home o continuare
+                dalle regioni.
+              </p>
+              <div>
+                <span class="chip">recupero</span><span class="chip">tono</span
+                ><span class="chip">fiducia</span>
+              </div>
+            </article>
+          </div>
+          <div class="split" style="margin-top: 1.4rem; align-items: center">
+            <figure class="mockup short">
+              <img
+                src="../mockups/404_not_found.png"
+                alt="Pagina 404 di MrDTwice"
+              />
+            </figure>
+            <div class="quote">
+              Una buona navigazione non si nota quando funziona. Si apprezza
+              quando qualcosa va storto.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="3"
+        data-title="Dal mockup a una demo credibile"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Consegna e qualità percepita</p>
+            <span class="speaker-label">Davide Braghi</span>
+          </div>
+          <h2>La credibilità passa anche dai dettagli.</h2>
+          <div class="split wide-right">
+            <div class="grid-2">
+              <article class="card">
+                <strong class="big">01</strong>
+                <h3>Componenti condivisi</h3>
+                <p class="compact muted">
+                  Navbar, footer e struttura applicativa riducono incoerenze tra
+                  pagine.
+                </p>
+              </article>
+              <article class="card">
+                <strong class="big">02</strong>
+                <h3>Stile e asset</h3>
+                <p class="compact muted">
+                  Logo, icone e CSS globale costruiscono un’identità ripetibile.
+                </p>
+              </article>
+              <article class="card">
+                <strong class="big">03</strong>
+                <h3>Setup leggibile</h3>
+                <p class="compact muted">
+                  Guida locale e primi template facilitano il lavoro parallelo.
+                </p>
+              </article>
+              <article class="card">
+                <strong class="big">04</strong>
+                <h3>Narrazione</h3>
+                <p class="compact muted">
+                  La prima presentazione ha reso visibile il percorso, non
+                  soltanto il risultato.
+                </p>
+              </article>
+            </div>
+            <aside>
+              <figure class="mockup short">
+                <img
+                  src="../mockups/about.png"
+                  alt="Mockup della pagina Chi siamo"
+                />
+              </figure>
+              <div class="card" style="margin-top: 1rem">
+                <h3>Equilibrio scelto</h3>
+                <p class="compact muted">
+                  Non un prototipo puramente visuale e non una demo solo
+                  tecnica: abbastanza identità per essere ricordata, abbastanza
+                  struttura per essere estesa.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide section-cover"
+        data-section="4"
+        data-title="Contributo e futuro"
+      >
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">04 · Contributo e futuro</p>
+            <h2>Da visitatore a parte della community.</h2>
+            <p class="lead">
+              Il momento decisivo non è soltanto trovare un luogo: è poterlo
+              restituire alla community con un flusso breve, sicuro e
+              comprensibile.
+            </p>
+            <div class="card" style="margin-top: 1.4rem; max-width: 42rem">
+              <h3>Davide Donnarumma · focus principale</h3>
+              <p class="muted">
+                Form e modale “Aggiungi luogo”, campi e feedback di invio,
+                upload immagini attraverso il backend e prima raccolta delle
+                evoluzioni future.
+              </p>
+            </div>
+          </div>
+          <div>
+            <img
+              class="portrait"
+              src="../../frontend/public/images/origin/about/avatar_davide_donnarumma.png"
+              alt="Ritratto di Davide Donnarumma"
+            />
+            <div class="section-number" aria-hidden="true">04</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-section="4" data-title="Aggiungere un luogo">
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Il contribution funnel</p>
+            <span class="speaker-label">Davide Donnarumma</span>
+          </div>
+          <h2>Un contributo ricco, senza un form infinito.</h2>
+          <div class="split wide-left">
+            <div class="grid-2">
+              <figure class="mockup">
+                <img
+                  src="../mockups/add_place_1.png"
+                  alt="Primo passaggio del form Aggiungi luogo"
+                />
+              </figure>
+              <figure class="mockup">
+                <img
+                  src="../mockups/add_place_2.png"
+                  alt="Secondo passaggio del form Aggiungi luogo"
+                />
+              </figure>
+            </div>
+            <div>
+              <div class="timeline" style="grid-template-columns: 1fr 1fr">
+                <div class="timeline-step">
+                  <h3>Classifica</h3>
+                  <p class="compact muted">
+                    Categoria, sottocategoria e regione.
+                  </p>
+                </div>
+                <div class="timeline-step">
+                  <h3>Localizza</h3>
+                  <p class="compact muted">Città e nome del luogo.</p>
+                </div>
+                <div class="timeline-step">
+                  <h3>Racconta</h3>
+                  <p class="compact muted">
+                    Descrizione rich text con limiti leggibili.
+                  </p>
+                </div>
+                <div class="timeline-step">
+                  <h3>Mostra</h3>
+                  <p class="compact muted">
+                    Immagine, anteprima, invio e conferma.
+                  </p>
+                </div>
+              </div>
+              <div class="card" style="margin-top: 1.2rem">
+                <h3>Ridurre l’incertezza</h3>
+                <ul class="clean-list compact">
+                  <li>Campi obbligatori espliciti e categorie dipendenti.</li>
+                  <li>
+                    Stati submitting, success ed errore con possibilità di
+                    retry.
+                  </li>
+                  <li>Redirect al nuovo contenuto dopo la conferma.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="4"
+        data-title="Upload immagini sicuro"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Sotto il form</p>
+            <span class="speaker-label">Davide Donnarumma</span>
+          </div>
+          <h2>L’immagine passa dal backend. I segreti no.</h2>
+          <p class="lead">
+            Il frontend non contiene credenziali Supabase: invia il file a
+            Express, che genera un nome unico, carica nello Storage e
+            restituisce soltanto l’URL pubblico.
+          </p>
+          <div
+            class="pipeline"
+            aria-label="Flusso di upload e creazione contenuto"
+          >
+            <article class="node">
+              <span class="status future">1 · Browser</span>
+              <div>
+                <h3>FormData</h3>
+                <p class="compact muted">
+                  File validato dal form, limite UI 5 MB.
+                </p>
+              </div>
+              <code>image</code>
+            </article>
+            <article class="node">
+              <span class="status future">2 · Express</span>
+              <div>
+                <h3>Multer</h3>
+                <p class="compact muted">
+                  Multipart in memoria, limite API 10 MiB.
+                </p>
+              </div>
+              <code>POST /api/upload</code>
+            </article>
+            <article class="node">
+              <span class="status future">3 · Storage</span>
+              <div>
+                <h3>UUID + Supabase</h3>
+                <p class="compact muted">
+                  Nome non collisionale e URL pubblica.
+                </p>
+              </div>
+              <code>places/:uuid</code>
+            </article>
+            <article class="node">
+              <span class="status future">4 · Database</span>
+              <div>
+                <h3>Nuovo content</h3>
+                <p class="compact muted">
+                  Metadati e image_url salvati via pg.
+                </p>
+              </div>
+              <code>POST /api/content</code>
+            </article>
+          </div>
+          <div class="grid-3" style="margin-top: 1.4rem">
+            <div class="card compact">
+              <h3>Per l’utente</h3>
+              Un solo invio percepito, con feedback chiaro.
+            </div>
+            <div class="card compact">
+              <h3>Per il team</h3>
+              Responsabilità separate e flusso diagnosticabile.
+            </div>
+            <div class="card compact">
+              <h3>Per il prodotto</h3>
+              Una base estendibile con moderazione e controllo media.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide"
+        data-section="4"
+        data-title="Obiettivi raggiunti e limiti"
+      >
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">MVP scorecard</p>
+            <span class="speaker-label">Davide Donnarumma</span>
+          </div>
+          <h2>Cosa abbiamo soddisfatto. E cosa no.</h2>
+          <div class="grid-3">
+            <article class="card score-column">
+              <span class="status done">Soddisfatto</span>
+              <h3>Flussi core dell’MVP</h3>
+              <div class="score-item">
+                Home e catalogo pubblico comprensibili senza login.
+              </div>
+              <div class="score-item">
+                Navigazione per regioni, categorie e contenuti.
+              </div>
+              <div class="score-item">
+                Ricerca e filtri per testo, città e sottotag.
+              </div>
+              <div class="score-item">
+                Dettaglio, inserimento, immagine e like/dislike.
+              </div>
+              <div class="score-item">
+                Integrazione Angular → Express → Supabase.
+              </div>
+            </article>
+            <article class="card score-column">
+              <span class="status partial">Parziale / da consolidare</span>
+              <h3>Readiness di prodotto</h3>
+              <div class="score-item">
+                Accessibilità migliorata, ma senza audit formale di conformità.
+              </div>
+              <div class="score-item">
+                Build e setup funzionanti; URL API, porta e CORS restano da
+                configurare per il deploy.
+              </div>
+              <div class="score-item">
+                Test presenti, ma non ancora una quality gate completa con
+                integrazione ed E2E.
+              </div>
+              <div class="score-item">
+                Logging, monitoraggio, rate limiting e validazione server da
+                irrobustire.
+              </div>
+            </article>
+            <article class="card score-column">
+              <span class="status future">Non incluso per scelta</span>
+              <h3>Fuori scope MVP</h3>
+              <div class="score-item">
+                Autenticazione, profili e ownership dei contributi.
+              </div>
+              <div class="score-item">
+                Preferiti, wishlist, notifiche e modalità offline.
+              </div>
+              <div class="score-item">
+                Moderazione avanzata e ruoli amministrativi.
+              </div>
+              <div class="score-item">
+                Internazionalizzazione e catalogo globale.
+              </div>
+              <div class="score-item">
+                AI per immagini e modello di affiliazione.
+              </div>
+            </article>
+          </div>
+          <p class="compact muted" style="margin: 1rem 0 0">
+            La distinzione è intenzionale: un MVP credibile dice anche dove
+            finisce.
+          </p>
+        </div>
+      </section>
+
+      <section class="slide" data-section="4" data-title="Roadmap futura">
+        <div class="slide-inner">
+          <div class="slide-topline">
+            <p class="eyebrow">Roadmap evolutiva</p>
+            <span class="speaker-label">Davide Donnarumma</span>
+          </div>
+          <h2>Prima consolidare. Poi moltiplicare il valore.</h2>
+          <div
+            class="roadmap-line"
+            aria-label="Cinque fasi della roadmap futura"
+          >
+            <article class="roadmap-step">
+              <span class="phase">0</span>
+              <h3>Consolidamento</h3>
+              <p class="compact muted">
+                Deploy, configurazione, qualità, accessibilità e sicurezza.
+              </p>
+            </article>
+            <article class="roadmap-step">
+              <span class="phase">1</span>
+              <h3>Identità e fiducia</h3>
+              <p class="compact muted">
+                Account, profili, ownership e moderazione.
+              </p>
+            </article>
+            <article class="roadmap-step">
+              <span class="phase">2</span>
+              <h3>Coinvolgimento</h3>
+              <p class="compact muted">Preferiti, wishlist, notifiche e PWA.</p>
+            </article>
+            <article class="roadmap-step">
+              <span class="phase">3</span>
+              <h3>Espansione</h3>
+              <p class="compact muted">
+                Lingua inglese e modello geografico internazionale.
+              </p>
+            </article>
+            <article class="roadmap-step">
+              <span class="phase">4</span>
+              <h3>Automazione e business</h3>
+              <p class="compact muted">
+                AI assistita per media ed esperienze in affiliazione.
+              </p>
+            </article>
+          </div>
+          <div class="split" style="margin-top: 1.4rem; align-items: center">
+            <div class="quote">
+              La prossima feature migliore è rendere affidabile ciò che abbiamo
+              già costruito.
+            </div>
+            <div class="card card-band">
+              <h3>La richiesta agli stakeholder</h3>
+              <p class="muted">
+                Validare il valore del catalogo e del contributo utente,
+                scegliere un contesto di deploy reale e misurare i flussi prima
+                di investire nelle fasi successive.
+              </p>
+              <p style="margin: 1rem 0 0">
+                <strong
+                  >MrDTwice è un MVP completo nel perimetro, non un prodotto
+                  finito.</strong
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="section-tabs" aria-label="Macrosezioni della presentazione">
+      <button class="section-tab active" type="button" data-target="1">
+        01 Riccardo
+      </button>
+      <button class="section-tab" type="button" data-target="5">
+        02 Marianna
+      </button>
+      <button class="section-tab" type="button" data-target="9">
+        03 Davide B.
+      </button>
+      <button class="section-tab" type="button" data-target="13">
+        04 Davide D.
+      </button>
+    </nav>
+
+    <p class="hint">← → per navigare · Home/End per inizio e fine</p>
+
+    <nav class="nav-controls" aria-label="Navigazione slide">
+      <button
+        class="nav-btn"
+        id="previous"
+        type="button"
+        aria-label="Slide precedente"
+      >
+        ←
+      </button>
+      <output class="counter" id="counter" aria-live="polite">1 / 17</output>
+      <button
+        class="nav-btn"
+        id="next"
+        type="button"
+        aria-label="Slide successiva"
+      >
+        →
+      </button>
+    </nav>
+
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      const counter = document.getElementById("counter");
+      const progress = document.getElementById("progress");
+      const sectionTabs = [...document.querySelectorAll(".section-tab")];
+      let currentSlide = 0;
+      let touchStartX = 0;
+
+      function showSlide(index) {
+        currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+
+        slides.forEach((slide, slideIndex) => {
+          const isActive = slideIndex === currentSlide;
+          slide.classList.toggle("active", isActive);
+          slide.setAttribute("aria-hidden", String(!isActive));
+        });
+
+        const activeSection = slides[currentSlide].dataset.section;
+        sectionTabs.forEach((tab) =>
+          tab.classList.toggle("active", tab.dataset.section === activeSection),
+        );
+        counter.value = `${currentSlide + 1} / ${slides.length}`;
+        counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+        progress.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+        document.title = `${slides[currentSlide].dataset.title} — MrDTwice`;
+        const nextHash = `#${currentSlide + 1}`;
+        if (window.location.hash !== nextHash)
+          history.replaceState(null, "", nextHash);
+      }
+
+      document
+        .getElementById("previous")
+        .addEventListener("click", () => showSlide(currentSlide - 1));
+      document
+        .getElementById("next")
+        .addEventListener("click", () => showSlide(currentSlide + 1));
+
+      sectionTabs.forEach((tab) => {
+        tab.dataset.section =
+          slides[Number(tab.dataset.target) - 1].dataset.section;
+        tab.addEventListener("click", () =>
+          showSlide(Number(tab.dataset.target) - 1),
+        );
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          showSlide(currentSlide + 1);
+        }
+        if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          showSlide(currentSlide - 1);
+        }
+        if (event.key === "Home") showSlide(0);
+        if (event.key === "End") showSlide(slides.length - 1);
+      });
+
+      document.addEventListener("touchstart", (event) => {
+        touchStartX = event.touches[0].clientX;
+      });
+
+      document.addEventListener("touchend", (event) => {
+        const difference = touchStartX - event.changedTouches[0].clientX;
+        if (Math.abs(difference) > 55)
+          showSlide(currentSlide + (difference > 0 ? 1 : -1));
+      });
+
+      window.addEventListener("hashchange", () => {
+        const requestedSlide = Number.parseInt(
+          window.location.hash.slice(1),
+          10,
+        );
+        if (Number.isFinite(requestedSlide)) showSlide(requestedSlide - 1);
+      });
+
+      const requestedSlide = Number.parseInt(window.location.hash.slice(1), 10);
+      showSlide(Number.isFinite(requestedSlide) ? requestedSlide - 1 : 0);
+    </script>
+  </body>
+</html>

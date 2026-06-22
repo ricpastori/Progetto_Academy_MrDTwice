@@ -58,6 +58,7 @@ tra loro.
 - [Style guide](docs/style-guide.md)
 - [Guida deployment](docs/deployment-guide.md)
 - [Roadmap evolutiva](docs/roadmap.md)
+- [Presentazione finale](docs/presentation/mrdtwice_final_presentation.html)
 - [README frontend](frontend/README.md)
 
 ## Percorsi rapidi
