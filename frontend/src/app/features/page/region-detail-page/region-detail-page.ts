@@ -62,12 +62,7 @@ export class RegionDetailPage implements OnInit {
     { label: this.currentRegion()?.name ?? 'Regione' },
   ]);
 
-  categoryIcons = [
-    'ph ph-bank',
-    'ph ph-cooking-pot',
-    'ph ph-castle-turret',
-    'ph ph-tree',
-  ] as const;
+  categoryIcons = ['ph ph-bank', 'ph ph-cooking-pot', 'ph ph-castle-turret', 'ph ph-tree'] as const;
 
   categorySeverities = [undefined, 'warn', 'info', 'success'] as const;
 
@@ -101,9 +96,7 @@ export class RegionDetailPage implements OnInit {
 
       if (!regionId) return;
 
-      const region = this.regionService
-        .regions()
-        .find((item) => String(item.id) === regionId);
+      const region = this.regionService.regions().find((item) => String(item.id) === regionId);
 
       if (region) {
         this.currentRegion.set(region);

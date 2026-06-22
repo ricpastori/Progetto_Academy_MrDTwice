@@ -9,7 +9,7 @@ l'MVP, cosa resta fuori e come capire se la consegna e' riuscita.
 
 MrDTwice e' una guida community-driven per luoghi da visitare. L'utente deve
 poter esplorare il catalogo, aprire una scheda dettaglio, contribuire con un
-nuovo luogo e lasciare un segnale di qualita' tramite rating o recensione.
+nuovo luogo e lasciare un segnale di gradimento tramite like o dislike.
 
 Il progetto nasce come final project academy: la priorita' e' costruire una
 versione semplice, funzionante e presentabile, non una piattaforma completa.
@@ -20,17 +20,16 @@ versione semplice, funzionante e presentabile, non una piattaforma completa.
 |---|---|---|
 | Visitatore curioso | Trovare luoghi interessanti senza registrarsi. | Home, listing, filtri e schede dettaglio pubbliche. |
 | Contributore | Segnalare un posto utile alla community. | Form "Aggiungi luogo" con dati base e immagine. |
-| Valutatore | Dare un feedback rapido su un luogo. | Rating o recensione collegata alla scheda dettaglio. |
+| Valutatore | Dare un feedback rapido su un luogo. | Like o dislike dalla card e dalla scheda dettaglio. |
 
 ## Funzionalita' core
 
 - Esplorazione dei luoghi.
 - Ricerca e filtri per regione, citta', categoria o tag.
-- Scheda dettaglio con immagine, descrizione, metadati e valutazione media.
+- Scheda dettaglio con immagine, descrizione, metadati e conteggi like/dislike.
 - Inserimento di un nuovo luogo.
 - Upload di almeno una immagine.
-- Rating da 1 a 5 stelle.
-- Recensioni testuali.
+- Like e dislike sui luoghi.
 
 ## Scope MVP
 
@@ -40,8 +39,7 @@ Dentro la prima versione:
 - Navigazione tra home, regioni/listing, dettaglio e pagina informativa.
 - Database Supabase PostgreSQL per i dati principali.
 - Supabase Storage per immagini pubbliche.
-- Backend Express come API tra frontend e database, salvo upload immagini che puo'
-  avvenire direttamente dal frontend verso Storage.
+- Backend Express come API tra frontend, database e Supabase Storage.
 
 Fuori dalla prima versione:
 
@@ -63,7 +61,7 @@ L'MVP e' consegnabile quando un utente puo':
 4. Aprire una scheda dettaglio.
 5. Aggiungere un nuovo luogo con dati essenziali.
 6. Caricare almeno una immagine.
-7. Lasciare un rating o una recensione.
+7. Lasciare un like o un dislike.
 
 I test automatizzati sono fuori scope per l'MVP. La qualita' minima richiesta per
 la consegna si basa su build, lint/format e verifica manuale dei flussi principali.

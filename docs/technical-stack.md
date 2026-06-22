@@ -13,6 +13,7 @@ Angular frontend
   -> PostgreSQL hosted on Supabase
 
 Angular frontend
+  -> Express multipart endpoint
   -> Supabase Storage per upload immagini
 ```
 
@@ -31,10 +32,11 @@ Tecnologie principali:
 - RxJS `~7.8.0`
 - PrimeNG `^21.1.9`
 - PrimeUIX Themes `^2.0.3`
+- Phosphor Icons `^2.1.2`
+- Quill `^2.0.3` tramite l'editor PrimeNG
 - PostCSS `^8.5.15`
 - Autoprefixer `^10.5.0`
-- Supabase client `^2.108.2` per upload immagini
-- `uuid` per generare nomi file unici
+- `wasm-image-optimization` per generare asset WebP responsive
 
 Struttura corrente:
 
@@ -49,15 +51,22 @@ frontend/
       app.css
       app.config.ts
       app.routes.ts
+      features/
+        component/
+        page/
       services/
+        content-service.ts
         image-upload.service.ts
+        region-service.ts
+        sub-tag-service.ts
+        tag-service.ts
 ```
 
 Script utili:
 
 ```bash
 cd frontend
-npm run start
+npm start
 npm run build
 npm run lint
 npm run lint:fix
@@ -68,11 +77,11 @@ npm run format:check
 Note di stato:
 
 - L'app usa componenti standalone e `bootstrapApplication`.
-- Il router e' configurato, ma `routes` e' ancora vuoto.
-- `image-upload.service.ts` carica file nel bucket Supabase `mrdtwice-images` e
-  restituisce una URL pubblica.
-- Le credenziali Supabase nel service devono essere portate in configurazione
-  ambiente prima di una consegna pubblica.
+- Il router espone home, regioni, dettaglio regione, listing filtrato, dettaglio
+  luogo, chi siamo e fallback 404.
+- `image-upload.service.ts` invia il file al backend tramite `POST /api/upload`.
+- Gli URL API sono attualmente configurati nei service come
+  `http://localhost:8080`; prima del deploy vanno spostati in configurazione ambiente.
 
 ### PrimeNG
 
@@ -85,7 +94,6 @@ Indicazioni:
   `imports`.
 - `p-card` e' adatto per card luogo e griglie di contenuti.
 - `p-inputText`, dropdown/select e textarea sono adatti ai form.
-- `p-rating` e' adatto per input o visualizzazione delle valutazioni.
 - I temi arrivano da `@primeuix/themes`.
 
 ### CSS post-processing
@@ -93,6 +101,10 @@ Indicazioni:
 La pipeline CSS usa `frontend/.postcssrc.json` con il solo plugin
 `autoprefixer`. Angular continua a gestire bundling, minificazione e stili dei
 componenti.
+
+La cache persistente Angular e il prebundling collegato sono disabilitati in
+`angular.json`: nel toolchain locale il backend nativo LMDB termina il processo di
+build. La disattivazione non modifica gli artefatti prodotti.
 
 ## Backend
 
@@ -105,7 +117,9 @@ Tecnologie principali:
 - dotenv
 - PostgreSQL driver `pg`
 - Supabase PostgreSQL come database hosted
-- `@supabase/supabase-js` installato, ma non ancora allineato con il resto del backend
+- Multer per ricevere upload multipart in memoria
+- `@supabase/supabase-js` per caricare immagini su Supabase Storage
+- `uuid` per generare nomi file unici nello Storage
 
 Struttura corrente:
 
@@ -126,23 +140,21 @@ Script utili:
 
 ```bash
 cd backend
+npm start
 npm run lint
 npm run lint:fix
 npm run format
 npm run format:check
-node server.js
 ```
 
 Note di stato:
 
 - `server.js` inizializza Express, abilita CORS e JSON body parsing, poi testa la
-  connessione al database.
-- Le route in `src/routes` sono ancora da montare in `server.js`.
-- I file `ItemsDaModificare.*` sono template e vanno sostituiti con risorse reali.
-- `ApiService.js` va allineato a `db.js`: oggi usa nomi come `pool`, `res` e
-  `getSubTags` non definiti.
-- Il backend deve scegliere una strategia dati stabile tra `pg` diretto e
-  `@supabase/supabase-js`.
+  connessione al database e monta `ApiRoutes.js`.
+- `ApiService.js` usa un pool `pg` per dati, like e dislike.
+- Lo stesso service usa il client Supabase esclusivamente per lo Storage immagini.
+- I file `ItemsDaModificare.*` sono template legacy non montati dal server e non
+  partecipano al flusso applicativo.
 
 ## Database e Storage
 
@@ -161,7 +173,7 @@ Storage immagini:
 
 - Bucket: `mrdtwice-images`
 - Visibilita' prevista: pubblica per leggere le immagini caricate.
-- Upload: dal frontend tramite Supabase client.
+- Upload: il frontend invia un multipart al backend, che usa il client Supabase.
 - Formati previsti: JPEG, PNG, WEBP.
 - Workflow: il frontend carica il file su Storage, riceve la URL pubblica e invia
   quella URL al backend dentro il payload del contenuto.
@@ -174,21 +186,30 @@ DB_PORT
 DB_USER
 DB_PASSWORD
 DB_NAME
+SUPABASE_URL
+SUPABASE_KEY
 ```
 
-## API target
+## API implementate
 
-Endpoint da consolidare per l'MVP:
+Endpoint esposti da `ApiRoutes.js`:
 
 ```text
-GET    /api/regions
-GET    /api/tags
-GET    /api/tags?region=:regionId
-GET    /api/sub-tags?tag=:tagId
+GET    /api/region
+GET    /api/region?regionId=:regionId
+GET    /api/region/contents-count
+GET    /api/tag
+GET    /api/sub-tag
 GET    /api/content
+GET    /api/content?regionId=:regionId
+GET    /api/content?regionId=:regionId&tagId=:tagId
+GET    /api/content/latest-by-region
+GET    /api/content/top-liked-by-region
 GET    /api/content/:id
 POST   /api/content
-POST   /api/content/:id/reviews
+POST   /api/content/like?id=:contentId
+POST   /api/content/dislike?id=:contentId
+POST   /api/upload
 ```
 
 Il file [Flusso backend e API](BE-schema-of-complete-flux.md) dettaglia il percorso
@@ -198,14 +219,14 @@ tra Angular, Express, service, database e Storage.
 
 Frontend:
 
-- `npm run build` genera la build Angular nella cartella `dist/`.
-- Prima del deploy, configurare l'URL pubblico del backend e le variabili Supabase.
+- `npm run build` genera la build Angular sotto `dist/frontend/browser/`.
+- Prima del deploy, configurare nel frontend l'URL pubblico del backend.
 
 Backend:
 
 - Server Node/Express avviato da `server.js`.
 - Porta locale attuale: `8080`.
-- Richiede variabili d'ambiente database prima dell'avvio.
+- Richiede variabili d'ambiente per database e Supabase Storage prima dell'avvio.
 
 Approfondimento: [Deployment](deployment-guide.md).
 
@@ -227,7 +248,7 @@ Per l'MVP i test automatizzati sono fuori scope. La verifica richiesta e':
 - Build frontend senza errori.
 - Avvio backend e connessione database.
 - Verifica manuale dei flussi principali: lista luoghi, dettaglio, creazione luogo,
-  upload immagine, rating o recensione.
+  upload immagine, like e dislike.
 
 ## Documenti collegati
 

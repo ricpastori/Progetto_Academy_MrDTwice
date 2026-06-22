@@ -1,59 +1,52 @@
-# Frontend
+# Frontend MrDTwice
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+[Torna al README principale](../README.md)
 
-## Development server
+Applicazione Angular 21 standalone per esplorare, filtrare e aggiungere luoghi.
+Il frontend comunica con l'API Express locale su `http://localhost:8080`.
 
-To start a local development server, run:
+## Prerequisiti
 
-```bash
-ng serve
-```
+- Node.js `^20.19.0`, `^22.12.0` oppure `^24.0.0`.
+- npm; il progetto e' stato installato con la versione indicata in `package.json`.
+- Backend MrDTwice configurato e avviato.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Con nvm, dalla radice del repository puoi selezionare Node 24 con:
 
 ```bash
-ng generate component component-name
+nvm use
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Installazione e avvio
 
 ```bash
-ng generate --help
+cd frontend
+npm install
+npm start
 ```
 
-## Building
+`npm start` ottimizza le immagini mancanti e avvia il server Angular. L'app e'
+disponibile normalmente su `http://localhost:4200/` e si ricarica quando cambia
+un file sorgente.
 
-To build the project run:
+Angular CLI globale non e' richiesta: gli script npm usano la CLI installata nel
+progetto.
+
+## Comandi utili
 
 ```bash
-ng build
+npm run build
+npm run lint
+npm run lint:fix
+npm run format
+npm run format:check
+npm run images:optimize
+npm run images:optimize:force
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- `npm run build` crea la build di produzione in `dist/frontend/browser/`.
+- `npm run images:optimize` genera solo le varianti WebP mancanti o non aggiornate.
+- `npm run images:optimize:force` rigenera tutte le immagini derivate.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Per configurazione del backend e variabili ambiente consulta la
+[guida setup](../docs/setup-guide.md).

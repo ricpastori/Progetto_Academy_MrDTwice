@@ -266,7 +266,6 @@
   color: var(--p-primary-color);
 }
 
-
 @keyframes like-pop {
   0%,
   100% {
@@ -277,7 +276,6 @@
     transform: scale(1.4) rotate(-10deg);
   }
 }
-
 
 @keyframes dislike-pop {
   0%,

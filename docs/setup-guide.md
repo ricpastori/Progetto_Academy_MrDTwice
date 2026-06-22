@@ -8,14 +8,13 @@ nella parte Supabase.
 
 ## Prerequisiti
 
-- Node.js compatibile con Angular 21.
-- npm.
+- Node.js `^20.19.0`, `^22.12.0` oppure `^24.0.0` (Node 24 consigliato).
+- npm 11; il repository dichiara la versione usata nel campo `packageManager`.
 - Accesso a un progetto Supabase.
 - Credenziali PostgreSQL Supabase per il backend.
 
-Angular CLI globale e' comoda ma non obbligatoria: il progetto include gia'
-`@angular/cli` nelle dipendenze di sviluppo del frontend, quindi gli script npm
-usano la toolchain locale.
+La radice contiene `.nvmrc`, quindi con nvm basta eseguire `nvm use`. Angular CLI
+globale non e' necessaria: gli script npm usano la toolchain locale.
 
 ## Installazione rapida
 
@@ -24,7 +23,7 @@ Frontend:
 ```bash
 cd frontend
 npm install
-npm run start
+npm start
 ```
 
 L'app locale viene servita normalmente su `http://localhost:4200/`.
@@ -34,7 +33,7 @@ Backend:
 ```bash
 cd backend
 npm install
-node server.js
+npm start
 ```
 
 Il server usa la porta `8080` e richiede il file `backend/.env`.
@@ -49,23 +48,14 @@ DB_PORT=5432
 DB_USER=...
 DB_PASSWORD=...
 DB_NAME=...
+SUPABASE_URL=...
+SUPABASE_KEY=...
 ```
 
 ## Pacchetti frontend principali
 
-Nel progetto reale basta `npm install`, perche' le dipendenze sono gia' dichiarate
-in `frontend/package.json`. I comandi sotto documentano i pacchetti usati e sono
-utili se bisogna ricostruire lo scaffold da zero.
-
-```bash
-npm install -g @angular/cli
-npm install primeng primeicons @primeuix/themes
-npm install @supabase/supabase-js uuid
-npm install --save-dev @types/uuid
-npm install --save-dev postcss autoprefixer
-npm install --save-dev prettier eslint-config-prettier
-ng add angular-eslint
-```
+Nel progetto basta `npm install`, perche' le dipendenze sono gia' dichiarate in
+`frontend/package.json` e bloccate da `frontend/package-lock.json`.
 
 Ruolo dei pacchetti:
 
@@ -73,31 +63,26 @@ Ruolo dei pacchetti:
 |---|---|
 | `@angular/cli` | Comandi Angular come `ng serve`, `ng build` e generazione componenti. |
 | `@angular/*` | Framework frontend: componenti, template, routing e forms. |
-| `primeng` | Libreria UI usata per componenti pronti come card, form, dropdown e rating. |
+| `primeng` | Libreria UI usata per card, form, select, editor, dialog e messaggi. |
 | `primeicons` | Set di icone pensato per i componenti PrimeNG. |
 | `@primeuix/themes` | Temi PrimeNG/PrimeUIX. Nel progetto sostituisce il vecchio approccio `@primeng/themes`. |
-| `@supabase/supabase-js` | Client Supabase lato frontend, usato soprattutto per upload immagini su Storage. |
-| `uuid` | Genera nomi file unici, utile per evitare collisioni negli upload immagini. |
-| `@types/uuid` | Tipi TypeScript per `uuid`, se richiesti dalla versione installata. |
+| `@phosphor-icons/web` | Set di icone usato dagli stili globali. |
+| `quill` | Editor rich text usato dal form di inserimento tramite PrimeNG Editor. |
 | `postcss` | Motore usato dalla configurazione `frontend/.postcssrc.json` per processare gli stili. |
 | `autoprefixer` | Plugin PostCSS che aggiunge i prefissi CSS necessari in base ai browser target. |
+| `wasm-image-optimization` | Genera le varianti WebP responsive prima dell'avvio locale. |
 | `prettier` | Formattazione automatica del codice. |
 | `eslint-config-prettier` | Disattiva regole ESLint che entrano in conflitto con Prettier. |
 | `angular-eslint` | Regole ESLint specifiche per Angular e template. |
 
-Nota: il vecchio comando `npm install primeng @primeng/themes primeicons` non e'
-quello consigliato per questo progetto; qui viene usato `@primeuix/themes`.
+`@supabase/supabase-js` e `uuid` sono ancora dichiarati nel package frontend per
+compatibilita' con lo scaffold precedente, ma il flusso corrente non li importa:
+l'upload e la generazione del nome file avvengono nel backend.
 
 ## Pacchetti backend principali
 
 Anche nel backend basta `npm install`, perche' le dipendenze sono gia' in
-`backend/package.json`. Questi sono i comandi di riferimento usati per comporre
-lo stack:
-
-```bash
-npm install express cors dotenv pg @supabase/supabase-js
-npm install --save-dev eslint @eslint/js prettier eslint-config-prettier globals
-```
+`backend/package.json` e `backend/package-lock.json`.
 
 Ruolo dei pacchetti:
 
@@ -107,7 +92,9 @@ Ruolo dei pacchetti:
 | `cors` | Abilita le chiamate dal frontend Angular verso il backend locale o deployato. |
 | `dotenv` | Carica le variabili da `backend/.env`. |
 | `pg` | Driver PostgreSQL usato da `db.js` per collegarsi al database Supabase. |
-| `@supabase/supabase-js` | Client Supabase disponibile se si sceglie di usare API Supabase invece di `pg` diretto. |
+| `@supabase/supabase-js` | Client usato dal backend per Supabase Storage. |
+| `multer` | Riceve in memoria il file multipart inviato a `/api/upload`. |
+| `uuid` | Genera nomi unici per le immagini caricate nello Storage. |
 | `eslint` e `@eslint/js` | Lint JavaScript del backend. |
 | `globals` | Definisce globali Node per la configurazione ESLint. |
 | `prettier` | Formattazione automatica. |
@@ -125,7 +112,8 @@ Storage:
 
 - Crea il bucket `mrdtwice-images`.
 - Rendi pubblica la lettura delle immagini, se il design prevede URL pubbliche.
-- Consenti upload per i formati supportati dall'MVP.
+- Configura `SUPABASE_URL` e `SUPABASE_KEY` nel backend.
+- Consenti upload per i formati supportati dall'MVP tramite il backend.
 
 ## Comandi utili
 
@@ -133,7 +121,7 @@ Frontend:
 
 ```bash
 cd frontend
-npm run start
+npm start
 npm run build
 npm run lint
 npm run lint:fix
@@ -145,7 +133,7 @@ Backend:
 
 ```bash
 cd backend
-node server.js
+npm start
 npm run lint
 npm run lint:fix
 npm run format
@@ -159,22 +147,22 @@ controllo di consegna.
 
 Frontend:
 
-- `npm run start` avvia il dev server Angular.
+- `npm start` avvia il dev server Angular.
 - `npm run build` completa senza errori.
 
 Backend:
 
-- `node server.js` stampa la connessione al database.
+- `npm start` stampa la connessione al database e avvia Express su `8080`.
 - Se la connessione fallisce, controlla `.env`, rete e credenziali Supabase.
 
 ## Problemi noti
 
-- Le route backend sono ancora da montare in `server.js`.
-- Alcuni service sono template o bozze e vanno allineati prima di verificare le API.
-- Il service upload immagini contiene credenziali nel codice: spostarle in ambiente
-  prima di una distribuzione pubblica.
-- Il backend deve scegliere una strategia dati stabile tra `pg` diretto e
-  `@supabase/supabase-js`.
+- Gli URL API del frontend puntano direttamente a `http://localhost:8080` e vanno
+  portati in configurazione ambiente prima del deploy.
+- La porta backend e' fissata a `8080` e CORS accetta tutte le origini; per il
+  deploy vanno adattati al provider e al dominio frontend.
+- I file `ItemsDaModificare.*` sono template legacy non montati e possono essere
+  rimossi quando non servono piu' come riferimento.
 
 ## Prossima lettura
 

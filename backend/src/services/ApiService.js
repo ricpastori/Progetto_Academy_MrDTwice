@@ -178,8 +178,7 @@ async function getSubTags() {
   }
 }
 
-// Per ogni regione restituisce il contenuto più recente associato al tag indicato.
-// DISTINCT ON sceglie una sola riga per region_id dopo l'ordinamento per data.
+// Restituisce i dieci contenuti più recenti.
 async function getLatestContentByRegion() {
   try {
     const { rows } = await pool.query(
@@ -199,8 +198,7 @@ LIMIT 10;
   }
 }
 
-// Per ogni regione restituisce il contenuto con più like associato al tag indicato.
-// DISTINCT ON sceglie una sola riga per region_id dopo l'ordinamento per like.
+// Restituisce i dieci contenuti con più like.
 async function getMostLikedContentByRegion() {
   try {
     const { rows } = await pool.query(

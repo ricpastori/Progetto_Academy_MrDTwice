@@ -7,8 +7,8 @@ visuale: serve a mantenere coerenti naming, file, API, CSS e qualita'.
 
 ## Principi generali
 
-- Usare nomi espliciti e legati al dominio: `place`, `review`, `rating`, `region`,
-  `tag`, `city`, `content`.
+- Usare nomi espliciti e legati al dominio: `place`, `like`, `dislike`, `region`,
+  `tag`, `subTag`, `city`, `content`.
 - Preferire identificatori in inglese per codice, file, API e classi CSS.
 - Usare commenti brevi solo quando spiegano il motivo di una scelta non immediata.
 - Evitare nomi temporanei come `itemsDaModificare`, `NewVariable`, `data1`, `temp`.
@@ -42,12 +42,12 @@ Eseguire i comandi nella cartella interessata: `frontend/` o `backend/`.
 
 | Elemento | Convenzione | Esempi |
 |---|---|---|
-| Variabili, funzioni, proprieta' | `camelCase` | `placeId`, `averageRating`, `loadPlaces()` |
-| Classi, componenti, tipi | `PascalCase` | `PlaceCardComponent`, `ReviewFormData` |
+| Variabili, funzioni, proprieta' | `camelCase` | `placeId`, `selectedRegionId`, `loadPlaces()` |
+| Classi, componenti, tipi | `PascalCase` | `CardRegion`, `Content` |
 | Costanti globali | `UPPER_SNAKE_CASE` | `API_BASE_URL`, `DEFAULT_PAGE_SIZE` |
-| Booleani | prefisso leggibile | `isLoading`, `hasReviews`, `canSubmit` |
-| Array | plurale | `places`, `reviews`, `regions` |
-| Funzioni | verbo iniziale | `getPlaceById()`, `createReview()` |
+| Booleani | prefisso leggibile | `isLoading`, `isSubmitting`, `canSubmit` |
+| Array | plurale | `places`, `contents`, `regions` |
+| Funzioni | verbo iniziale | `getContentById()`, `createContent()` |
 
 ## Naming file
 
@@ -55,17 +55,18 @@ Usare nomi in minuscolo e `kebab-case`.
 
 Frontend Angular:
 
-- Componenti: `place-card.component.ts`, `place-card.component.html`,
-  `place-card.component.css`.
-- Service: `places.service.ts`.
-- Model o tipi: `place.model.ts`, `review.model.ts`.
+- Componenti: cartella e file con lo stesso nome, per esempio `card-region.ts`,
+  `card-region.html`, `card-region.css`.
+- Service: seguire i nomi esistenti, per esempio `content-service.ts` e
+  `image-upload.service.ts`.
+- Tipi e interfacce possono vivere nel service che definisce il relativo contratto.
 - Route/config: mantenere i nomi Angular gia' presenti, come `app.routes.ts` e
   `app.config.ts`.
 
 Backend Express:
 
-- Route: `places.routes.js`, `reviews.routes.js`.
-- Service: `places.service.js`, `reviews.service.js`.
+- Router applicativo: `ApiRoutes.js`.
+- Service applicativo: `ApiService.js`.
 - Configurazione condivisa: `db.js`, `server.js`.
 
 ## Angular
@@ -107,7 +108,8 @@ async function deletePlaceById(placeId) {}
 
 ## API e database
 
-- Route REST con sostantivi plurali: `/api/regions`, `/api/tags`, `/api/content`.
+- Mantenere i path esistenti documentati nel flusso API: `/api/region`, `/api/tag`,
+  `/api/sub-tag`, `/api/content` e `/api/upload`.
 - Payload JSON coerenti; se il backend espone `snake_case`, mantenerlo documentato.
 - Database PostgreSQL in `snake_case`: `image_url`, `created_at`, `region_id`.
 - Evitare risposte raw incoerenti tra endpoint diversi.

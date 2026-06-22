@@ -20,146 +20,96 @@ export interface Content {
   providedIn: 'root',
 })
 export class ContentService {
-
   private http = inject(HttpClient);
 
   private apiUrl = 'http://localhost:8080/api/content';
-
 
   getContent() {
     return this.http.get<Content[]>(this.apiUrl).pipe(
       catchError((err) => {
         console.error(err);
         return throwError(() => new Error('Errore recupero content'));
-      })
+      }),
     );
   }
-
 
   getContentById(id: string) {
     return this.http.get<Content>(`${this.apiUrl}/${id}`).pipe(
       catchError((err) => {
         console.error(err);
         return throwError(() => new Error('Errore recupero content'));
-      })
+      }),
     );
   }
 
-
   getContentByRegion(regionId: string) {
+    const params = new HttpParams().set('regionId', regionId);
 
-    const params = new HttpParams()
-      .set('regionId', regionId);
-
-    return this.http
-      .get<Content[]>(this.apiUrl, { params })
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore recupero content'));
-        })
-      );
+    return this.http.get<Content[]>(this.apiUrl, { params }).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore recupero content'));
+      }),
+    );
   }
-
 
   getContentByRegionAndTag(regionId: string, tagId: string) {
+    const params = new HttpParams().set('regionId', regionId).set('tagId', tagId);
 
-    const params = new HttpParams()
-      .set('regionId', regionId)
-      .set('tagId', tagId);
-
-    return this.http
-      .get<Content[]>(this.apiUrl, { params })
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore recupero content'));
-        })
-      );
+    return this.http.get<Content[]>(this.apiUrl, { params }).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore recupero content'));
+      }),
+    );
   }
-
 
   getLatestContentByRegion() {
-
-
-    return this.http
-      .get<Content[]>(
-        `${this.apiUrl}/latest-by-region`
-      )
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore recupero content'));
-        })
-      );
+    return this.http.get<Content[]>(`${this.apiUrl}/latest-by-region`).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore recupero content'));
+      }),
+    );
   }
-
 
   getMostLikedContentByRegion() {
-
-
-    return this.http
-      .get<Content[]>(
-        `${this.apiUrl}/top-liked-by-region`
-      )
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore recupero content'));
-        })
-      );
+    return this.http.get<Content[]>(`${this.apiUrl}/top-liked-by-region`).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore recupero content'));
+      }),
+    );
   }
-
 
   addLike(id: string) {
+    const params = new HttpParams().set('id', id);
 
-    const params = new HttpParams()
-      .set('id', id);
-
-    return this.http
-      .post<Content>(
-        `${this.apiUrl}/like`,
-        {},
-        { params }
-      )
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore aggiunta like'));
-        })
-      );
+    return this.http.post<Content>(`${this.apiUrl}/like`, {}, { params }).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore aggiunta like'));
+      }),
+    );
   }
-
 
   addDislike(id: string) {
+    const params = new HttpParams().set('id', id);
 
-    const params = new HttpParams()
-      .set('id', id);
-
-    return this.http
-      .post<Content>(
-        `${this.apiUrl}/dislike`,
-        {},
-        { params }
-      )
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore aggiunta dislike'));
-        })
-      );
+    return this.http.post<Content>(`${this.apiUrl}/dislike`, {}, { params }).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore aggiunta dislike'));
+      }),
+    );
   }
 
-
   createContent(payload: Partial<Content>) {
-
-    return this.http
-      .post<Content>(this.apiUrl, payload)
-      .pipe(
-        catchError((err) => {
-          console.error(err);
-          return throwError(() => new Error('Errore nella creazione del content'));
-        })
-      );
+    return this.http.post<Content>(this.apiUrl, payload).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => new Error('Errore nella creazione del content'));
+      }),
+    );
   }
 }

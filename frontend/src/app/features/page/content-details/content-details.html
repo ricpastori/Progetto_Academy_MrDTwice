@@ -58,11 +58,11 @@
               (click)="addLike()"
             >
               <i
-  pButtonIcon
-  class="ph ph-heart"
-  [ngClass]="{ 'like-animation': likeAnimation() }"
-  aria-hidden="true"
-></i>
+                pButtonIcon
+                class="ph ph-heart"
+                [ngClass]="{ 'like-animation': likeAnimation() }"
+                aria-hidden="true"
+              ></i>
               <span pButtonLabel>{{ likes() }}</span>
             </button>
 
@@ -78,11 +78,11 @@
               (click)="addDislike()"
             >
               <i
-  pButtonIcon
-  class="ph ph-thumbs-down"
-  [ngClass]="{ 'dislike-animation': dislikeAnimation() }"
-  aria-hidden="true"
-></i>
+                pButtonIcon
+                class="ph ph-thumbs-down"
+                [ngClass]="{ 'dislike-animation': dislikeAnimation() }"
+                aria-hidden="true"
+              ></i>
               <span pButtonLabel>{{ dislikes() }}</span>
             </button>
           </div>

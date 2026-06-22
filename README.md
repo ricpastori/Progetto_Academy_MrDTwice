@@ -94,7 +94,7 @@ I dettagli tecnici e lo stato delle integrazioni sono raccolti nello
 - Aprire la scheda dettaglio di un luogo.
 - Aggiungere un nuovo luogo con informazioni base e immagine.
 - Caricare immagini su Supabase Storage.
-- Lasciare valutazioni o recensioni nel flusso MVP previsto.
+- Esprimere apprezzamento sui luoghi tramite like e dislike.
 
 Fuori scope per la prima versione:
 
@@ -113,7 +113,7 @@ Frontend:
 ```bash
 cd frontend
 npm install
-npm run start
+npm start
 ```
 
 Backend:
@@ -121,10 +121,12 @@ Backend:
 ```bash
 cd backend
 npm install
-node server.js
+npm start
 ```
 
-Il backend richiede un file `.env` con le variabili database descritte nella
+Entrambe le applicazioni richiedono una versione Node.js supportata da Angular 21;
+il progetto indica Node 24 in `.nvmrc`. Il backend richiede inoltre un file `.env`
+con le variabili database e Supabase Storage descritte nella
 [Guida setup locale](docs/setup-guide.md).
 
 ## Struttura

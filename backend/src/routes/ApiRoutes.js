@@ -14,7 +14,7 @@ const upload = multer({
 // Service che contiene le query e le operazioni sul database.
 const apiService = require('../services/ApiService');
 
-// GET /api/regions
+// GET /api/region
 // Restituisce l'elenco completo delle regioni.
 router.get(`/api/region`, async (req, res) => {
   try {
@@ -34,7 +34,7 @@ router.get(`/api/region`, async (req, res) => {
   }
 });
 
-// GET /api/regions/contents-count
+// GET /api/region/contents-count
 // Restituisce per ogni regione il numero di contenuti collegati.
 router.get('/api/region/contents-count', async (req, res) => {
   const { regionId } = req.query;
@@ -44,7 +44,7 @@ router.get('/api/region/contents-count', async (req, res) => {
   res.status(200).json(content);
 });
 
-// GET /api/tags
+// GET /api/tag
 // Restituisce tutti i tag usati per classificare i contenuti.
 router.get(`/api/tag`, async (req, res) => {
   try {
@@ -84,19 +84,15 @@ router.get('/api/content', async (req, res) => {
   }
 });
 
-
-// GET /api/content/by-tag/top-liked-by-region
-// Restituisce, per ogni regione, il contenuto con più like filtrato per tagId.
+// GET /api/content/top-liked-by-region
+// Restituisce i dieci contenuti con più like.
 router.get('/api/content/top-liked-by-region', async (req, res) => {
-
   const content = await apiService.getMostLikedContentByRegion();
 
   res.status(200).json(content);
 });
 
-
 router.get('/api/content/latest-by-region', async (req, res) => {
-
   const content = await apiService.getLatestContentByRegion();
 
   res.status(200).json(content);
@@ -118,7 +114,7 @@ router.get('/api/content/:id', async (req, res) => {
   }
 });
 
-// GET /api/sub-tags
+// GET /api/sub-tag
 // Restituisce tutti i sotto-tag disponibili.
 router.get(`/api/sub-tag`, async (req, res) => {
   try {

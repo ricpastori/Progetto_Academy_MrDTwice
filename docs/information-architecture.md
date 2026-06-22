@@ -7,33 +7,28 @@ contenuti, navigazione e flussi principali.
 
 ## Stato corrente
 
-Il frontend Angular e' ancora allo scaffold iniziale:
+Il frontend Angular implementa home, regioni, dettaglio regione, listing filtrato,
+dettaglio luogo, pagina informativa, modale di inserimento e fallback 404. Le route
+usano path in italiano e query parameter per identificare regione, tag e contenuto.
+I mockup in `docs/mockups/` restano il riferimento visuale del progetto.
 
-- `frontend/src/app/app.routes.ts` espone un array route vuoto.
-- `frontend/src/app/app.html` contiene ancora il template di benvenuto Angular.
-- I mockup sono salvati in `docs/mockups/` e rappresentano la direzione UI.
-
-La mappa seguente descrive quindi l'architettura target dell'MVP, non lo stato gia'
-implementato al 100%.
-
-## Mappa navigazione target
+## Mappa navigazione attuale
 
 ```mermaid
 flowchart TD
   App["MrDTwice"] --> Header["Navigazione globale"]
   Header --> Home["Home /"]
-  Header --> Regions["Regioni /regions"]
-  Header --> About["Chi siamo /about"]
-  Header --> AddPlace["Aggiungi luogo"]
+  Header --> Regions["Regioni /regioni"]
+  Header --> About["Chi siamo /chi-siamo"]
+  Header --> AddPlace["Aggiungi luogo (modale)"]
 
   Home --> Regions
-  Home --> Places["Luoghi /places"]
-  Home --> Detail["Dettaglio luogo /places/:id"]
+  Home --> Detail["Dettaglio luogo /content?id=:id"]
 
-  Regions --> RegionDetail["Dettaglio regione /regions/:id"]
-  RegionDetail --> Places
+  Regions --> RegionDetail["Dettaglio regione con regionId"]
+  RegionDetail --> Places["Listing per regione e tag"]
   Places --> Detail
-  Detail --> AddReview["Rating o recensione"]
+  Detail --> Feedback["Like o dislike"]
   AddPlace --> Detail
 ```
 
@@ -41,14 +36,14 @@ flowchart TD
 
 | Pagina | Route target | Scopo | Mockup collegato |
 |---|---|---|---|
-| Home | `/` | Introduce il progetto, mette in evidenza regioni e luoghi. | `docs/mockups/homepage.png` |
-| Regioni | `/regions` | Mostra le regioni esplorabili. | `docs/mockups/regions.png` |
-| Dettaglio regione | `/regions/:id` | Presenta luoghi e categorie di una regione. | `docs/mockups/region_details.png` |
-| Listing luoghi | `/places` | Lista filtrabile per ricerca, regione, tag e sottotag. | `docs/mockups/regions+tag.png` |
-| Dettaglio luogo | `/places/:id` | Scheda completa del luogo selezionato. | `docs/mockups/place_details.png` |
-| Chi siamo | `/about` | Racconta progetto, tono e obiettivo. | `docs/mockups/about.png` |
+| Home | `/` | Introduce il progetto e mostra regioni e luoghi in evidenza. | `docs/mockups/homepage.png` |
+| Regioni | `/regioni` | Mostra le regioni esplorabili. | `docs/mockups/regions.png` |
+| Dettaglio regione | `/regioni/regione-dettaglio?regionId=:id` | Presenta categorie e luoghi di una regione. | `docs/mockups/region_details.png` |
+| Listing luoghi | `/regioni/regione-dettaglio/regione-tags?regionId=:regionId&tagId=:tagId` | Lista filtrabile per testo, citta' e sottotag. | `docs/mockups/regions+tag.png` |
+| Dettaglio luogo | `/content?id=:id` | Scheda completa del luogo selezionato. | `docs/mockups/place_details.png` |
+| Chi siamo | `/chi-siamo` | Racconta progetto, tono e obiettivo. | `docs/mockups/about.png` |
 | 404 | fallback | Gestisce percorsi non validi. | `docs/mockups/404_not_found.png` |
-| Aggiungi luogo | azione/modal | Raccoglie i dati di un nuovo luogo. | `docs/mockups/add_place_1.png`, `docs/mockups/add_place_2.png` |
+| Aggiungi luogo | modale globale | Raccoglie dati e immagine del nuovo luogo. | `docs/mockups/add_place_1.png`, `docs/mockups/add_place_2.png` |
 
 ## Struttura contenuti
 
@@ -63,13 +58,13 @@ flowchart TD
   RegionDetail --> TagSections["Sezioni per categoria/tag"]
 
   Places --> Search["Ricerca testuale"]
-  Places --> Filters["Filtri regione, citta', tag, sottotag"]
+  Places --> Filters["Filtri citta' e sottotag"]
   Places --> Cards["Card luogo"]
 
   Detail --> Image["Immagine principale"]
   Detail --> Metadata["Regione, citta', categoria"]
   Detail --> Description["Descrizione"]
-  Detail --> Rating["Rating medio e recensioni"]
+  Detail --> Feedback["Like e dislike"]
 
   AddPlace --> Required["Campi obbligatori"]
   AddPlace --> Upload["Upload immagine"]
@@ -84,15 +79,15 @@ flowchart TD
 flowchart LR
   A["Apre Home"] --> B["Sceglie regione o luogo in evidenza"]
   B --> C["Apre listing o dettaglio"]
-  C --> D["Consulta descrizione, immagine e valutazioni"]
+  C --> D["Consulta descrizione, immagine e gradimento"]
 ```
 
 ### Ricerca e filtri
 
 ```mermaid
 flowchart LR
-  A["Apre /places"] --> B["Inserisce ricerca"]
-  B --> C["Aggiunge filtri"]
+  A["Apre il listing di regione e categoria"] --> B["Inserisce una ricerca"]
+  B --> C["Filtra per citta' o sottotag"]
   C --> D["Lista aggiornata"]
   D --> E["Apre dettaglio luogo"]
 ```
@@ -102,20 +97,20 @@ flowchart LR
 ```mermaid
 flowchart LR
   A["Click Aggiungi luogo"] --> B["Compila dati base"]
-  B --> C["Carica immagine"]
-  C --> D["Invia form"]
-  D --> E["Backend salva dati"]
-  E --> F["L'utente vede conferma o nuovo dettaglio"]
+  B --> C["Invia l'immagine al backend"]
+  C --> D["Backend carica su Supabase Storage"]
+  D --> E["Backend salva il contenuto nel database"]
+  E --> F["Conferma e redirect al nuovo dettaglio"]
 ```
 
-### Rating o recensione
+### Like o dislike
 
 ```mermaid
 flowchart LR
-  A["Apre dettaglio"] --> B["Seleziona rating"]
-  B --> C["Scrive recensione opzionale"]
-  C --> D["Invia"]
-  D --> E["Media e lista recensioni si aggiornano"]
+  A["Apre una card o il dettaglio"] --> B["Seleziona like o dislike"]
+  B --> C["Frontend invia l'id al backend"]
+  C --> D["Il contatore viene incrementato"]
+  D --> E["La UI mostra il nuovo totale"]
 ```
 
 ## Dati minimi per una card luogo
@@ -128,7 +123,7 @@ flowchart LR
 | `region_id` o regione risolta | Filtro e breadcrumb. |
 | `tag_id` o tag risolto | Categoria principale. |
 | `image_url` | Immagine card e detail. |
-| `average_rating` | Indicatore qualita'. |
+| `likes`, `dislikes` | Indicatori di gradimento. |
 
 ## Decisioni di navigazione
 

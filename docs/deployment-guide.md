@@ -9,7 +9,7 @@ definitivi possono cambiare, ma i controlli restano gli stessi.
 
 | Componente | Output | Note |
 |---|---|---|
-| Frontend Angular | Build statica in `frontend/dist/` | Pubblicabile su hosting statico. |
+| Frontend Angular | Build statica in `frontend/dist/frontend/browser/` | Pubblicabile su hosting statico. |
 | Backend Express | Processo Node con `server.js` | Richiede variabili ambiente database. |
 | Supabase PostgreSQL | Database managed | Fonte dati principale. |
 | Supabase Storage | Bucket `mrdtwice-images` | Immagini pubbliche dei luoghi. |
@@ -25,15 +25,17 @@ npm run build
 Prima della pubblicazione:
 
 - Verificare che l'URL API punti al backend pubblico.
-- Spostare credenziali e URL Supabase in configurazione ambiente.
+- Non lasciare l'URL API locale hardcoded nei service Angular.
 - Controllare che asset e mockup non vengano referenziati con path locali sbagliati.
 
 ## Deploy backend
 
-Comando di avvio target:
+Installazione e comando di avvio:
 
 ```bash
-node server.js
+cd backend
+npm install
+npm start
 ```
 
 Variabili richieste:
@@ -44,12 +46,15 @@ DB_PORT
 DB_USER
 DB_PASSWORD
 DB_NAME
+SUPABASE_URL
+SUPABASE_KEY
 ```
 
 Prima della pubblicazione:
 
-- Montare le route reali in `server.js`.
-- Verificare CORS rispetto al dominio frontend.
+- Leggere la porta dal valore richiesto dal provider invece di fissarla a `8080`,
+  se la piattaforma lo richiede.
+- Limitare CORS al dominio frontend pubblico.
 - Non esporre segreti nel repository.
 - Controllare che il provider permetta connessioni SSL a Supabase PostgreSQL.
 
@@ -77,7 +82,7 @@ Storage:
 6. Dettaglio luogo apribile.
 7. Inserimento luogo verificato manualmente.
 8. Upload immagine verificato manualmente.
-9. Rating o recensione verificati manualmente.
+9. Like e dislike verificati manualmente.
 10. Link principali e pagina 404 verificati.
 
 I test automatizzati sono fuori scope per l'MVP: la demo richiede verifica manuale
